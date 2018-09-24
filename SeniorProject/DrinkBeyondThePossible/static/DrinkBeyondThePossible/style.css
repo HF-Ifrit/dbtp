@@ -1,0 +1,29 @@
+.navmenu
+{
+    background-color: #0e49ecf8;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    position: sticky;
+}
+
+.navitem
+{
+    float: left;
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.active
+{
+    background-color: rgb(4, 11, 109);
+}
+
+.navitem:not(.active):hover
+{
+    background-color:rgba(86, 134, 223, 0.788);
+}
