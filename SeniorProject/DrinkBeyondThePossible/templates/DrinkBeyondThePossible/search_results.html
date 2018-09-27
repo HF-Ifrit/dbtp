@@ -1,0 +1,20 @@
+{% extends "DrinkBeyondThePossible/home.html" %}
+{% load static %}
+
+{% block content %}
+    <h1 id="titleHeader">Drink Search Results</h1>
+    <div id="resultList">
+        <ul>
+        {% for drink in drinkResults %}
+            <div class="resultItem">
+                <img src="placeholder">
+                <li>{{ drink }}</li>
+                
+            </div>
+            
+        {% endfor %}
+    </ul>
+    </div>
+    
+    
+{% endblock content %}

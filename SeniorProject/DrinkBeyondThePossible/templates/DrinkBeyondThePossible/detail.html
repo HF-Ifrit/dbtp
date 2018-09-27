@@ -1,22 +1,10 @@
-<!DOCTYPE <!DOCTYPE html>
+{% extends "DrinkBeyondThePossible/home.html" %}
 {% load static %}
-<html>
-<head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Drink Info</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
-    <link rel="stylesheet" type="text/css" href="{% static 'DrinkBeyondThePossible/style.css' %}">
-    <script src="main.js"></script>
-</head>
 
-<body>
-    <ul class="navmenu">
-        <li class="navitem">Home</li>
-        <li class="navitem">Account</li>
-    </ul>
-    
+
+{% block title %}<title>Drink Info</title>{% endblock title %}
+{% block content %}
+    <!--Drink Info-->
     <h1>[Drink Name]</h1>
     <!-- Must be changed from default image to correct drink image-->
     <img src="{% static "DrinkBeyondThePossible/coctail-icon.jpg" %}">
@@ -33,11 +21,12 @@
         <li>Instruction 1</li>
         <li>Instruction 2</li>
     </ul>
+
+    <!--Recommendation section-->
+    <h4>You may also like:</h4>
+
+
+    <!--Comment section-->
     <h3>Comments</h3>
     <hr>
-
-    
-    
-
-</body>
-</html>
+{% endblock content %}

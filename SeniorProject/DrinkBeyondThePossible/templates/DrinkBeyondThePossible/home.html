@@ -4,18 +4,35 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    {% block title %}<title>Drink Beyond the Possible</title>{% endblock title %}
     <link rel="stylesheet" type="text/css" href="{% static 'DrinkBeyondThePossible/style.css' %}">
-    <script src="main.js"></script>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    {% block jquery %}
+        <script>
+            $(document).ready(function()
+            {
+                $("#id").click(function()
+                {
+                    $(".entryInputs").append("<input class='searchEntry' type='text' name='ingredient'");
+                });
+            });
+        </script>
+    {% endblock jquery %}
 </head>
 
 <body>
-    <ul class="navmenu">
-        <li class="navitem active">Home</li>
-        <li class="navitem">Account</li>
-    </ul>
+    {% include "DrinkBeyondThePossible/navigation.html" %}
 
-    
+    {% block content %}
+        <h1 class="centeredTitle">Drink Beyond the Possible</h1>
+        <h4 class="centeredTitle">Enter available ingredients:</h4>
+        <div class="entryInputs">
+            <input class="searchEntry" type="text" name="ingredient">
+        
+        </div>
+
+        <button id="addEntry">+</button>
+        
+    {% endblock content %}
 </body>
 </html>
