@@ -28,3 +28,54 @@
 {
     background-color:rgba(86, 134, 223, 0.788);
 }
+
+a:link, a:visited
+{
+    text-decoration: none;
+}
+
+a:visited
+{
+    color: white;
+}
+
+/* Homepage styling */
+#entryInputs
+{
+    padding: 30px;
+}
+
+.searchEntry
+{
+    display: block;
+    margin: auto;
+    width: 20%;
+}
+
+#addEntry
+{
+    display: block;
+    margin: auto;
+    
+}
+
+.centeredTitle
+{
+    margin: auto;
+    text-align: center;
+    padding-top: 20px;
+    padding-bottom: 5px;
+}
+
+/* Search result styling */
+#resultList
+{
+    margin: auto;
+    width: 40%;
+}
+
+.resultItem
+{
+    margin: auto;
+    padding-bottom: 20px;
+}
