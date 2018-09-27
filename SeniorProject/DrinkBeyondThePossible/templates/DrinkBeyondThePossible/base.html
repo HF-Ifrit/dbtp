@@ -1,0 +1,30 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{% block title %}Drink Beyond the Possible{% endblock %}</title>
+
+	<meta charset="utf-8">
+	
+	{% block additioal_head_content %}
+	{% endblock %}
+
+</head>
+<body>
+	<div id="outer-pane" class="centered-root">
+		<div>
+			{% if user.is_authenticated %}
+				<a href="{% url 'logout' %}">Logout</a>
+				{% if user.is_superuser %}
+					<a href="{% url 'admin:index' %}">Admin</a>
+				{% endif %}
+			{% else %}
+				<a href="{% url 'login' %}">Login</a>
+			{% endif %}
+		</div>
+		{% block content %}
+		<p>Content goes here.</p>
+		{% endblock %}
+	</div>
+</body>
+</html>
