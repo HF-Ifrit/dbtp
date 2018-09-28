@@ -1,36 +1,29 @@
 {% extends "DrinkBeyondThePossible/home.html" %}
 {% load static %}
-<html>
-<head>
-	<style type="text/css">
-		h1 {
-			color: gray;
-            font-family: 'Open Sans', Helvetica, Arial, sans-serif;
-            font-size: 14pt;
-			
-		}
-        h3 {
-        	color: gray;
-        }
-        
-        body {
-        	background-color: rgb(0, 0, 0);
-            color: rgb(44, 44, 44);
-
-            min-width: 550px;
-        }
-        
-        
 
 
-	</style>
-</head>
-
-
-	<body>
 	{% block title %}<title>Drink Info</title>{% endblock title %}
 	{% block content %}
-	    <!--Drink Info-->
+	    <style type="text/css">
+			h1 {
+				color: gray;
+				font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+				font-size: 14pt;
+				
+			}
+			h3 {
+				color: gray;
+			}
+			
+			body {
+				background-color: rgb(0, 0, 0);
+				color: rgb(44, 44, 44);
+
+				min-width: 550px;
+			}
+		</style>
+
+		<!--Drink Info-->
 	    <h1>[Drink Name]</h1>
 	    <!-- Must be changed from default image to correct drink image-->
 	    <img src="{% static "DrinkBeyondThePossible/coctail-icon.jpg" %}">
@@ -62,5 +55,3 @@
 	    <h3>Comments</h3>
 	    <hr>
 	{% endblock content %}
-	</body>
-</html>
