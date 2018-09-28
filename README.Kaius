@@ -1,0 +1,14 @@
+Week 1: 9-28-18
+Work Accomplished: Created base for every webpage for the application as specified in our initial report and set up initial styling
+Files edited:
+- DrinkBeyondThePossible/templates/DrinkBeyondThePossible/account_management.html
+- DrinkBeyondThePossible/templates/DrinkBeyondThePossible/custom_drinks.html
+- DrinkBeyondThePossible/templates/DrinkBeyondThePossible/detail.html
+- DrinkBeyondThePossible/templates/DrinkBeyondThePossible/home.html
+- DrinkBeyondThePossible/templates/DrinkBeyondThePossible/ingredient_list.html
+- DrinkBeyondThePossible/templates/DrinkBeyondThePossible/navigation.html
+- DrinkBeyondThePossible/templates/DrinkBeyondThePossible/new_custom_drink.html
+- DrinkBeyondThePossible/templates/DrinkBeyondThePossible/search_results.html
+- DrinkBeyondThePossible/views.py
+- DrinkBeyondThePossible/urls.py
+- DrinkBeyondThePossible/static/style.css
