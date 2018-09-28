@@ -7,18 +7,18 @@
     {% block title %}<title>Drink Beyond the Possible</title>{% endblock title %}
     <link rel="stylesheet" type="text/css" href="{% static 'DrinkBeyondThePossible/style.css' %}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    {% block jquery %}
+</head>
+{% block jquery %}
         <script>
             $(document).ready(function()
             {
-                $("#id").click(function()
+                $("#addEntry").click(function(event)
                 {
-                    $(".entryInputs").append("<input class='searchEntry' type='text' name='ingredient'");
+                    $("#entryInputs").append("<input class='searchEntry' type='text'name='ingredient'>");
                 });
             });
         </script>
-    {% endblock jquery %}
-</head>
+{% endblock jquery %}
 
 <body>
     {% include "DrinkBeyondThePossible/navigation.html" %}
@@ -26,12 +26,13 @@
     {% block content %}
         <h1 class="centeredTitle">Drink Beyond the Possible</h1>
         <h4 class="centeredTitle">Enter available ingredients:</h4>
-        <div class="entryInputs">
+        <div id="entryInputs" class="centeredContainer">
             <input class="searchEntry" type="text" name="ingredient">
-        
         </div>
 
-        <button id="addEntry">+</button>
+        <button id="addEntry" class="centeredButtons">+</button>
+        <br>
+        <button id="searchDrinks" class="centeredButtons">Search for matching drinks</button>
         
     {% endblock content %}
 </body>

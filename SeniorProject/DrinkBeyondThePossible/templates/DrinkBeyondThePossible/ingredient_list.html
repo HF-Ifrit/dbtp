@@ -1,0 +1,53 @@
+{% extends "DrinkBeyondThePossible/home.html" %}
+{% load static %}
+
+{% block title %}
+    <title>Ingredient List</title>
+{% endblock title %}
+
+{% block jquery %}
+        <script>
+            $(document).ready(function()
+            {
+                $("#addEntry").click(function(event)
+                {
+                    $("#ingredients").append("<input type='text' name='ingredient'>");
+                    /*$("#entryInputs").append("<input class='searchEntry' type='text'name='ingredient'>");*/
+                });
+
+                $("#deleteIngredients").click(function(event)
+                {
+
+                });
+            });
+        </script>
+{% endblock jquery %}
+
+{% block content %}
+    <h1 class="centeredTitle">Edit Ingredient List</h1>
+    <form class="centeredContainer" action="{% url 'ingredientList' %}" method="POST">
+        {% csrf_token %}
+        <div>
+            <label for="ingredients">New ingredients:</label>
+            
+            <div id="ingredients">
+                <input type="text" name="ingredient">
+            </div>
+            <button id="addEntry" type="button">+</button>
+
+            <div class="centeredContainer">
+                <button type="submit">Save</button>
+            </div>
+        </div>
+    </form>
+
+    <!--Ingredient list region-->
+    <style>h3{text-decoration: underline;}</style>
+        <div>
+            <h3>My Ingredients</h3>
+            <ul>
+    
+            </ul>
+            <button id="deleteIngredients" type="button">Delete</button>
+        </div>
+{% endblock content %}

@@ -1,0 +1,29 @@
+{% extends "DrinkBeyondThePossible/home.html" %}
+{% load static %}
+
+{% block title %}
+    <title>Custom Drink List</title>
+{% endblock title %}
+
+{% block jquery %}
+        <script>
+            $(document).ready(function()
+            {
+                $("#addEntry").click(function(event)
+                {
+                    $("#ingredients").append("<input type='text' name='ingredient'>");
+                    /*$("#entryInputs").append("<input class='searchEntry' type='text'name='ingredient'>");*/
+                });
+            });
+        </script>
+{% endblock jquery %}
+
+{% block content %}
+    <h1 class="centeredTitle">Custom Drinks</h1>
+    <div class="centeredContainer">
+        <ul id="recipeList">
+            <!--Create list items using image of drink and url to detail view-->
+        </ul>
+        <a href="{% url 'recipeEntry' %}" id="newRecipe" type="button">Add New Recipe</a>
+    </div>
+{% endblock content %}
