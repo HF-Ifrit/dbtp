@@ -92,3 +92,25 @@ li.navitem a:visited
     margin: auto;
     padding-bottom: 20px;
 }
+
+/* Styling for details page */
+
+.drinkName
+{
+    color: gray;
+    font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+    font-size: 22pt;
+}
+
+.drinkInfo
+{
+    border-radius: 15px;
+    background-color: white;
+}
+
+.comments
+{
+    background-color: gray;
+    color: black;
+    font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+}
