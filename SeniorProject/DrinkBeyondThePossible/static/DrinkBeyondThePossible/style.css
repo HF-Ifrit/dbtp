@@ -1,3 +1,35 @@
+/* General styling */
+a.buttonLink
+{
+    -webkit-appearance: button;
+    text-decoration: none;
+    color: initial;
+    margin: auto;
+    text-align: center;
+    padding: 5% 10% 10% 10%;
+}
+
+.centeredContainer
+{
+    padding: 10px;
+    margin: auto;
+    width: 10%;
+}
+
+.centeredButtons
+{
+    display: block;
+    margin: auto;
+}
+
+.centeredTitle
+{
+    margin: auto;
+    text-align: center;
+    padding-top: 20px;
+    padding-bottom: 5px;
+}
+
 /* Navigation menu and menu item styling */
 .navmenu
 {
@@ -29,42 +61,23 @@
     background-color:rgba(86, 134, 223, 0.788);
 }
 
-a:link, a:visited
+li.navitem a:link, 
+li.navitem a:visited
 {
     text-decoration: none;
 }
 
-a:visited
+li.navitem a:visited
 {
     color: white;
 }
 
 /* Homepage styling */
-#entryInputs
-{
-    padding: 30px;
-}
-
 .searchEntry
 {
     display: block;
-    margin: auto;
-    width: 20%;
-}
-
-#addEntry
-{
-    display: block;
-    margin: auto;
-    
-}
-
-.centeredTitle
-{
-    margin: auto;
-    text-align: center;
-    padding-top: 20px;
-    padding-bottom: 5px;
+    margin-bottom: 10px;
+    width: 100%;
 }
 
 /* Search result styling */

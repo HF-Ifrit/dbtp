@@ -2,31 +2,56 @@
 {% load static %}
 
 
-{% block title %}<title>Drink Info</title>{% endblock title %}
-{% block content %}
-    <!--Drink Info-->
-    <h1>[Drink Name]</h1>
-    <!-- Must be changed from default image to correct drink image-->
-    <img src="{% static "DrinkBeyondThePossible/coctail-icon.jpg" %}">
-    <h3>Rating:</h3>
+	{% block title %}<title>Drink Info</title>{% endblock title %}
+	{% block content %}
+	    <style type="text/css">
+			h1 {
+				color: gray;
+				font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+				font-size: 14pt;
+				
+			}
+			h3 {
+				color: gray;
+			}
+			
+			body {
+				background-color: rgb(0, 0, 0);
+				color: rgb(44, 44, 44);
 
-    <h3>Ingredients:</h3>
-    <ul>
-        <li>Ingredient 1</li>
-        <li>Ingredient 2</li>
-    </ul>
+				min-width: 550px;
+			}
+		</style>
 
-    <h3>Instructions:</h3>
-    <ul>
-        <li>Instruction 1</li>
-        <li>Instruction 2</li>
-    </ul>
+		<!--Drink Info-->
+	    <h1>[Drink Name]</h1>
+	    <!-- Must be changed from default image to correct drink image-->
+	    <img src="{% static "DrinkBeyondThePossible/coctail-icon.jpg" %}">
+	    <h3>Rating:</h3>
 
-    <!--Recommendation section-->
-    <h4>You may also like:</h4>
+	    <h3>Ingredients:</h3>
+	    <ul>
+	        <li>Ingredient 1</li>
+	        <li>Ingredient 2</li>
+	    </ul>
+
+	    <h3>Instructions:</h3>
+	    <ul>
+	        <li>Instruction 1</li>
+	        <li>Instruction 2</li>
+	    </ul>
+
+	    <h4>Description:</h4>
+	    <p>
+	    	A noice drank
+
+	    </p>
+
+	    <!--Recommendation section-->
+	    <h5>You may also like:</h5>
 
 
-    <!--Comment section-->
-    <h3>Comments</h3>
-    <hr>
-{% endblock content %}
+	    <!--Comment section-->
+	    <h3>Comments</h3>
+	    <hr>
+	{% endblock content %}

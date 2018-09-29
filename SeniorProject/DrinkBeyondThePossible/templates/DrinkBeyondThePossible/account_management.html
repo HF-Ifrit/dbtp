@@ -1,0 +1,16 @@
+{% extends "DrinkBeyondThePossible/home.html" %}
+{% load static %}
+
+{% block title %}
+    <title>Account Management</title>
+{% endblock title %}
+
+{% block content %}
+    <h1 class="centeredTitle">Account Management</h1>
+    <div class="centeredContainer">
+        <a href="{% url 'ingredientList' %}" class="buttonLink">View/Update Ingredient List</a>
+        <a href="{% url 'recipes' %}" class="buttonLink">View/Update Custom Drinks</a>
+        <a href="commentsurl" class="buttonLink">View Comment Posts</a>
+        <a href="changeinfourl" class="buttonLink">Change Username/Email</a>
+    </div>
+{% endblock content %}
