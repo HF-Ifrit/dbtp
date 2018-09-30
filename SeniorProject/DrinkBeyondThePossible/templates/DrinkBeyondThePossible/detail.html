@@ -7,15 +7,60 @@
 	    <style type="text/css">
 			h3 {
 				color: gray;
+				padding-left: 1%;
+				padding-top: 1%;
 			}
 			
 			body {
 				background-color: rgb(0, 0, 0);
 				color: rgb(44, 44, 44);
 
-				min-width: 550px;
-				padding: 45px;
+				min-width: 450px;
+				line-height: 1.25;
+				font-size: 90%;
+				margin: 1.5rem;
 			}
+
+			.Recommendation {
+				padding-left: 0.5%;
+			}
+
+			.Description {
+				padding-left: 0.5%;
+			}
+
+			.Instructions {
+			  max-width: 350px;
+			  counter-reset: instructions-counter;
+			  list-style: none;
+			  padding-left: 50px;
+			}
+			.Instructions li {
+			  margin: 0 0 0.5rem 0;
+			  counter-increment: instructions-counter;
+			  position: relative;
+			  padding-top: 10px;
+			  
+			}
+			.Instructions li::before {
+			  content: counter(instructions-counter);
+			  font-size: 1.6rem;
+			  position: absolute;
+			  --size: 26px;
+			  left: calc(-1 * var(--size) - 15px);
+			  line-height: var(--size);
+			  width: var(--size);
+			  height: var(--size);
+			  color: #D3D3D3;
+			  top: 0;
+			  text-align: center;
+			  box-shadow: 3px 2px 0 #999;
+			  background: black;
+			  border-radius: 8%;
+			}
+
+
+
 
 		</style>
 
@@ -36,26 +81,28 @@
 	    </ul>
 
 	    <h3>Instructions:</h3>
-	    <ul>
+	    <ol class="Instructions">
 	        <li>Instruction 1</li>
 	        <li>Instruction 2</li>
-	    </ul>
+	    </ol>
 
-	    <h4>Description:</h4>
-	    <p>
-	    	A noice drank
+	    <div class = "Description"> 
+		    <h4>Description:</h4>
+		    <p>
+		    	A noice drank
 
-	    </p>
+		    </p>
+		</div>
 
 	    <!--Recommendation section-->
-	    <h5>You may also like:</h5>
+	    <h5 class="Recommendation">You may also like:</h5>
 
 
 	    <!--Comment section-->
 	    <h3 class="comments">User Ratings & Comments</h3>
 	    <hr>
 
-	    </div>
+	</div>
 	{% endblock content %}
 
 </body>
