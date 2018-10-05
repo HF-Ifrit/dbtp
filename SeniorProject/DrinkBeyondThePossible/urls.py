@@ -12,4 +12,5 @@ urlpatterns = [
     path('results', views.results, name='results'),
     path('account/manage', views.editAccount, name='editAccount'),
     #path('account/manage/submit', views.redirectH
+    path('create_account', views.createAccount, name='createAccount')
 ]

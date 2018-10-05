@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .forms import EditAccountForm
+from .forms import NewAccountForm
 from django.http import HttpResponseRedirect
 
 from django.contrib.auth.models import User
@@ -62,13 +63,11 @@ def editAccount(request):
     if request.method == 'POST':
         form = EditAccountForm(request.POST)
 
-        print("edit account view hit")
 
         if form.is_valid():
 
         # do account change stuff
             user = request.user
-            #user.username=request.POST.get("account_name", "")
             user.username=form.cleaned_data['account_name']
             user.save()
             user.set_password(form.cleaned_data['password'])
@@ -78,11 +77,27 @@ def editAccount(request):
 
     else:
         form = EditAccountForm()
-        print("GET in editAccount")
 
     return render(request, 'DrinkBeyondThePossible/edit_account.html', {'form': form})
 
 
-def getNewUserInfo(request):
+def createAccount(request):
 
-    pass
+    if request.method == 'POST':
+        form = NewAccountForm(request.POST)
+
+        if form.is_valid():
+
+        # create account
+            User.objects.create_user(
+                username=form.cleaned_data['account_name'],
+                email=form.cleaned_data['email'],
+                password=form.cleaned_data['password']
+            )
+            return HttpResponseRedirect('/')
+    else:
+        form = NewAccountForm()
+
+    return render(request, 'DrinkBeyondThePossible/create_account.html', {'form': form})
+
+
