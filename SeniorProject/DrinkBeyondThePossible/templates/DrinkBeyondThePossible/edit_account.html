@@ -7,7 +7,7 @@
 
 {% block content %}
 	<h1>Edit Account</h1>
-	<form action="/account" method="post">
+	<form action="/account/manage" method="POST">
 		{% csrf_token %}
 		{{ form }}
 		<input type="submit" value="Submit">

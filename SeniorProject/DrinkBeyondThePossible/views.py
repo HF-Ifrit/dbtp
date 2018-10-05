@@ -62,20 +62,23 @@ def editAccount(request):
     if request.method == 'POST':
         form = EditAccountForm(request.POST)
 
+        print("edit account view hit")
+
         if form.is_valid():
 
-
-            # do account change stuff
+        # do account change stuff
             user = request.user
-            user.username=request.POST.get('account_name', '')
+            #user.username=request.POST.get("account_name", "")
+            user.username=form.cleaned_data['account_name']
             user.save()
-            user.set_password(request.POST.get('password', ''))
+            user.set_password(form.cleaned_data['password'])
             user.save()
 
-            return HttpResponseRedirect('/account')
+            return HttpResponseRedirect('')
 
     else:
         form = EditAccountForm()
+        print("GET in editAccount")
 
     return render(request, 'DrinkBeyondThePossible/edit_account.html', {'form': form})
 
