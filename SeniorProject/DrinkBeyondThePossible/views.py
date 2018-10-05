@@ -1,4 +1,8 @@
 from django.shortcuts import render
+from .forms import EditAccountForm
+from django.http import HttpResponseRedirect
+
+from django.contrib.auth.models import User
 
 # Create your views here.
 def index(request):
@@ -51,3 +55,31 @@ def recipeList(request):
         'activePage': 'Account'
     }
     return render(request, 'DrinkBeyondThePossible/custom_drinks.html', context=context)
+
+
+def editAccount(request):
+
+    if request.method == 'POST':
+        form = EditAccountForm(request.POST)
+
+        if form.is_valid():
+
+
+            # do account change stuff
+            user = request.user
+            user.username=request.POST.get('account_name', '')
+            user.save()
+            user.set_password(request.POST.get('password', ''))
+            user.save()
+
+            return HttpResponseRedirect('/account')
+
+    else:
+        form = EditAccountForm()
+
+    return render(request, 'DrinkBeyondThePossible/edit_account.html', {'form': form})
+
+
+def getNewUserInfo(request):
+
+    pass
