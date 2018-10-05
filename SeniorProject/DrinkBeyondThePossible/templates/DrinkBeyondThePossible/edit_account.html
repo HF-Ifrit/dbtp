@@ -7,6 +7,8 @@
 
 {% block content %}
 	<h1>Edit Account</h1>
+	{{ request.user.username  }}<br>
+	{{ request.user.email }}<br>
 	<form action="/account/manage" method="POST">
 		{% csrf_token %}
 		{{ form }}
