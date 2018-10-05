@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.views.decorators.http import require_http_methods
 
 # Create your views here.
 def index(request):
@@ -13,8 +14,9 @@ def detail(request):
     return render(request, 'DrinkBeyondThePossible/detail.html', context=context)
 
 def results(request):
-    drinkResults = {'Test 1', 'Test 2'}
-
+    drinkResults = []
+    if 'ingredient' in request.GET:
+        drinkResults = request.GET.getlist('ingredient')
     context = {'drinkResults': drinkResults}
     return render(request, 'DrinkBeyondThePossible/search_results.html', context=context)
 

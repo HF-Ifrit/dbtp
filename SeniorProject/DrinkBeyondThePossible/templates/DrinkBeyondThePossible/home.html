@@ -12,6 +12,7 @@
         <script>
             $(document).ready(function()
             {
+                //Plus button
                 $("#addEntry").click(function(event)
                 {
                     $("#entryInputs").append("<input class='searchEntry' type='text'name='ingredient'>");
@@ -26,14 +27,15 @@
     {% block content %}
         <h1 class="centeredTitle">Drink Beyond the Possible</h1>
         <h4 class="centeredTitle">Enter available ingredients:</h4>
-        <div id="entryInputs" class="centeredContainer">
-            <input class="searchEntry" type="text" name="ingredient">
-        </div>
+        <form id="searchForm" action="{% url 'results' %}">
+           <div id="entryInputs" class="centeredContainer">
+                <input class="searchEntry" type="text" name="ingredient">
+            </div>
 
-        <button id="addEntry" class="centeredButtons">+</button>
-        <br>
-        <button id="searchDrinks" class="centeredButtons">Search for matching drinks</button>
-        
+            <button id="addEntry" type="button" class="centeredButtons">+</button>
+            <br>
+            <button id="searchDrinks" class="centeredButtons" type="submit">Search for matching drinks</button> 
+        </form>
     {% endblock content %}
 </body>
 </html>
