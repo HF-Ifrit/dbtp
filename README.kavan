@@ -3,13 +3,16 @@ Week 2: 10/5
 	* added to navigation bar account name if logged in or a login link if signed out
 	* added edit account view and functionality for username, email, and password
 	* added create account page/functionality
-	* 
+	* added navigation bar to login/logout template
+	* added sign up section in login
 
   Files Edited:
 	* SeniorProject/DrinkBeyondThePossible/templates/DrinkBeyondThePossible/edit_account.html
 	* SeniorProject/DrinkBeyondThePossible/templates/DrinkBeyondThePossible/create_account.html
 	* SeniorProject/DrinkBeyondThePossible/templates/DrinkBeyondThePossible/navigation.html
 	* SeniorProject/DrinkBeyondThePossible/templates/DrinkBeyondThePossible/account_management.html
+	* SeniorProject/DrinkBeyondThePossible/templates/DrinkBeyondThePossible/login.html
+	* SeniorProject/DrinkBeyondThePossible/templates/DrinkBeyondThePossible/logout.html
 	* SeniorProject/DrinkBeyondThePossible/views.py
 	* SeniorProject/DrinkBeyondThePossible/forms.py
 	* SeniorProject/DrinkBeyondThePossible/urls.py
