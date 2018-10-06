@@ -82,9 +82,11 @@
 				margin: 1%;
 			}
 
+			.rating {
+				border: none;
+			}
 
-
-
+			
 
 		</style>
 
@@ -97,6 +99,13 @@
     <div class="drinkInfo">
 	    <img src="{% static "DrinkBeyondThePossible/coctail-icon.jpg" %}" align="right">
 	    <h3 id="rating">Rating:</h3>
+	    <div class="rating">
+	    	<input type="radio" id="5/5" value="5" />
+	    	<input type="radio" id="4/5" value="4" />
+	    	<input type="radio" id="3/5" value="3" />
+	    	<input type="radio" id="2/5" value="2" />
+	    	<input type="radio" id="1/5" value="1" />
+	    </div>
 
 	    <h3>Ingredients:</h3>
 	    <label class="container">
