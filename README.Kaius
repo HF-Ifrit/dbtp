@@ -1,3 +1,13 @@
+Week 2: 10-5-18
+Work Accomplished: Got test data to carry over from home page to search results page. Also created module for third party api calls to
+handle backend operations along with inner classes to represent drink data that will be handled by our application
+
+Files edited:
+- DrinkBeyondThePossible/templates/DrinkBeyondThePossible/home.html
+- DrinkBeyondThePossible/templates/DrinkBeyondThePossible/search_results.html
+    **Newly added
+    - DrinkBeyondThePossible/cocktaildbapi.py
+---------
 Week 1: 9-28-18
 Work Accomplished: Created base for every webpage for the application as specified in our initial report and set up initial styling
 Files edited:
