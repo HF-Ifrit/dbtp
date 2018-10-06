@@ -12,5 +12,12 @@ urlpatterns = [
     path('results', views.results, name='results'),
     path('account/manage', views.editAccount, name='editAccount'),
     #path('account/manage/submit', views.redirectH
-    path('create_account', views.createAccount, name='createAccount')
+    path('create_account', views.createAccount, name='createAccount'),
+
+    path('account/manage/edit_username', views.editUsername, name='editUsername'),
+    path('account/manage/edit_email', views.editEmail, name='editEmail'),
+    path('account/manage/edit_password', views.editPassword, name='editPassword'),
+
+
+
 ]

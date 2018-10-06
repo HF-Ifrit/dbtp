@@ -9,9 +9,21 @@
 	<h1>Edit Account</h1>
 	{{ request.user.username  }}<br>
 	{{ request.user.email }}<br>
-	<form action="/account/manage" method="POST">
+	<form action="/account/manage/edit_username" method="POST">
 		{% csrf_token %}
-		{{ form }}
+		{{ usernameForm }}
 		<input type="submit" value="Submit">
 	</form>
+	<form action="/account/manage/edit_email" method="POST">
+		{% csrf_token %}
+		{{ emailForm }}
+		<input type="submit" value="Submit">
+	</form>
+	<form action="/account/manage/edit_password" method="POST">
+		{% csrf_token %}
+		{{ passwordForm }}
+		<input type="submit" value="Submit">
+	</form>
+
+
 {% endblock content %}

@@ -82,7 +82,7 @@ def editUsername(request):
             user.username=form.cleaned_data['account_name']
             user.save()
 
-    return HttpResponseRedirect('/')
+    return HttpResponseRedirect('')
 
 
 def editEmail(request):
@@ -95,7 +95,7 @@ def editEmail(request):
             user.email=form.cleaned_data['email']
             user.save()
 
-    return HttpResponseRedirect('/')
+    return HttpResponseRedirect('')
 
 
 def editPassword(request):
@@ -109,7 +109,7 @@ def editPassword(request):
             user.save()
 
 
-    return HttpResponseRedirect('/')
+    return HttpResponseRedirect('')
 
 
 

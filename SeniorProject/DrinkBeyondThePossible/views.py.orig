@@ -1,13 +1,14 @@
 from django.shortcuts import render
-#from .forms import EditAccountForm
-from .forms import EditAccountnameForm
-from .forms import EditEmailForm
-from .forms import EditPasswordForm
-
+<<<<<<< HEAD
+from .forms import EditAccountForm
 from .forms import NewAccountForm
 from django.http import HttpResponseRedirect
 
 from django.contrib.auth.models import User
+=======
+from django.views.decorators.http import require_http_methods
+from . import cocktaildbapi as cdb
+>>>>>>> eddb7e900957a34d88fe331cd785dd53a2f14673
 
 # Create your views here.
 def index(request):
@@ -22,8 +23,9 @@ def detail(request):
     return render(request, 'DrinkBeyondThePossible/detail.html', context=context)
 
 def results(request):
-    drinkResults = {'Test 1', 'Test 2'}
-
+    drinkResults = []
+    if 'ingredient' in request.GET:
+        drinkResults = request.GET.getlist('ingredient')
     context = {'drinkResults': drinkResults}
     return render(request, 'DrinkBeyondThePossible/search_results.html', context=context)
 
@@ -63,57 +65,26 @@ def recipeList(request):
 
 
 def editAccount(request):
-    
-    #form = EditAccountForm()
-    usernameForm = EditAccountnameForm()
-    emailForm = EditEmailForm()
-    passwordForm = EditPasswordForm()
-
-    return render(request, 'DrinkBeyondThePossible/edit_account.html', {'usernameForm': usernameForm, 'emailForm': emailForm, 'passwordForm': passwordForm})
-
-
-def editUsername(request):
 
     if request.method == 'POST':
-        form = EditAccountnameForm(request.POST)
+        form = EditAccountForm(request.POST)
+
 
         if form.is_valid():
+
+        # do account change stuff
             user = request.user
             user.username=form.cleaned_data['account_name']
             user.save()
-
-    return HttpResponseRedirect('/')
-
-
-def editEmail(request):
-
-    if request.method == 'POST':
-        form = EditEmailForm(request.POST)
-
-        if form.is_valid():
-            user = request.user
-            user.email=form.cleaned_data['email']
-            user.save()
-
-    return HttpResponseRedirect('/')
-
-
-def editPassword(request):
-
-    if request.method == 'POST':
-        form = EditEmailForm(request.POST)
-
-        if form.is_valid():
-            user = request.user
             user.set_password(form.cleaned_data['password'])
             user.save()
 
+            return HttpResponseRedirect('')
 
-    return HttpResponseRedirect('/')
+    else:
+        form = EditAccountForm()
 
-
-
-
+    return render(request, 'DrinkBeyondThePossible/edit_account.html', {'form': form})
 
 
 def createAccount(request):
