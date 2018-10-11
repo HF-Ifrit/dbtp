@@ -69,36 +69,8 @@
 
     <div>
 	    <form action="{% url 'recipeEntry' %}" method="POST" class="form">
-	        {% csrf_token %}
-	        <div>
-	            <label for="drinkName">Drink Name:</label>
-	            <input type="text" id="drinkName" name="custom_drink_name">
-	        </div>
-
-	        <div>
-	            <label for="recipe">Enter ingredients:</label>
-	            <div id="recipe">
-	                <input type="text" name="ingredient">
-	            </div>
-	            <button id="addEntry" type="button">+</button>
-	        </div>
-
-	        <div>
-	        	<label for="user-description">Enter Description:</label>
-	        	<div id="description">
-	        		<input type="text" name="describe">
-	        	</div>
-
-	        </div>
-
-	        <div>
-	            <label for="drinkImage">Add an image:</label>
-	            <input type="file" id="drinkImage" name="image" accept="image/*">
-	        </div>
-
-	        <div class="button">
-	            <button type="submit">Save</button>
-	        </div>
+	    {% csrf_token %}
+	       	{% form %}
 
 	    </form>
 

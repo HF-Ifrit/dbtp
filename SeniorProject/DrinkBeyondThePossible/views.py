@@ -10,6 +10,8 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.views.decorators.http import require_http_methods
 from . import cocktaildbapi as cdb
+from .models import *
+from .forms import NewDrinkForm
 
 # Create your views here.
 def index(request):
@@ -138,4 +140,28 @@ def createAccount(request):
 
     return render(request, 'DrinkBeyondThePossible/create_account.html', {'form': form})
 
+
+def createDrink(request):
+    if request.method == 'POST':
+        form = NewDrinkForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            # add the new drink to db            
+
+            # drinkname = form.cleaned_data['drink_name']
+            # ingredients = form.cleaned_data['ingredients']
+            # description = form.cleaned_data['description']
+            # image = form.cleaned_data['image']
+
+            #create new customDrink object
+            # new_drink = customDrink(name=drinkname, ingredients=ingredients, description=description,
+                # image=image, user_id=)
+        
+        else:
+            form = NewDrinkForm()
+
+    return render(request, 'DrinkBeyondThePossible/edit_account.html', {'form': form})
+
+            
 
