@@ -48,11 +48,11 @@ def manage(request):
     }
     return render(request, 'DrinkBeyondThePossible/account_management.html', context=context)
 
-def newCustomDrink(request):
-    context = {
-        'activePage': 'Account'
-    }
-    return render(request, 'DrinkBeyondThePossible/new_custom_drink.html', context=context)
+# def newCustomDrink(request):
+#     context = {
+#         'activePage': 'Account'
+#     }
+#     return render(request, 'DrinkBeyondThePossible/new_custom_drink.html', context=context)
 
 def ingredientList(request):
     context = {
@@ -141,27 +141,15 @@ def createAccount(request):
     return render(request, 'DrinkBeyondThePossible/create_account.html', {'form': form})
 
 
-def createDrink(request):
+def newCustomDrink(request):
     if request.method == 'POST':
         form = NewDrinkForm(request.POST)
 
         if form.is_valid():
             form.save()
-            # add the new drink to db            
-
-            # drinkname = form.cleaned_data['drink_name']
-            # ingredients = form.cleaned_data['ingredients']
-            # description = form.cleaned_data['description']
-            # image = form.cleaned_data['image']
-
-            #create new customDrink object
-            # new_drink = customDrink(name=drinkname, ingredients=ingredients, description=description,
-                # image=image, user_id=)
+            return HttpResponseRedirect('/')
         
-        else:
-            form = NewDrinkForm()
+    else:
+        form = NewDrinkForm()
 
-    return render(request, 'DrinkBeyondThePossible/edit_account.html', {'form': form})
-
-            
-
+    return render(request, 'DrinkBeyondThePossible/new_custom_drink.html', {'form': form})
