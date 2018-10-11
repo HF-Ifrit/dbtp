@@ -2,15 +2,19 @@
 {% load static %}
 
 {% block content %}
-    <h1 id="titleHeader">Drink Search Results</h1>
+    <h1 class="centeredTitle">Drink Search Results</h1>
     {{ drinkResults }}
     <div id="resultList">
         <ul>
         {% for drink in drinkResults %}
             <div class="resultItem">
-                <img src="{% static 'DrinkBeyondThePossible/coctail-icon.jpg' %}">
-                <li>{{ drink }}</li>
-                
+                <img src="{{ drink.thumbImage }}">
+                <li>{{ drink.name }}</li>
+                <ul>
+                    {% for ingredient in drink.ingredients %}
+                        <li> {{ ingredient }}</li>
+                    {% endfor %}
+                </ul>
             </div>
             
         {% endfor %}

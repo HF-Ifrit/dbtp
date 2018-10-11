@@ -10,11 +10,12 @@ ID_DETAIL_SEARCH_URL = 'https://www.thecocktaildb.com/api/json/v1/1/lookup.php?'
 strIngredient1...2...3..etc, strMeasure1...2...3..etc}
 """
 
+
 class SearchResult:
     """Representation of the JSON object list received from the ingredient search api call"""
     def __init__(self, data):
         self.drinks = []
-        
+    
         #Get all detailed information for each drink found that matches
         for drink in data['drinks']:
             id = drink['idDrink']
@@ -22,9 +23,11 @@ class SearchResult:
             detailObj = DrinkDetail(detailResult['drinks'][0]) #Detailed info comes back as first item in the drinks JSON
             self.drinks.append(detailObj)
 
-
 class DrinkDetail:
     """Representation of the drinks and their information"""
+
+    __IGNORED__ = [' ', '\n', '', None]
+
     def __init__(self, drinkDict):
         self.id = drinkDict['idDrink']
         self.name = drinkDict['strDrink']
@@ -35,9 +38,19 @@ class DrinkDetail:
         self.glass = drinkDict['strGlass']
         self.instructions = drinkDict['strInstructions']
         self.thumbimage = drinkDict['strDrinkThumb']
-        self.ingredients = {k:v for (k,v) in drinkDict.items() if "strIngredient" in k}
-        self.measurements = {k:v for (k,v) in drinkDict.items() if "strMeasure" in k}
 
+        self.ingredients = [v for (k,v) in drinkDict.items() if "strIngredient" in k and v not in DrinkDetail.__IGNORED__]
+        self.measurements = [v for (k,v) in drinkDict.items() if "strMeasure" in k and v not in DrinkDetail.__IGNORED__]
+
+    def __eq__(self, other):
+        if isinstance(other, DrinkDetail):
+            return self.id == other.id
+
+    def __repr__(self):
+        return "({},{})".format(self.id, self.name)
+
+    def __hash__(self):
+        return hash(self.__repr__())
 
 def ingredientApiCall(ingredient):
     """Return a JSON object containing list of drink info dictionaries using the input ingredient"""

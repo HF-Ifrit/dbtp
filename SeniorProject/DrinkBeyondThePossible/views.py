@@ -17,7 +17,13 @@ def detail(request):
 def results(request):
     drinkResults = []
     if 'ingredient' in request.GET:
-        drinkResults = request.GET.getlist('ingredient')
+        searchResults = []
+        for ingredient in request.GET.getlist('ingredient'):
+            matchingResult = cdb.searchMatchingDrinks(ingredient)
+            searchResults.append(set(matchingResult.drinks))
+
+        drinkResults = list(set.intersection(*searchResults))
+
     context = {'drinkResults': drinkResults}
     return render(request, 'DrinkBeyondThePossible/search_results.html', context=context)
 
