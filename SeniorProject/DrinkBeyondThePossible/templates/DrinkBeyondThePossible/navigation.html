@@ -1,4 +1,21 @@
 <ul class="navmenu">
     <li class="navitem {% if activePage == "Home" %} active {% endif %}"><a href="{% url 'index' %}">Home</a></li>
+
+	<!--
     <li class="navitem {% if activePage == "Account" %} active {% endif %}"><a href="{% url 'manage' %}">Account</a></li>
+	<li class="navitem active">
+			{% if user.is_authenticated %} <a href="/logout">{{ request.user.username }}</a></li>
+			{% else %} <a href="/login">Login</a></li>
+			{% endif %}
+
+	-->
+
+	{% if user.is_authenticated %}
+	<li class="navitem active"><a href="{% url 'manage' %}">{{ request.user.username }}</a></li>
+	<li class="navitem active"><a href="{% url 'logout' %}">Logout</a></li>
+	
+	{% else %}
+	<li class="navitem active"><a href="{% url 'login' %}">Login</a></li>
+
+	{% endif %}
 </ul>

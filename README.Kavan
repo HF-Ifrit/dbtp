@@ -1,0 +1,42 @@
+Week 2: 10/5
+  Work Done:
+	* added to navigation bar account name if logged in or a login link if signed out
+	* added edit account view and functionality for username, email, and password
+	* added create account page/functionality
+	* added navigation bar to login/logout template
+	* added sign up section in login
+
+  Files Edited:
+	* SeniorProject/DrinkBeyondThePossible/templates/DrinkBeyondThePossible/edit_account.html
+	* SeniorProject/DrinkBeyondThePossible/templates/DrinkBeyondThePossible/create_account.html
+	* SeniorProject/DrinkBeyondThePossible/templates/DrinkBeyondThePossible/navigation.html
+	* SeniorProject/DrinkBeyondThePossible/templates/DrinkBeyondThePossible/account_management.html
+	* SeniorProject/DrinkBeyondThePossible/templates/DrinkBeyondThePossible/login.html
+	* SeniorProject/DrinkBeyondThePossible/templates/DrinkBeyondThePossible/logout.html
+	* SeniorProject/DrinkBeyondThePossible/views.py
+	* SeniorProject/DrinkBeyondThePossible/forms.py
+	* SeniorProject/DrinkBeyondThePossible/urls.py
+
+	
+
+Week 1: 9/28
+  Work Done: 
+    * started up Amazon AWS server
+    * imported proper packages needed
+    * Cloned project to server
+    * Set it up to constantly run runserver for development purposes (supervisorctl)
+
+    * set up user and admin accounts
+    * created login page that checks credentials
+    * able to keep track of who is signed in
+    * signout works
+    * created admin page to view all users and models
+	
+  
+  Files Edited:
+    * SeniorProject/DrinkBeyondThePossible/templates/DrinkBeyondThePossible/base.html
+    * SeniorProject/DrinkBeyondThePossible/templates/DrinkBeyondThePossible/login.html 
+    * SeniorProject/DrinkBeyondThePossible/templates/DrinkBeyondThePossible/logout.html
+    * SeniorProject/SeniorProject/settings.py - added login redirect/url
+    * SeniorProject/SeniorProject/urls.py - added login and admin urls
+

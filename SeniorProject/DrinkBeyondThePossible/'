@@ -8,10 +8,6 @@ from .forms import NewAccountForm
 from django.http import HttpResponseRedirect
 
 from django.contrib.auth.models import User
-from django.views.decorators.http import require_http_methods
-from . import cocktaildbapi as cdb
-from .models import *
-from .forms import NewDrinkForm
 
 # Create your views here.
 def index(request):
@@ -26,14 +22,7 @@ def detail(request):
     return render(request, 'DrinkBeyondThePossible/detail.html', context=context)
 
 def results(request):
-    drinkResults = []
-    if 'ingredient' in request.GET:
-        searchResults = []
-        for ingredient in request.GET.getlist('ingredient'):
-            matchingResult = cdb.searchMatchingDrinks(ingredient)
-            searchResults.append(set(matchingResult.drinks))
-
-        drinkResults = list(set.intersection(*searchResults))
+    drinkResults = {'Test 1', 'Test 2'}
 
     context = {'drinkResults': drinkResults}
     return render(request, 'DrinkBeyondThePossible/search_results.html', context=context)
@@ -54,11 +43,11 @@ def manage(request):
     }
     return render(request, 'DrinkBeyondThePossible/account_management.html', context=context)
 
-# def newCustomDrink(request):
-#     context = {
-#         'activePage': 'Account'
-#     }
-#     return render(request, 'DrinkBeyondThePossible/new_custom_drink.html', context=context)
+def newCustomDrink(request):
+    context = {
+        'activePage': 'Account'
+    }
+    return render(request, 'DrinkBeyondThePossible/new_custom_drink.html', context=context)
 
 def ingredientList(request):
     context = {
@@ -93,7 +82,7 @@ def editUsername(request):
             user.username=form.cleaned_data['account_name']
             user.save()
 
-    return HttpResponseRedirect('/')
+    return HttpResponseRedirect('')
 
 
 def editEmail(request):
@@ -106,7 +95,7 @@ def editEmail(request):
             user.email=form.cleaned_data['email']
             user.save()
 
-    return HttpResponseRedirect('/')
+    return HttpResponseRedirect('')
 
 
 def editPassword(request):
@@ -120,7 +109,7 @@ def editPassword(request):
             user.save()
 
 
-    return HttpResponseRedirect('/')
+    return HttpResponseRedirect('')
 
 
 
@@ -147,15 +136,3 @@ def createAccount(request):
     return render(request, 'DrinkBeyondThePossible/create_account.html', {'form': form})
 
 
-def newCustomDrink(request):
-    if request.method == 'POST':
-        form = NewDrinkForm(request.POST)
-
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect('/')
-        
-    else:
-        form = NewDrinkForm()
-
-    return render(request, 'DrinkBeyondThePossible/new_custom_drink.html', {'form': form})

@@ -1,4 +1,4 @@
-{% extends "DrinkBeyondThePossible/base.html" %}
+{% extends "DrinkBeyondThePossible/home.html" %}
 
 {% block title %}Login{% endblock %}
 
@@ -9,4 +9,5 @@
 		{{ form.as_p }}
 		<button type="submit">Login</button>
 	</form>
+	<p><a href="/create_account">Sign up here</a></p>
 {% endblock %}
