@@ -61,10 +61,17 @@ def manage(request):
 #     return render(request, 'DrinkBeyondThePossible/new_custom_drink.html', context=context)
 
 def ingredientList(request):
-    context = {
-        'activePage': 'Account'
-    }
-    return render(request, 'DrinkBeyondThePossible/ingredient_list.html', context=context)
+   
+    #context = {
+    #    'activePage': 'Account'
+    #}
+
+
+    if request.method == 'POST':
+        pass
+     else:
+        return render(request, 'DrinkBeyondThePossible/ingredient_list.html', context=context)
+
 
 def recipeList(request):
     context = {
