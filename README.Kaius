@@ -1,3 +1,12 @@
+Week 3: 10-12-18
+Work Accomplished: Application is now able to search for drinks containing input ingredients from the home page
+and returns drink results from the third party api (Core functionality)
+
+Files edited:
+- DrinkBeyondThePossible/templates/DrinkBeyondThePossible/search_results.html
+- DrinkBeyondThePossible/cocktaildbapi.py
+- DrinkBeyondThePossible/views.py
+---------
 Week 2: 10-5-18
 Work Accomplished: Got test data to carry over from home page to search results page. Also created module for third party api calls to
 handle backend operations along with inner classes to represent drink data that will be handled by our application
