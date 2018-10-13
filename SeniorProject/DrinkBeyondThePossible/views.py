@@ -27,7 +27,7 @@ def detail(request):
 
 def results(request):
     drinkResults = []
-    if 'ingredient' in request.GET:
+    if 'ingredient' in request.GET: # Get ingredient search parameters from request
         searchResults = []
         for ingredient in request.GET.getlist('ingredient'):
             matchingResult = cdb.searchMatchingDrinks(ingredient)
