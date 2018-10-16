@@ -94,10 +94,10 @@
 
 <body>
 	<!--Drink Info-->
-	<h1 class="drinkName">[Drink Name]</h1>
+	<h1 class="drinkName">{{ drink.name }}</h1>
 	    <!-- Must be changed from default image to correct drink image-->
     <div class="drinkInfo">
-	    <img src="{% static "DrinkBeyondThePossible/coctail-icon.jpg" %}" align="right">
+	    <img src="{{ drink.thumbimage }}" align="right">
 	    <h3 id="rating">Rating:</h3>
 	    <div class="rating">
 	    	<input type="radio" id="5/5" value="5" />
@@ -107,33 +107,35 @@
 	    	<input type="radio" id="1/5" value="1" />
 	    </div>
 
-	    <h3>Ingredients:</h3>
-	    <label class="container">
-		  	<input type="checkbox" checked="checked">
-		  	<span class="checkmark"></span>
-		  	Ingredient 1
-		</label>
+		<h3>Ingredients:</h3>
+		{% for ingredient in drink.ingredients %}
 		<label class="container">
+			<input type="checkbox" checked="checked">
+			<span class="checkmark"></span>
+			{{ ingredient }}
+	  </label>
+		{% endfor %}
+	    
+		<!-- <label class="container">
 		  	<input type="checkbox">
 		  	<span class="checkmark"></span>
 		  	Ingredient 2
-		</label>
+		</label> -->
 
 		<button type="button" class="addtocart">Add to Cart</button>
 
 
-	    <h3>Instructions:</h3>
-	    <ol class="Instructions">
-	        <li>Instruction 1</li>
+		<h3>Instructions:</h3>
+		{{ drink.instructions }}
+	    <!-- <ol class="Instructions">
+			
+			<li>Instruction 1</li>
 	        <li>Instruction 2</li>
-	    </ol>
+	    </ol> -->
 
 	    <div class = "Description"> 
 		    <h4>Description:</h4>
-		    <p>
-		    	A noice drank
-
-		    </p>
+		    <p>{{ drink.description }}</p>
 		</div>
 
 	    <!--Recommendation section-->

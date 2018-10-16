@@ -21,8 +21,9 @@ def index(request):
     }
     return render(request, 'DrinkBeyondThePossible/home.html', context=context)
 
-def detail(request):
-    context = {}
+def detail(request, drinkID=0):
+    drinkResult = cdb.SearchResult(cdb.idApiCall(drinkID))
+    context = {'drink': drinkResult.drinks[0]}
     return render(request, 'DrinkBeyondThePossible/detail.html', context=context)
 
 def results(request):

@@ -8,7 +8,7 @@
         {% for drink in drinkResults %}
             <div class="resultItem">
                 <img src="{{ drink.thumbimage }}" width="350px" height="350px">
-                <li><a href="{% url 'detail' %}">{{ drink.name }}</a></li>
+                <li><a href="{% url 'detail' drink.id %}">{{ drink.name }}</a></li>
                 <ul>
                     {% for ingredient in drink.ingredients %}
                         <li> {{ ingredient }}</li>
