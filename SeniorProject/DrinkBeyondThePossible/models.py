@@ -13,10 +13,12 @@ class Users(models.Model):
 class Drink(models.Model):
     name = models.CharField(max_length=50)
 
-class Comments(models.Model):
+class Comment(models.Model):
     user_id = models.ForeignKey(Users, unique=True, on_delete=models.CASCADE)
     drink_name = models.ForeignKey(Drink, unique=True, on_delete=models.CASCADE)
     message = models.CharField(max_length=2000)
+    created_time = models.DateTimeField(auto_now_add=True)
+    updated_time = models.DateTimeField(auto_now=True)
 
 class drinkRating(models.Model):
     drink_name = models.ForeignKey(Drink, unique=True, on_delete=models.CASCADE)

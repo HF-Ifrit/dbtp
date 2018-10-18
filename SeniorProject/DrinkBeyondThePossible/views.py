@@ -11,7 +11,7 @@ from django.contrib.auth.models import User
 from django.views.decorators.http import require_http_methods
 from . import cocktaildbapi as cdb
 from .models import *
-from .forms import NewDrinkForm
+from .forms import NewDrinkForm, NewCommentForm
 
 # Create your views here.
 def index(request):
@@ -22,8 +22,18 @@ def index(request):
     return render(request, 'DrinkBeyondThePossible/home.html', context=context)
 
 def detail(request):
-    context = {}
-    return render(request, 'DrinkBeyondThePossible/detail.html', context=context)
+
+    if request.method == 'POST':
+        form = NewCommentForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/')
+        
+    else:
+        form = NewCommentForm()
+
+    return render(request, 'DrinkBeyondThePossible/detail.html', {'form': form})
 
 def results(request):
     drinkResults = []
@@ -69,7 +79,7 @@ def ingredientList(request):
 
     if request.method == 'POST':
         pass
-     else:
+    else:
         return render(request, 'DrinkBeyondThePossible/ingredient_list.html', context=context)
 
 
