@@ -11,7 +11,7 @@ from django.contrib.auth.models import User
 from django.views.decorators.http import require_http_methods
 from . import cocktaildbapi as cdb
 from .models import *
-from .forms import NewDrinkForm
+from .forms import NewDrinkForm, NewCommentForm
 
 # Create your views here.
 def index(request):
@@ -21,9 +21,19 @@ def index(request):
     }
     return render(request, 'DrinkBeyondThePossible/home.html', context=context)
 
-def detail(request, drinkID=0):
+def detail(request, drinkID):
     drinkResult = cdb.SearchResult(cdb.idApiCall(drinkID))
-    context = {'drink': drinkResult.drinks[0]}
+    
+    if request.method == 'POST':
+        form = NewCommentForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/')
+        
+    else:
+        form = NewCommentForm()
+    context = {'drink': drinkResult.drinks[0], 'form': form}
     return render(request, 'DrinkBeyondThePossible/detail.html', context=context)
 
 def results(request):
@@ -62,10 +72,17 @@ def manage(request):
 #     return render(request, 'DrinkBeyondThePossible/new_custom_drink.html', context=context)
 
 def ingredientList(request):
+   
     context = {
-        'activePage': 'Account'
+       'activePage': 'Account'
     }
-    return render(request, 'DrinkBeyondThePossible/ingredient_list.html', context=context)
+
+
+    if request.method == 'POST':
+        pass
+    else:
+        return render(request, 'DrinkBeyondThePossible/ingredient_list.html', context=context)
+
 
 def recipeList(request):
     context = {

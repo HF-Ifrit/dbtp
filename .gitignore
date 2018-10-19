@@ -3,6 +3,9 @@ __/pycache/
 *.pyc
 migrations/
 
+#MSCode stuff
+.DS_Store
+
 #vim stuff
 [._]*.s[a-v][a-z]
 [._]*.sw[a-p]

@@ -139,7 +139,10 @@
 
 
 	    <!--Comment section-->
-	    <h3 class="comments">User Ratings & Comments</h3>
+		<h3 class="comments">User Ratings & Comments</h3>
+		<p>Total number of comments: {{ post.comments.count }}</p>
+		{% csrf_token %}
+			{{ form }}
 	    <hr>
 
 	</div>
