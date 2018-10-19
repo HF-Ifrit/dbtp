@@ -1,3 +1,15 @@
+Week 4: 10/19
+  Work Done:
+	* added favorite drink list and custom drink list templates
+	* discovered bug in models.py where Users is not synced up to django auth.users, will need to fix so it extends while maintaining link to other models
+	* Submitted intersections application
+
+  Files Edited:
+	* SeniorProject/DrinkBeyondThePossible/views.py
+	* SeniorProject/DrinkBeyondThePossible/templates/DrinkBeyondThePossible/display_custom_drinks.html
+	* SeniorProject/DrinkBeyondThePossible/templates/DrinkBeyondThePossible/display_favorite_drinks.html
+	* SeniorProject/DrinkBeyondThePossible/templates/DrinkBeyondThePossible/account_management.html
+
 Week 3: 10/12
   Work Done:
 	* assisted Toshi in debugging issues in detail drink view
