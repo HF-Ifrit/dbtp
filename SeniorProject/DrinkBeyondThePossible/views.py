@@ -24,29 +24,31 @@ def index(request):
 def detail(request, drinkID):
     drinkResult = cdb.SearchResult(cdb.idApiCall(drinkID))
     
-    if request.method == 'POST':
-        form = NewCommentForm(request.POST)
+    # if request.method == 'POST':
+    #     form = NewCommentForm(request.POST)
 
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect('/')
+    #     if form.is_valid():
+    #         form.save()
+    #         return HttpResponseRedirect('/')
         
-    else:
-        form = NewCommentForm()
-    context = {'drink': drinkResult.drinks[0], 'form': form}
+    # else:
+    #     form = NewCommentForm()
+    context = {'drink': drinkResult.drinks[0]}
     return render(request, 'DrinkBeyondThePossible/detail.html', context=context)
 
 def results(request):
     drinkResults = []
+    ingredients = []
     if 'ingredient' in request.GET: # Get ingredient search parameters from request
         searchResults = []
-        for ingredient in request.GET.getlist('ingredient'):
+        ingredients = request.GET.getlist('ingredient')
+        for ingredient in ingredients:
             matchingResult = cdb.searchMatchingDrinks(ingredient)
             searchResults.append(set(matchingResult.drinks))
 
         drinkResults = list(set.intersection(*searchResults))
 
-    context = {'drinkResults': drinkResults}
+    context = {'drinkResults': drinkResults, 'searchIngredients': ingredients}
     return render(request, 'DrinkBeyondThePossible/search_results.html', context=context)
 
 def login(request):
@@ -139,10 +141,6 @@ def editPassword(request):
 
 
     return HttpResponseRedirect('/')
-
-
-
-
 
 
 def createAccount(request):

@@ -93,6 +93,16 @@ li.navitem a:visited
     padding-bottom: 20px;
 }
 
+.ingredientAvailable
+{
+    color: green;
+    text-decoration-line: line-through;
+}
+
+.ingredientUnavailable
+{
+    color: red;
+}
 /* Styling for details page */
 
 .drinkName

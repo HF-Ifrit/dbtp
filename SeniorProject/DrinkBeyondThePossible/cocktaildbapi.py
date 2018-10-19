@@ -47,7 +47,7 @@ class DrinkDetail:
             return self.id == other.id
 
     def __repr__(self):
-        return "({},{})".format(self.id, self.name)
+        return "DrinkDetail({},{})".format(self.id, self.name)
 
     def __hash__(self):
         return hash(self.__repr__())

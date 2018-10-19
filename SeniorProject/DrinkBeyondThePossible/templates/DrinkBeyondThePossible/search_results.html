@@ -11,13 +11,16 @@
                 <li><a href="{% url 'detail' drink.id %}">{{ drink.name }}</a></li>
                 <ul>
                     {% for ingredient in drink.ingredients %}
-                        <li> {{ ingredient }}</li>
+                        {% if ingredient|lower in searchIngredients %}
+                            <li class="ingredientAvailable">{{ ingredient }}</li>
+                        {% else %}
+                            <li class="ingredientUnavailable">{{ ingredient }}</li>
+                        {% endif %}
                     {% endfor %}
                 </ul>
             </div> 
         {% endfor %}
         </ul>
     </div>
-    
-    
+    {% debug %}
 {% endblock content %}
