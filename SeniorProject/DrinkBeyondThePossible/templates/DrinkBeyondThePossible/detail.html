@@ -95,7 +95,7 @@
 <body>
 	<!--Drink Info-->
 	<h1 class="drinkName">{{ drink.name }}</h1>
-	    <!-- Must be changed from default image to correct drink image-->
+	    
     <div class="drinkInfo">
 	    <img src="{{ drink.thumbimage }}" align="right">
 	    <h3 id="rating">Rating:</h3>
@@ -115,27 +115,23 @@
 			{{ ingredient }}
 	  </label>
 		{% endfor %}
-	    
-		<!-- <label class="container">
-		  	<input type="checkbox">
-		  	<span class="checkmark"></span>
-		  	Ingredient 2
-		</label> -->
 
 		<button type="button" class="addtocart">Add to Cart</button>
 
-
+	  	<!--Note: Instructions come as a string and not individual steps-->
 		<h3>Instructions:</h3>
 		{{ drink.instructions }}
-	    <!-- <ol class="Instructions">
-			
-			<li>Instruction 1</li>
-	        <li>Instruction 2</li>
-	    </ol> -->
+
 
 	    <div class = "Description"> 
 		    <h4>Description:</h4>
-		    <p>{{ drink.description }}</p>
+		    <p>
+			{% if drink.description != '' %}
+				{{ drink.description }}
+			{% else %}
+				No description available
+			{% endif %}
+			</p>
 		</div>
 
 	    <!--Recommendation section-->
