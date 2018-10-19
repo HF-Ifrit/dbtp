@@ -1,0 +1,17 @@
+{% extends "DrinkBeyondThePossible/home.html" %}
+{% load static %}
+
+{% block title %}
+    <title>Custom Drinks</title>
+{% endblock title %}
+
+{% block content %}
+	<h1>Custom Drinks Drinks</h1>
+		    
+	<br><br>
+
+	{% for drink in fav_drinks %}
+	<!-- <a href="/">{{ drink.drink_name }}</a> -->
+
+	{% endfor %}
+{% endblock content %} 
