@@ -175,3 +175,17 @@ def newCustomDrink(request):
         form = NewDrinkForm()
 
     return render(request, 'DrinkBeyondThePossible/new_custom_drink.html', {'form': form})
+
+
+
+def viewFavoriteDrinks(request):
+    
+
+    if request.method == 'GET':
+        fav_drinks = favoriteDrink().objects.filter(user.id == request.user.id)
+        context = {'fav_drinks': fav_drinks}
+    
+        return render(request, 'DrinkBeyondThePossible/display_favorite_drinks.html', context);
+
+    else:
+        return None
