@@ -29,6 +29,7 @@ class Profile(models.Model):
 
 class Drink(models.Model):
     name = models.CharField(max_length=50)
+    cocktaildb_id = models.IntegerField()
 
 class Comment(models.Model):
     user_id = models.OneToOneField(Profile, on_delete=models.CASCADE)

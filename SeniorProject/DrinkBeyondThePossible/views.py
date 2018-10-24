@@ -182,8 +182,15 @@ def viewFavoriteDrinks(request):
     
 
     if request.method == 'GET':
-        fav_drinks = favoriteDrink().objects.filter(user.id == request.user.id)
-        context = {'fav_drinks': fav_drinks}
+        
+        fav_drinks = favoriteDrink.objects.filter(user_id=request.user.profile)
+        
+        print(fav_drinks)
+
+        if not fav_drinks:
+            context = {'fav_drinks': None}
+        else:
+            context = {'fav_drinks': fav_drinks}
     
         return render(request, 'DrinkBeyondThePossible/display_favorite_drinks.html', context);
 

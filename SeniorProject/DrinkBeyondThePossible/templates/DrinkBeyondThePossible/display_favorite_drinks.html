@@ -10,7 +10,12 @@
 
 	<br><br>
 
+	{% if fav_drinks == None %}
+		<h2>No ingredients saved! Save your ingredient list here!</h2>
+		{{ fav_drinks }}
+	{% endif %}
+
 	{% for drink in fav_drinks %}
-		<a href="/">{{ drink.drink_name }}</a>
+		<a href="/">{{ drink.drink_name.name }}</a>
 	{% endfor %}
 {% endblock content %}
