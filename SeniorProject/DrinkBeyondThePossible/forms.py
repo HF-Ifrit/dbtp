@@ -23,10 +23,10 @@ class NewAccountForm(forms.Form):
 class NewDrinkForm(ModelForm):
     class Meta:
         model = customDrink
-        fields = ['name', 'ingredients', 'description', 'image', 'user_id']
+        fields = ['drink', 'ingredients', 'description', 'image', 'user']
 
 class NewCommentForm(forms.ModelForm):
     class Meta:
         model = Comment
-        fields = ['user_id','drink_name', 'message']
+        fields = ['user','drink', 'message']
         #fields = ['user_id','drink_name', 'body', 'creation_time', 'updated_time']

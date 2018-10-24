@@ -183,9 +183,9 @@ def viewFavoriteDrinks(request):
 
     if request.method == 'GET':
         
-        fav_drinks = favoriteDrink.objects.filter(user_id=request.user.profile)
+        fav_drinks = favoriteDrink.objects.filter(user=request.user.profile)
         
-        print(fav_drinks)
+        #print(fav_drinks)
 
         if not fav_drinks:
             context = {'fav_drinks': None}
