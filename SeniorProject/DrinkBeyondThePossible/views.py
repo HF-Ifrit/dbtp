@@ -23,6 +23,7 @@ def index(request):
 
 def detail(request, drinkID):
     drinkResult = cdb.SearchResult(cdb.idApiCall(drinkID))
+    comments = Comment.objects.filter(drink=drinkID)
     
     # if request.method == 'POST':
     #     form = NewCommentForm(request.POST)
@@ -33,7 +34,7 @@ def detail(request, drinkID):
         
     # else:
     #     form = NewCommentForm()
-    context = {'drink': drinkResult.drinks[0]}
+    context = {'drink': drinkResult.drinks[0], 'comments': comments}
     return render(request, 'DrinkBeyondThePossible/detail.html', context=context)
 
 def results(request):

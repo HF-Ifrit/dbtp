@@ -140,10 +140,23 @@
 
 	    <!--Comment section-->
 		<h3 class="comments">User Ratings & Comments</h3>
-		<p>Total number of comments: {{ post.comments.count }}</p>
+		<p>Total number of comments: {{ comments.count }}</p>
+
+
 		{% csrf_token %}
 			{{ form }}
-	    <hr>
+		<hr>
+		
+		{% for comment in comments %}
+			<div class="user-comment">
+				<p>Posted by {{ comment.user }} on: {{ comment.created_time }}</p>
+				{% if comment.updated_time %}
+					<p>Updated on: {{comment.updated_time}}</p>
+				{% endif %}
+				{{ comment.message }}
+			</div>
+		{% endfor %}
+			#<hr>
 
 	</div>
 	{% endblock content %}
