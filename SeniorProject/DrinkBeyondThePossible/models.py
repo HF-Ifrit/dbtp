@@ -6,7 +6,7 @@ from django.dispatch import receiver
 
 # Create your models here.
 
-# Note: These models were made to facilitate the uploading of custom drinks to database. 
+# Note: These models were made to facilitate the uploading of custom drinks to database.
 # There are probably some mistakes
 
 # TODO: remove, bad duplicate of auth.models
