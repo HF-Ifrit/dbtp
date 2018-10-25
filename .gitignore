@@ -1,7 +1,6 @@
 __/pycache/
 .idea/
 *.pyc
-migrations/
 
 #MSCode stuff
 .DS_Store
