@@ -39,9 +39,10 @@ class Comment(models.Model):
     updated_time = models.DateTimeField(auto_now=True)
 
 class drinkRating(models.Model):
-    drink = models.OneToOneField(Drink, on_delete=models.CASCADE)
+    drink_id = models.OneToOneField(Drink, on_delete=models.CASCADE)
     rating = models.IntegerField(default=0)
 
+    user = models.OneToOneField(Profile, on_delete=models.CASCADE)
 
 class Ingredient(models.Model):
     ingredient = models.CharField(max_length=50)
