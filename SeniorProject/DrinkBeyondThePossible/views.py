@@ -25,14 +25,17 @@ def detail(request, drinkID):
     drinkResult = cdb.SearchResult(cdb.idApiCall(drinkID))
     #comments = Comment.objects.filter(drinkID=drinkID)
     comments = Comment.objects.all()
-
     
     if request.method == 'POST':
         cform = NewCommentForm(request.POST)
 
         if cform.is_valid():
-            cform = cform.save(commit=False)
-            cform.user = request.user.username
+            #cform = cform.save(commit=False)
+            #cform.user = request.user.username
+            #cform.user = request.user.profile
+            ##cform.drinkID = drinkID
+            #drink_id = Drink.objects.filter(cocktaildb_id=drinkID)[0]
+            #cform.drinkID = drink_id
             cform.drinkID = drinkID
             cform.save()
             return HttpResponseRedirect('/')
