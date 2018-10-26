@@ -44,13 +44,13 @@ class drinkRating(models.Model):
 
     user = models.OneToOneField(Profile, on_delete=models.CASCADE)
 
-class Ingredient(models.Model):
-    ingredient = models.CharField(max_length=50)
-    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
-
 class Ingredient_List(models.Model):
-    ingredients = models.ForeignKey(Ingredient, unique=False, on_delete=models.CASCADE)
     user = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    ingredient = models.CharField(max_length=50)
+
+    class Meta:
+        unique_together = ('user', 'ingredient')
+        ordering = ['user']
 
 class customDrink(models.Model):
     drink = models.OneToOneField(Drink, on_delete=models.CASCADE)
