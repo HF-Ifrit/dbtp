@@ -81,14 +81,16 @@ def manage(request):
 
 def ingredientList(request):
    
-    context = {
-       'activePage': 'Account'
-    }
-
-
     if request.method == 'POST':
         pass
     elif request.method == 'GET':
+        ingredients = Ingredient_List.objects.filter(user=request.user.profile)
+    
+        context = {
+            'activePage': 'Account', 
+            'ingredients': ingredients
+        }
+  
         return render(request, 'DrinkBeyondThePossible/ingredient_list.html', context=context)
 
 
