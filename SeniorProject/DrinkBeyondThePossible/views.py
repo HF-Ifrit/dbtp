@@ -23,18 +23,23 @@ def index(request):
 
 def detail(request, drinkID):
     drinkResult = cdb.SearchResult(cdb.idApiCall(drinkID))
-    comments = Comment.objects.filter(drink=drinkID)
-    
-    # if request.method == 'POST':
-    #     form = NewCommentForm(request.POST)
+    #comments = Comment.objects.filter(drinkID=drinkID)
+    comments = Comment.objects.all()
 
-    #     if form.is_valid():
-    #         form.save()
-    #         return HttpResponseRedirect('/')
+    
+    if request.method == 'POST':
+        cform = NewCommentForm(request.POST)
+
+        if cform.is_valid():
+            cform = cform.save(commit=False)
+            cform.user = request.user.username
+            cform.drinkID = drinkID
+            cform.save()
+            return HttpResponseRedirect('/')
         
-    # else:
-    #     form = NewCommentForm()
-    context = {'drink': drinkResult.drinks[0], 'comments': comments}
+    else:
+        cform = NewCommentForm()
+    context = {'drink': drinkResult.drinks[0], 'comments': comments, 'commentform': cform}
     return render(request, 'DrinkBeyondThePossible/detail.html', context=context)
 
 def results(request):
