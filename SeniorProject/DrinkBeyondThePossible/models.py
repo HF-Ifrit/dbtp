@@ -3,6 +3,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.conf import settings
 
 # Create your models here.
 
@@ -23,8 +24,11 @@ class Drink(models.Model):
     cocktaildb_id = models.IntegerField()
 
 class Comment(models.Model):
-    user = models.OneToOneField(Profile, on_delete=models.CASCADE)
-    drinkID = models.OneToOneField(Drink, on_delete=models.CASCADE)
+    # user = models.OneToOneField(Profile, on_delete=models.CASCADE)
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    # user = models.CharField(max_length=100)
+    #drinkID = models.ForeignKey(Drink, on_delete=models.CASCADE)
+    drinkID = models.IntegerField()
     message = models.CharField(max_length=2000)
     created_time = models.DateTimeField(auto_now_add=True)
     updated_time = models.DateTimeField(auto_now=True)

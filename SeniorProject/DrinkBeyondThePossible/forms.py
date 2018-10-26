@@ -29,6 +29,7 @@ class NewCommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ['user','drinkID', 'message']
+        #fields = ['user', 'message']
 
 # class NewCommentForm(forms.Form):
 #     #user = forms.CharField(label='user', max_length=100)
