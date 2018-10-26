@@ -3,12 +3,14 @@ Week 5: 10/26
 	* Changed database schema to better extend User model and connect with other models
 	* Refactored models.py fields to better reflect intent
 	* Got favorite drinks view to display user's favorite drinks and link to relative detail view
+	* updated ingredients list view to display all ingredients saved to user
   Files Edited:
 	* SeniorProject/db.sqlite3
 	* SeniorProject/DrinkBeyondThePossible/views.py
 	* SeniorProject/DrinkBeyondThePossible/models.py
 	* SeniorProject/DrinkBeyondThePossible/forms.py
 	* SeniorProject/DrinkBeyondThePossible/templates/DrinkBeyondThePossible/display_favorite_drinks.html
+	* SeniorProject/DrinkBeyondThePossible/templates/DrinkBeyondThePossible/ingredient_list.html
 
 Week 4: 10/19
   Work Done:
