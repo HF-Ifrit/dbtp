@@ -16,6 +16,6 @@
 	{% endif %}
 
 	{% for drink in fav_drinks %}
-	<a href="/detail/{{ drink.drink.cocktaildb_id }}">{{ drink.drink.name }}</a>
+		<a href="/detail/{{ drink.drink.cocktaildb_id }}">{{ drink.drink.name }}</a>
 	{% endfor %}
 {% endblock content %}
