@@ -83,7 +83,7 @@ def ingredientList(request):
 
     if request.method == 'POST':
         pass
-    else:
+    elif request.method == 'GET':
         return render(request, 'DrinkBeyondThePossible/ingredient_list.html', context=context)
 
 
@@ -183,15 +183,25 @@ def viewFavoriteDrinks(request):
     
 
     if request.method == 'GET':
-        
-        fav_drinks = favoriteDrink.objects.filter(user=request.user.profile)
+       
+        if request.path == 'account/ingredients':
+            getOp = "Ingredients"
+            collection = IngredientList.objects.filter(user=request.user.profile)
+        elif request.path == 'account/recipes':
+            getOp = "Custom Drinks"
+            collection = customDrink.objects.filter(user=request.user.profile)
+        elif request.path == 'account/favorite_drinks':
+            getOp = "Favorite Drinks"
+            collection = favoriteDrink.objects.filter(user=request.user.profile)
+
+        #fav_drinks = favoriteDrink.objects.filter(user=request.user.profile)
         
         #print(fav_drinks)
 
-        if not fav_drinks:
-            context = {'fav_drinks': None}
+        if not collection:
+            context = {'collection': None, 'getOp': getOp}
         else:
-            context = {'fav_drinks': fav_drinks}
+            context = {'collection': collection, 'getOp': getOp}
     
         return render(request, 'DrinkBeyondThePossible/display_favorite_drinks.html', context);
 

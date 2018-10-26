@@ -2,20 +2,37 @@
 {% load static %}
 
 {% block title %}
-	<title>Favorite Drinks</title>
+	<title>Your {{ getOp}} </title>
 {% endblock title %}
 
 {% block content %}
-	<h1>Favorite Drinks</h1>
+	<h1>{{ getOp }}</h1>
 
 	<br><br>
 
-	{% if fav_drinks == None %}
-		<h2>No ingredients saved! Save your ingredient list here!</h2>
-		{{ fav_drinks }}
+	{% if collection == None %}
+		<h2>No {{ getOp }} saved! Save your {{ getOp }} list here!</h2>
+		{{ collection }}
 	{% endif %}
 
+
+	<!--
 	{% for drink in fav_drinks %}
 		<a href="/detail/{{ drink.drink.cocktaildb_id }}">{{ drink.drink.name }}</a>
 	{% endfor %}
+	-->
+	<!-- TODO import css for specific list in if statement -->
+	{% for item in collection %}
+		{% if getOp == "Ingredients" %}
+			{{ item.ingredients.ingredient }}
+			<br>
+		{% elif getOp = "Custom Drinks" %}
+			{{ item.drink.name }}
+			<br>
+		{% elif getOp = "Favorite Drinks" %}
+			<a href="/detail/{{ drink.drink.cocktaildb_id }}">{{ drink.drink.name }}</a>
+			<br>
+		{% endif %}
+	{% endfor %}
+
 {% endblock content %}

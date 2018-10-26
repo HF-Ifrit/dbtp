@@ -6,6 +6,9 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('account', views.manage, name='manage'),
     path('account/ingredients', views.ingredientList, name='ingredientList'),
+
+    path('account/test_ingredients_view', views.viewFavoriteDrinks, name='testIngredientView'),
+
     path('account/recipes', views.recipeList, name='recipes'),
     path('account/recipes/add', views.newCustomDrink, name='recipeEntry'),
     #path('detail', views.detail, name='detail'),

@@ -6,15 +6,6 @@ from django.dispatch import receiver
 
 # Create your models here.
 
-# Note: These models were made to facilitate the uploading of custom drinks to database.
-# There are probably some mistakes
-
-# TODO: remove, bad duplicate of auth.models
-#class Users(models.Model):
-#    username = models.CharField(max_length=15)
-#    salted_password = models.CharField(max_length=15)
-#    salt = models.CharField(max_length=15)
-
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
