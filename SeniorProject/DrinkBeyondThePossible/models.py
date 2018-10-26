@@ -24,7 +24,7 @@ class Drink(models.Model):
 
 class Comment(models.Model):
     user = models.OneToOneField(Profile, on_delete=models.CASCADE)
-    drink = models.OneToOneField(Drink, on_delete=models.CASCADE)
+    drinkID = models.OneToOneField(Drink, on_delete=models.CASCADE)
     message = models.CharField(max_length=2000)
     created_time = models.DateTimeField(auto_now_add=True)
     updated_time = models.DateTimeField(auto_now=True)
