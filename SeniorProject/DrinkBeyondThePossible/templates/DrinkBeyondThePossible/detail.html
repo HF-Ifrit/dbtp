@@ -110,7 +110,11 @@
 				{
 					$.post("{% url 'detail' drink.id %}", 
 					{'newIngredients[]': selectedIngredients, 
-					'csrfmiddlewaretoken': '{{ csrf_token }}'});
+					'csrfmiddlewaretoken': '{{ csrf_token }}'})
+					.done(function()
+					{
+						location.reload();
+					});
 				}
 			});
 		});
