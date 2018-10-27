@@ -9,6 +9,12 @@ Weeks 4 & 5:
   * SeniorProject\DrinkBeyondThePossible\views.py
   * SeniorProject\DrinkBeyondThePossible\forms.py 
 
+  Difficulties:
+  I tried to hide the userID and drinkID fields in the template so that the user could only 
+  submit a message for the comment, and then the view would fill in the other metadata. However,
+  doing it this way did not save the comments properly. More work on the model and template during
+  the weekend.
+
 Week 3: 10/12
   Work Done:
   * Customized styling of page for adding new drinks
