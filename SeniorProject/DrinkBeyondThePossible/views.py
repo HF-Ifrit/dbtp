@@ -18,19 +18,32 @@ def index(request):
 
 def detail(request, drinkID):
     drinkResult = cdb.SearchResult(cdb.idApiCall(drinkID))
-    comments = Comment.objects.filter(drink=drinkID)
     user_ingredients = []
     uid = request.user.id
     
     if request.method == 'POST':
-        curr_user = User.objects.get(username=request.user.username)
-        newIngredients = request.POST.getlist('newIngredients[]')
-        for ingredient in newIngredients:
-                newEntry = Ingredient_List.objects.create(user=curr_user, ingredient=ingredient)
-                newEntry.save()
-
+        if 'newIngredients[]' in request.POST:
+            curr_user = User.objects.get(username=request.user.username)
+            newIngredients = request.POST.getlist('newIngredients[]')
+            for ingredient in newIngredients:
+                    newEntry = Ingredient_List.objects.create(user=curr_user, ingredient=ingredient)
+                    newEntry.save()
+        
+        cform = NewCommentForm(request.POST)
+        if cform.is_valid():
+            #cform = cform.save(commit=False)
+            #cform.user = request.user.username
+            #cform.user = request.user.profile
+            ##cform.drinkID = drinkID
+            #drink_id = Drink.objects.filter(cocktaildb_id=drinkID)[0]
+            #cform.drinkID = drink_id
+            cform.drinkID = drinkID
+            cform.save()
+            return HttpResponseRedirect('/')
+    
     if request.user.is_authenticated:
         user_ingredients = [entry.ingredient for entry in Ingredient_List.objects.filter(user=uid)]
+   
     # if request.method == 'POST':
     #     form = NewCommentForm(request.POST)
 
@@ -40,7 +53,11 @@ def detail(request, drinkID):
         
     # else:
     #     form = NewCommentForm()
-    context = {'drink': drinkResult.drinks[0], 'comments': comments, 'user_ingredients': user_ingredients}
+
+    #comments = Comment.objects.filter(drinkID=drinkID)
+    comments = Comment.objects.all()
+    cform = NewCommentForm()
+    context = {'drink': drinkResult.drinks[0], 'comments': comments, 'commentform': cform}
     return render(request, 'DrinkBeyondThePossible/detail.html', context=context)
 
 def results(request):
@@ -82,13 +99,16 @@ def manage(request):
 
 def ingredientList(request):
    
-    context = {
-       'activePage': 'Account'
-    }
-
     if request.method == 'POST':
         pass
-    else:
+    elif request.method == 'GET':
+        ingredients = Ingredient_List.objects.filter(user=request.user.profile)
+    
+        context = {
+            'activePage': 'Account', 
+            'ingredients': ingredients
+        }
+  
         return render(request, 'DrinkBeyondThePossible/ingredient_list.html', context=context)
 
 
@@ -100,7 +120,7 @@ def recipeList(request):
 
 
 def editAccount(request):
-    
+   
     #form = EditAccountForm()
     usernameForm = EditAccountnameForm()
     emailForm = EditEmailForm()
@@ -184,15 +204,25 @@ def newCustomDrink(request):
 
 def viewFavoriteDrinks(request):
     if request.method == 'GET':
-        
-        fav_drinks = favoriteDrink.objects.filter(user=request.user.profile)
+       
+        if request.path == 'account/ingredients':
+            getOp = "Ingredients"
+            collection = IngredientList.objects.filter(user=request.user.profile)
+        elif request.path == 'account/recipes':
+            getOp = "Custom Drinks"
+            collection = customDrink.objects.filter(user=request.user.profile)
+        elif request.path == 'account/favorite_drinks':
+            getOp = "Favorite Drinks"
+            collection = favoriteDrink.objects.filter(user=request.user.profile)
+
+        #fav_drinks = favoriteDrink.objects.filter(user=request.user.profile)
         
         #print(fav_drinks)
 
-        if not fav_drinks:
-            context = {'fav_drinks': None}
+        if not collection:
+            context = {'collection': None, 'getOp': getOp}
         else:
-            context = {'fav_drinks': fav_drinks}
+            context = {'collection': collection, 'getOp': getOp}
     
         return render(request, 'DrinkBeyondThePossible/display_favorite_drinks.html', context);
 

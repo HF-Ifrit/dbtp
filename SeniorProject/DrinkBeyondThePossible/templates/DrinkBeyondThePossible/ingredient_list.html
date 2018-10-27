@@ -46,7 +46,13 @@
         <div>
             <h3>My Ingredients</h3>
             <ul>
-    
+				{% if not ingredients %}
+					No Ingredients saved!
+				{% else %} 	
+					{% for ingredient in ingredients %}
+						<li>{{ ingredient }}</li>
+					{% endfor %}
+				{% endif %}
             </ul>
             <button id="deleteIngredients" type="button">Delete</button>
         </div>

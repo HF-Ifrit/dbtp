@@ -171,21 +171,27 @@
 		<h3 class="comments">User Ratings & Comments</h3>
 		<p>Total number of comments: {{ comments.count }}</p>
 
-
+		<form method="post">
 		{% csrf_token %}
-			{{ form }}
+			{{ commentform }} 
+			<input type="submit" value="Submit">
+		</form>
 		<hr>
-		
-		{% for comment in comments %}
-			<div class="user-comment">
-				<p>Posted by {{ comment.user }} on: {{ comment.created_time }}</p>
-				{% if comment.updated_time %}
-					<p>Updated on: {{comment.updated_time}}</p>
-				{% endif %}
-				{{ comment.message }}
-			</div>
-		{% endfor %}
-			#<hr>
+		{% if comments.count > 0 %}
+			{% for comment in comments %}
+				<div class="user-comment">
+					<p>Posted by {{ comment.user }} on: {{ comment.created_time }}</p>
+					{% if comment.updated_time != comment.created_time %}
+						<p>Updated on: {{comment.updated_time}}</p>
+					{% endif %}
+					{{ comment.message }}
+				</div>
+			{% endfor %}
+		{% else %}
+			<p> No comments. </p>
+		{% endif %}
+
+			<hr>
 
 	</div>
 	{% endblock content %}

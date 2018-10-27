@@ -3,17 +3,9 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.conf import settings
 
 # Create your models here.
-
-# Note: These models were made to facilitate the uploading of custom drinks to database.
-# There are probably some mistakes
-
-# TODO: remove, bad duplicate of auth.models
-#class Users(models.Model):
-#    username = models.CharField(max_length=15)
-#    salted_password = models.CharField(max_length=15)
-#    salt = models.CharField(max_length=15)
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
@@ -32,8 +24,11 @@ class Drink(models.Model):
     cocktaildb_id = models.IntegerField()
 
 class Comment(models.Model):
-    user = models.OneToOneField(Profile, on_delete=models.CASCADE)
-    drink = models.OneToOneField(Drink, on_delete=models.CASCADE)
+    # user = models.OneToOneField(Profile, on_delete=models.CASCADE)
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    # user = models.CharField(max_length=100)
+    #drinkID = models.ForeignKey(Drink, on_delete=models.CASCADE)
+    drinkID = models.IntegerField()
     message = models.CharField(max_length=2000)
     created_time = models.DateTimeField(auto_now_add=True)
     updated_time = models.DateTimeField(auto_now=True)
