@@ -21,6 +21,9 @@ def detail(request, drinkID):
     user_ingredients = []
     uid = request.user.id
     
+    if request.user.is_authenticated:
+        user_ingredients = [entry.ingredient for entry in Ingredient_List.objects.filter(user=uid)]
+
     if request.method == 'POST':
         if 'newIngredients[]' in request.POST:
             curr_user = User.objects.get(username=request.user.username)
@@ -41,8 +44,7 @@ def detail(request, drinkID):
             cform.save()
             return HttpResponseRedirect('/')
     
-    if request.user.is_authenticated:
-        user_ingredients = [entry.ingredient for entry in Ingredient_List.objects.filter(user=uid)]
+    
    
     # if request.method == 'POST':
     #     form = NewCommentForm(request.POST)
@@ -57,7 +59,7 @@ def detail(request, drinkID):
     #comments = Comment.objects.filter(drinkID=drinkID)
     comments = Comment.objects.all()
     cform = NewCommentForm()
-    context = {'drink': drinkResult.drinks[0], 'comments': comments, 'commentform': cform}
+    context = {'drink': drinkResult.drinks[0], 'user_ingredients': user_ingredients, 'comments': comments, 'commentform': cform}
     return render(request, 'DrinkBeyondThePossible/detail.html', context=context)
 
 def results(request):
@@ -207,7 +209,7 @@ def viewFavoriteDrinks(request):
        
         if request.path == 'account/ingredients':
             getOp = "Ingredients"
-            collection = IngredientList.objects.filter(user=request.user.profile)
+            collection = Ingredient_List.objects.filter(user=request.user.profile)
         elif request.path == 'account/recipes':
             getOp = "Custom Drinks"
             collection = customDrink.objects.filter(user=request.user.profile)
