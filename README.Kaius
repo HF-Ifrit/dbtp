@@ -1,3 +1,12 @@
+Week 5: 10-26-18
+Work Accomplished: Application is able to add ingredients from a drink's detail page to the current logged
+in user's ingredient list
+
+Files edited:
+- DrinkBeyondThePossible/templates/DrinkBeyondThePossible/detail.html
+- DrinkBeyondThePossible/views.py
+- DrinkBeyondThePossible/models.py
+---------
 Week 4: 10-19-18
 Work Accomplished: Application displays detailed drink information on the detail page and also outlines the
 available/unavailable ingredients of drinks in the search results
