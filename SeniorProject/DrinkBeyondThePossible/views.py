@@ -1,17 +1,12 @@
 from django.shortcuts import render
-#from .forms import EditAccountForm
-from .forms import EditAccountnameForm
-from .forms import EditEmailForm
-from .forms import EditPasswordForm
-
-from .forms import NewAccountForm
 from django.http import HttpResponseRedirect
-
 from django.contrib.auth.models import User
 from django.views.decorators.http import require_http_methods
+#from .forms import EditAccountForm
+
 from . import cocktaildbapi as cdb
 from .models import *
-from .forms import NewDrinkForm, NewCommentForm
+from .forms import NewDrinkForm, NewCommentForm, NewAccountForm, EditPasswordForm, EditEmailForm, EditAccountnameForm
 
 # Create your views here.
 def index(request):
@@ -24,7 +19,18 @@ def index(request):
 def detail(request, drinkID):
     drinkResult = cdb.SearchResult(cdb.idApiCall(drinkID))
     comments = Comment.objects.filter(drink=drinkID)
+    user_ingredients = []
+    uid = request.user.id
     
+    if request.method == 'POST':
+        curr_user = User.objects.get(username=request.user.username)
+        newIngredients = request.POST.getlist('newIngredients[]')
+        for ingredient in newIngredients:
+                newEntry = Ingredient_List.objects.create(user=curr_user, ingredient=ingredient)
+                newEntry.save()
+
+    if request.user.is_authenticated:
+        user_ingredients = [entry.ingredient for entry in Ingredient_List.objects.filter(user=uid)]
     # if request.method == 'POST':
     #     form = NewCommentForm(request.POST)
 
@@ -34,7 +40,7 @@ def detail(request, drinkID):
         
     # else:
     #     form = NewCommentForm()
-    context = {'drink': drinkResult.drinks[0], 'comments': comments}
+    context = {'drink': drinkResult.drinks[0], 'comments': comments, 'user_ingredients': user_ingredients}
     return render(request, 'DrinkBeyondThePossible/detail.html', context=context)
 
 def results(request):
@@ -79,7 +85,6 @@ def ingredientList(request):
     context = {
        'activePage': 'Account'
     }
-
 
     if request.method == 'POST':
         pass
@@ -131,7 +136,6 @@ def editEmail(request):
 
 
 def editPassword(request):
-
     if request.method == 'POST':
         form = EditEmailForm(request.POST)
 
@@ -145,7 +149,6 @@ def editPassword(request):
 
 
 def createAccount(request):
-
     if request.method == 'POST':
         form = NewAccountForm(request.POST)
 
@@ -180,8 +183,6 @@ def newCustomDrink(request):
 
 
 def viewFavoriteDrinks(request):
-    
-
     if request.method == 'GET':
         
         fav_drinks = favoriteDrink.objects.filter(user=request.user.profile)

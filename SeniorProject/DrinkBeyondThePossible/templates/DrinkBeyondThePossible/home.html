@@ -9,16 +9,16 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 {% block jquery %}
-        <script>
-            $(document).ready(function()
+    <script>
+        $(document).ready(function()
+        {
+            //Plus button
+            $("#addEntry").click(function(event)
             {
-                //Plus button
-                $("#addEntry").click(function(event)
-                {
-                    $("#entryInputs").append("<input class='searchEntry' type='text'name='ingredient'>");
-                });
+                $("#entryInputs").append("<input class='searchEntry' type='text'name='ingredient'>");
             });
-        </script>
+        });
+    </script>
 {% endblock jquery %}
 
 <body>

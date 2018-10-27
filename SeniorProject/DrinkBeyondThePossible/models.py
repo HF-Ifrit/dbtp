@@ -16,7 +16,7 @@ from django.dispatch import receiver
 #    salt = models.CharField(max_length=15)
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
 
     @receiver(post_save, sender=User)
     def create_user_profile(sender, instance, created, **kwargs):
@@ -45,7 +45,7 @@ class drinkRating(models.Model):
     user = models.OneToOneField(Profile, on_delete=models.CASCADE)
 
 class Ingredient_List(models.Model):
-    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     ingredient = models.CharField(max_length=50)
 
     class Meta:

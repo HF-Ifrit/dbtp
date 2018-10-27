@@ -92,6 +92,31 @@
 
 </head>
 
+{% block jquery %}
+	<script>
+		$(document).ready(function()
+		{
+			//Collect all of the selected ingredients to be added and update current user's ingredient list
+			$("#addIngredients").click(function(event)
+			{
+				selectedIngredients = []
+				$("input:checkbox:checked").each(function()
+				{
+					selectedIngredients.push($(this).attr('value'));
+				});
+
+				//Post to server with new ingredients to add if there are any selected
+				if(selectedIngredients != [])
+				{
+					$.post("{% url 'detail' drink.id %}", 
+					{'newIngredients[]': selectedIngredients, 
+					'csrfmiddlewaretoken': '{{ csrf_token }}'});
+				}
+			});
+		});
+	</script>
+{% endblock jquery %}
+
 <body>
 	<!--Drink Info-->
 	<h1 class="drinkName">{{ drink.name }}</h1>
@@ -110,13 +135,17 @@
 		<h3>Ingredients:</h3>
 		{% for ingredient in drink.ingredients %}
 		<label class="container">
-			<input type="checkbox" checked="checked">
+			{% if ingredient|lower not in user_ingredients %}
+			<input type="checkbox" value="{{ ingredient|lower }}"checked="checked">
+			{% endif %}
+			
 			<span class="checkmark"></span>
 			{{ ingredient }}
 	  	</label>
 		{% endfor %}
 
-		<button type="button" class="addtocart">Add to Cart</button>
+		<!--Add To Ingredient List-->
+		<button type="button" id="addIngredients" class="addtocart">Add to Cart</button>
 
 	  	<!--Note: Instructions come as a string and not individual steps-->
 		<h3>Instructions:</h3>
