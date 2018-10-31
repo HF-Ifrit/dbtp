@@ -59,7 +59,9 @@ def detail(request, drinkID):
     #comments = Comment.objects.filter(drinkID=drinkID)
     comments = Comment.objects.all()
     cform = NewCommentForm()
-    context = {'drink': drinkResult.drinks[0], 'user_ingredients': user_ingredients, 'comments': comments, 'commentform': cform}
+
+    recommended_drinks = [{'name': 'TestRec1', 'id': 13060}, {'name': 'TestRec2', 'id': 11205}]
+    context = {'drink': drinkResult.drinks[0], 'user_ingredients': user_ingredients, 'comments': comments, 'commentform': cform, 'recommended_drinks': recommended_drinks}
     return render(request, 'DrinkBeyondThePossible/detail.html', context=context)
 
 def results(request):
@@ -104,10 +106,10 @@ def ingredientList(request):
     if request.method == 'POST':
         pass
     elif request.method == 'GET':
-        ingredients = Ingredient_List.objects.filter(user=request.user.profile)
+        ingredients = Ingredient_List.objects.filter(user=request.user)
     
         context = {
-            'activePage': 'Account', 
+            'activePage': 'Account',
             'ingredients': ingredients
         }
   
