@@ -178,8 +178,15 @@
 		<form method="post">
 		{% csrf_token %}
 			{{ commentform }} 
-			<input type="submit" value="Submit">
+			<input type="submit" name = "submit_comment" value="Submit">
 		</form>
+
+		<form method="post">
+		{% csrf_token %}
+			{{ tagform }}
+			<input type="submit" name = "submit_tag" value="Submit">
+		</form>
+		
 		<hr>
 		{% if comments.count > 0 %}
 			{% for comment in comments %}

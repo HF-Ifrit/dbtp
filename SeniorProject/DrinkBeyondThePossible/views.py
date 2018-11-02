@@ -6,7 +6,7 @@ from django.views.decorators.http import require_http_methods
 
 from . import cocktaildbapi as cdb
 from .models import *
-from .forms import NewDrinkForm, NewCommentForm, NewAccountForm, EditPasswordForm, EditEmailForm, EditAccountnameForm
+from .forms import NewTagsForm, NewDrinkForm, NewCommentForm, NewAccountForm, EditPasswordForm, EditEmailForm, EditAccountnameForm
 
 # Create your views here.
 def index(request):
@@ -43,6 +43,13 @@ def detail(request, drinkID):
             cform.drinkID = drinkID
             cform.save()
             return HttpResponseRedirect('/')
+
+        tagform = NewTagsForm(request.POST)
+        if tagform.is_valid():
+            obj = tagform.save(commit=False)
+            obj.user = request.user
+            obj.save()
+            tagform.save_m2m()
     
     
    
@@ -59,7 +66,8 @@ def detail(request, drinkID):
     #comments = Comment.objects.filter(drinkID=drinkID)
     comments = Comment.objects.all()
     cform = NewCommentForm()
-    context = {'drink': drinkResult.drinks[0], 'user_ingredients': user_ingredients, 'comments': comments, 'commentform': cform}
+    tagform = NewTagsForm()
+    context = {'drink': drinkResult.drinks[0], 'user_ingredients': user_ingredients, 'comments': comments, 'commentform': cform, 'tagform': tagform}
     return render(request, 'DrinkBeyondThePossible/detail.html', context=context)
 
 def results(request):

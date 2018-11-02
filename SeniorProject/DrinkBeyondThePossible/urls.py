@@ -1,6 +1,4 @@
 from django.urls import path
-from django.conf.urls import include, url
-
 
 from . import views
 
@@ -25,8 +23,6 @@ urlpatterns = [
     path('account/manage/edit_email', views.editEmail, name='editEmail'),
     path('account/manage/edit_password', views.editPassword, name='editPassword'),
 
-    path('account/favorite_drinks', views.viewFavoriteDrinks, name='favoriteDrinkList'),
-
-    url(r'^tags_input/', include('tags_input.urls', namespace='tags_input')),
+    path('account/favorite_drinks', views.viewFavoriteDrinks, name='favoriteDrinkList')
 
 ]

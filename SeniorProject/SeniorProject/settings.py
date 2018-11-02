@@ -38,34 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'tags_input',
+    'taggit',
 ]
-
-TAGS_INPUT_MAPPINGS = {
-    'some_app.SomeKeyword': {
-        'field': 'some_field',
-    },
-    'some_app.SomeOtherKeyword': {
-        'fields': ('some_field', 'some_other_field'),
-    },
-    'some_app.SomeSortedKeyword': {
-        'field': 'some_field',
-        'ordering': [
-            'some_field',
-            'some_other_field',
-        ],
-        'filters': {
-            'some_field__istartswith': 'a',
-        },
-        'excludes': {
-            'some_field__iexact': 'foobar',
-        },
-    },
-    'some_app.SomeCreateableKeyword': {
-        'field': 'some_field',
-        'create_missing': True,
-    },
-}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
