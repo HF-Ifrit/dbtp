@@ -18,6 +18,15 @@ def index(request):
 
 def detail(request, drinkID):
     drinkResult = cdb.SearchResult(cdb.idApiCall(drinkID))
+
+    #Get recommended drink info
+    recommended_drinks = set()
+    #recommended_drinks = [{'name': 'TestRec1', 'id': 13060}, {'name': 'TestRec2', 'id': 11205}]
+    for ingredient in drinkResult.drinks[0].ingredients:
+        recommendation_result = cdb.searchMatchingDrinks(ingredient)
+        for drink in recommendation_result.drinks:
+            recommended_drinks.add(drink)
+    
     user_ingredients = []
     uid = request.user.id
     
@@ -31,7 +40,7 @@ def detail(request, drinkID):
             for ingredient in newIngredients:
                     newEntry = Ingredient_List.objects.create(user=curr_user, ingredient=ingredient)
                     newEntry.save()
-        
+
         cform = NewCommentForm(request.POST)
         if cform.is_valid():
             #cform = cform.save(commit=False)
@@ -67,7 +76,7 @@ def detail(request, drinkID):
     comments = Comment.objects.all()
     cform = NewCommentForm()
     tagform = NewTagsForm()
-    recommended_drinks = [{'name': 'TestRec1', 'id': 13060}, {'name': 'TestRec2', 'id': 11205}]
+    
     context = {'drink': drinkResult.drinks[0], 'user_ingredients': user_ingredients, 'comments': comments, 'commentform': cform, 'recommended_drinks': recommended_drinks,'tagform': tagform}
     return render(request, 'DrinkBeyondThePossible/detail.html', context=context)
 
