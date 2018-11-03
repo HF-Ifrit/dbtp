@@ -174,7 +174,7 @@
 					{% for drink in recommended_drinks %}
 					<td>
 						<ul id="recommendation-card">
-							<li><img src="{% static 'DrinkBeyondthePossible/coctail-icon.jpg' %}"></li>
+							<li><img src="{{ drink.thumbimage }}"></li>
 							<li><a href="{% url 'detail' drink.id %}">{{ drink.name }}</a></li>
 						</ul>
 					</td>
