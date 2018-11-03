@@ -6,7 +6,7 @@ from django.views.decorators.http import require_http_methods
 
 from . import cocktaildbapi as cdb
 from .models import *
-from .forms import NewDrinkForm, NewCommentForm, NewAccountForm, EditPasswordForm, EditEmailForm, EditAccountnameForm
+from .forms import NewTagsForm, NewDrinkForm, NewCommentForm, NewAccountForm, EditPasswordForm, EditEmailForm, EditAccountnameForm
 
 # Create your views here.
 def index(request):
@@ -18,6 +18,15 @@ def index(request):
 
 def detail(request, drinkID):
     drinkResult = cdb.SearchResult(cdb.idApiCall(drinkID))
+
+    #Get recommended drink info
+    recommended_drinks = set()
+    #recommended_drinks = [{'name': 'TestRec1', 'id': 13060}, {'name': 'TestRec2', 'id': 11205}]
+    for ingredient in drinkResult.drinks[0].ingredients:
+        recommendation_result = cdb.searchMatchingDrinks(ingredient)
+        for drink in recommendation_result.drinks:
+            recommended_drinks.add(drink)
+    
     user_ingredients = []
     uid = request.user.id
     
@@ -31,7 +40,7 @@ def detail(request, drinkID):
             for ingredient in newIngredients:
                     newEntry = Ingredient_List.objects.create(user=curr_user, ingredient=ingredient)
                     newEntry.save()
-        
+
         cform = NewCommentForm(request.POST)
         if cform.is_valid():
             #cform = cform.save(commit=False)
@@ -43,6 +52,13 @@ def detail(request, drinkID):
             cform.drinkID = drinkID
             cform.save()
             return HttpResponseRedirect('/')
+
+        tagform = NewTagsForm(request.POST)
+        if tagform.is_valid():
+            obj = tagform.save(commit=False)
+            obj.user = request.user
+            obj.save()
+            tagform.save_m2m()
     
     
    
@@ -59,7 +75,9 @@ def detail(request, drinkID):
     #comments = Comment.objects.filter(drinkID=drinkID)
     comments = Comment.objects.all()
     cform = NewCommentForm()
-    context = {'drink': drinkResult.drinks[0], 'user_ingredients': user_ingredients, 'comments': comments, 'commentform': cform}
+    tagform = NewTagsForm()
+    
+    context = {'drink': drinkResult.drinks[0], 'user_ingredients': user_ingredients, 'comments': comments, 'commentform': cform, 'recommended_drinks': recommended_drinks,'tagform': tagform}
     return render(request, 'DrinkBeyondThePossible/detail.html', context=context)
 
 def results(request):
@@ -104,10 +122,10 @@ def ingredientList(request):
     if request.method == 'POST':
         pass
     elif request.method == 'GET':
-        ingredients = Ingredient_List.objects.filter(user=request.user.profile)
+        ingredients = Ingredient_List.objects.filter(user=request.user)
     
         context = {
-            'activePage': 'Account', 
+            'activePage': 'Account',
             'ingredients': ingredients
         }
   

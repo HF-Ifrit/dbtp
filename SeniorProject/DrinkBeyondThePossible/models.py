@@ -5,6 +5,8 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.conf import settings
 
+from taggit.managers import TaggableManager
+
 # Create your models here.
 
 class Profile(models.Model):
@@ -22,6 +24,7 @@ class Profile(models.Model):
 class Drink(models.Model):
     name = models.CharField(max_length=50)
     cocktaildb_id = models.IntegerField()
+    tags = TaggableManager()
 
 class Comment(models.Model):
     # user = models.OneToOneField(Profile, on_delete=models.CASCADE)
@@ -32,6 +35,10 @@ class Comment(models.Model):
     message = models.CharField(max_length=2000)
     created_time = models.DateTimeField(auto_now_add=True)
     updated_time = models.DateTimeField(auto_now=True)
+
+class Tag(models.Model):
+    tags = TaggableManager()
+
 
 class drinkRating(models.Model):
     drink_id = models.OneToOneField(Drink, on_delete=models.CASCADE)
@@ -53,6 +60,7 @@ class customDrink(models.Model):
     description = models.CharField(max_length=2000)
     image = models.ImageField(upload_to='uploads/', blank=True, null=True)
     user = models.OneToOneField(Profile, on_delete=models.CASCADE)
+    tags = TaggableManager()
 
 class customRecipe(models.Model):
     custom_name = models.CharField(max_length=50, primary_key=True)

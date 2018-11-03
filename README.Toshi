@@ -1,3 +1,16 @@
+Week 6:
+  Work Done: 
+  * Added a form on details test page for adding tags to model
+  * configured settings added models in order to use a library for tagging
+
+ Files Edited:
+  * SeniorProject\DrinkBeyondThePossible\templates\DrinkBeyondThePossible\new_custom_drink.html
+  * SeniorProject\DrinkBeyondThePossible\models.py
+  * SeniorProject\DrinkBeyondThePossible\views.py
+  * SeniorProject\DrinkBeyondThePossible\forms.py 
+  * SeniorProject\DrinkBeyondThePossible\SeniorProject\settings.py 
+  * SeniorProject\DrinkBeyondThePossible\SeniorProject\urls.py 
+
 Weeks 4 & 5:
   Work Done:
   * Added functionality for adding new comments to model
