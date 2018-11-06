@@ -21,15 +21,15 @@ def detail(request, drinkID):
 
     #Get recommended drink info
     recommended_drinks = set()
-    #recommended_drinks = [{'name': 'TestRec1', 'id': 13060}, {'name': 'TestRec2', 'id': 11205}]
     for ingredient in drinkResult.drinks[0].ingredients:
         recommendation_result = cdb.searchMatchingDrinks(ingredient)
-        for drink in recommendation_result.drinks:
-            recommended_drinks.add(drink)
-    
+        if type(recommendation_result) is cdb.SearchResult:
+            for drink in recommendation_result.drinks:
+                recommended_drinks.add(drink)
+
     user_ingredients = []
     uid = request.user.id
-    
+
     if request.user.is_authenticated:
         user_ingredients = [entry.ingredient for entry in Ingredient_List.objects.filter(user=uid)]
 
@@ -38,8 +38,8 @@ def detail(request, drinkID):
             curr_user = User.objects.get(username=request.user.username)
             newIngredients = request.POST.getlist('newIngredients[]')
             for ingredient in newIngredients:
-                    newEntry = Ingredient_List.objects.create(user=curr_user, ingredient=ingredient)
-                    newEntry.save()
+                newEntry = Ingredient_List.objects.create(user=curr_user, ingredient=ingredient)
+                newEntry.save()
 
         cform = NewCommentForm(request.POST)
         if cform.is_valid():
@@ -59,16 +59,16 @@ def detail(request, drinkID):
             obj.user = request.user
             obj.save()
             tagform.save_m2m()
-    
-    
-   
+
+
+
     # if request.method == 'POST':
     #     form = NewCommentForm(request.POST)
 
     #     if form.is_valid():
     #         form.save()
     #         return HttpResponseRedirect('/')
-        
+
     # else:
     #     form = NewCommentForm()
 
@@ -76,8 +76,15 @@ def detail(request, drinkID):
     comments = Comment.objects.all()
     cform = NewCommentForm()
     tagform = NewTagsForm()
-    
-    context = {'drink': drinkResult.drinks[0], 'user_ingredients': user_ingredients, 'comments': comments, 'commentform': cform, 'recommended_drinks': recommended_drinks,'tagform': tagform}
+
+    context = {
+        'drink': drinkResult.drinks[0], 
+        'user_ingredients': user_ingredients, 
+        'comments': comments, 
+        'commentform': cform, 
+        'recommended_drinks': recommended_drinks, 
+        'tagform': tagform
+    }
     return render(request, 'DrinkBeyondThePossible/detail.html', context=context)
 
 def results(request):
@@ -88,7 +95,8 @@ def results(request):
         ingredients = request.GET.getlist('ingredient')
         for ingredient in ingredients:
             matchingResult = cdb.searchMatchingDrinks(ingredient)
-            searchResults.append(set(matchingResult.drinks))
+            if type(matchingResult) is cdb.SearchResult:
+                searchResults.append(set(matchingResult.drinks))
 
         drinkResults = list(set.intersection(*searchResults))
 
@@ -118,17 +126,17 @@ def manage(request):
 #     return render(request, 'DrinkBeyondThePossible/new_custom_drink.html', context=context)
 
 def ingredientList(request):
-   
+
     if request.method == 'POST':
         pass
     elif request.method == 'GET':
         ingredients = Ingredient_List.objects.filter(user=request.user)
-    
+
         context = {
             'activePage': 'Account',
             'ingredients': ingredients
         }
-  
+
         return render(request, 'DrinkBeyondThePossible/ingredient_list.html', context=context)
 
 
@@ -140,7 +148,6 @@ def recipeList(request):
 
 
 def editAccount(request):
-   
     #form = EditAccountForm()
     usernameForm = EditAccountnameForm()
     emailForm = EditEmailForm()
@@ -214,7 +221,7 @@ def newCustomDrink(request):
         if form.is_valid():
             form.save()
             return HttpResponseRedirect('/')
-        
+
     else:
         form = NewDrinkForm()
 
@@ -224,7 +231,7 @@ def newCustomDrink(request):
 
 def viewFavoriteDrinks(request):
     if request.method == 'GET':
-       
+
         if request.path == 'account/ingredients':
             getOp = "Ingredients"
             collection = Ingredient_List.objects.filter(user=request.user.profile)
@@ -236,15 +243,15 @@ def viewFavoriteDrinks(request):
             collection = favoriteDrink.objects.filter(user=request.user.profile)
 
         #fav_drinks = favoriteDrink.objects.filter(user=request.user.profile)
-        
+
         #print(fav_drinks)
 
         if not collection:
             context = {'collection': None, 'getOp': getOp}
         else:
             context = {'collection': collection, 'getOp': getOp}
-    
-        return render(request, 'DrinkBeyondThePossible/display_favorite_drinks.html', context);
+
+        return render(request, 'DrinkBeyondThePossible/display_favorite_drinks.html', context)
 
     else:
         return None
