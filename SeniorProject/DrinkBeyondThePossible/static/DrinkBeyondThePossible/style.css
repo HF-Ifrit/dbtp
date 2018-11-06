@@ -103,8 +103,8 @@ li.navitem a:visited
 {
     color: red;
 }
-/* Styling for details page */
 
+/* Styling for details page */
 .drinkName
 {
     color: gray;
@@ -123,4 +123,16 @@ li.navitem a:visited
     background-color: gray;
     color: black;
     font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+}
+
+#recommendation-table
+{
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+}
+
+#recommendation-card
+{
+    list-style-type: none;
 }

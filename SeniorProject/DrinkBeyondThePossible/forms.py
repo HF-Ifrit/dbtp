@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm
-from .models import customDrink, Comment
+from .models import customDrink, Comment, Tag
 
 #class EditAccountForm(forms.Form):
 #    account_name = forms.CharField(label='User Name', max_length=100)
@@ -30,6 +30,11 @@ class NewCommentForm(forms.ModelForm):
         model = Comment
         fields = ['user','drinkID', 'message']
         #fields = ['user', 'message']
+
+class NewTagsForm(forms.ModelForm):
+    class Meta:
+        model = Tag
+        fields = ['tags']
 
 # class NewCommentForm(forms.Form):
 #     #user = forms.CharField(label='user', max_length=100)

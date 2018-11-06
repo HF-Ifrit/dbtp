@@ -159,17 +159,29 @@
 	    <div class = "Description"> 
 		    <h4>Description:</h4>
 		    <p>
-			{% if drink.description != '' %}
-				{{ drink.description }}
-			{% else %}
-				No description available
-			{% endif %}
+			{{ drink.category }}<br>
+			{{ drink.iba }}<br>
+			{{ drink.alcoholic }}<br>
+			{{ drink.glass }}
 			</p>
 		</div>
 
 	    <!--Recommendation section-->
 	    <h5 class="Recommendation">You may also like:</h5>
-
+		<div id="recommendation-table">
+			<table>
+				<tr>
+					{% for drink in recommended_drinks %}
+					<td>
+						<ul id="recommendation-card">
+							<li><img src="{{ drink.thumbimage }}"></li>
+							<li><a href="{% url 'detail' drink.id %}">{{ drink.name }}</a></li>
+						</ul>
+					</td>
+					{% endfor %}
+				</tr>
+			</table>
+		</div>
 
 	    <!--Comment section-->
 		<h3 class="comments">User Ratings & Comments</h3>
@@ -178,8 +190,15 @@
 		<form method="post">
 		{% csrf_token %}
 			{{ commentform }} 
-			<input type="submit" value="Submit">
+			<input type="submit" name = "submit_comment" value="Submit">
 		</form>
+
+		<form method="post">
+		{% csrf_token %}
+			{{ tagform }}
+			<input type="submit" name = "submit_tag" value="Submit">
+		</form>
+		
 		<hr>
 		{% if comments.count > 0 %}
 			{% for comment in comments %}

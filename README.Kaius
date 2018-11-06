@@ -1,3 +1,12 @@
+Week 6: 11-2-18
+Work Accomplished: Application shows recommended drinks on the drink detail page based on the ingredients
+of the currently viewed drink. Added drink descriptions to detail page and updated styling
+
+Files edited:
+- DrinkBeyondThePossible/templates/DrinkBeyondThePossible/detail.html
+- DrinkBeyondThePossible/static/DrinkBeyondThePossible/style.css
+- DrinkBeyondThePossible/views.py
+---------
 Week 5: 10-26-18
 Work Accomplished: Application is able to add ingredients from a drink's detail page to the current logged
 in user's ingredient list
