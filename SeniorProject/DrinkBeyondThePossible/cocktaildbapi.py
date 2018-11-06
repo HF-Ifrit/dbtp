@@ -53,19 +53,28 @@ class DrinkDetail:
         return hash(self.__repr__())
 
 def ingredientApiCall(ingredient):
-    """Return a JSON object containing list of drink info dictionaries using the input ingredient"""
+    """Return a JSON object containing list of drink info dictionaries containing name, ID, and image using the input ingredient"""
     resp = req.get(INGREDIENT_SEARCH_URL, {'i': ingredient})
-    data = json.loads(resp.text)
-    return data
+    try:
+        data = json.loads(resp.text)
+    except json.JSONDecodeError:
+        return None
+    else:
+        return data
 
 def idApiCall(id):
     """Return a JSON object containing a detailed drink info dictionary using a specific drink id"""
     resp = req.get(ID_DETAIL_SEARCH_URL, {'i': id})
-    data = json.loads(resp.text)
-    return data
+    try:
+        data = json.loads(resp.text)
+    except json.JSONDecodeError:
+        return None
+    else:
+        return data
 
 def searchMatchingDrinks(ingredient):
     """Returns a SearchResult containing drinks and their details that have ingredients matching the input"""
-    returnedDrinks = ingredientApiCall(ingredient)
-    result = SearchResult(returnedDrinks)
-    return result
+    returned_drinks = ingredientApiCall(ingredient)
+    
+    return SearchResult(returned_drinks) if returned_drinks is not None else None
+    
