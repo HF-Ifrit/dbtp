@@ -119,12 +119,6 @@ def manage(request):
     }
     return render(request, 'DrinkBeyondThePossible/account_management.html', context=context)
 
-# def newCustomDrink(request):
-#     context = {
-#         'activePage': 'Account'
-#     }
-#     return render(request, 'DrinkBeyondThePossible/new_custom_drink.html', context=context)
-
 def ingredientList(request):
 
     if request.method == 'POST':
@@ -232,15 +226,8 @@ def newCustomDrink(request):
 def viewFavoriteDrinks(request):
     if request.method == 'GET':
 
-        if request.path == 'account/ingredients':
-            getOp = "Ingredients"
-            collection = Ingredient_List.objects.filter(user=request.user.profile)
-        elif request.path == 'account/recipes':
-            getOp = "Custom Drinks"
-            collection = customDrink.objects.filter(user=request.user.profile)
-        elif request.path == 'account/favorite_drinks':
-            getOp = "Favorite Drinks"
-            collection = favoriteDrink.objects.filter(user=request.user.profile)
+        getOp = "Favorite Drinks"
+        collection = favoriteDrink.objects.filter(user=request.user.profile)
 
         #fav_drinks = favoriteDrink.objects.filter(user=request.user.profile)
 
