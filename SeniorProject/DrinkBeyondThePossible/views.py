@@ -43,39 +43,27 @@ def detail(request, drinkID):
 
         cform = NewCommentForm(request.POST)
         if cform.is_valid():
-            #cform = cform.save(commit=False)
-            #cform.user = request.user.username
-            #cform.user = request.user.profile
-            ##cform.drinkID = drinkID
-            #drink_id = Drink.objects.filter(cocktaildb_id=drinkID)[0]
-            #cform.drinkID = drink_id
-            cform.drinkID = drinkID
-            cform.save()
+            comment = Comment.objects.create(message=cform.cleaned_data['message'], 
+                user=request.profile, drinkID=drinkID)
+            comment.save()
             return HttpResponseRedirect('/')
 
         tagform = NewTagsForm(request.POST)
+
         if tagform.is_valid():
-            obj = tagform.save(commit=False)
-            obj.user = request.user
-            obj.save()
-            tagform.save_m2m()
+            tag_string = tagform.cleaned_data['tags']
+            tag_list = [tag_string.strip() for x in tag_string.split(',')]
+            tags_of_drink = [i.name for i in Tag.objects.filter(drink_ID=drinkID)]
+            for tag in tag_list:
+                if tag not in tags_of_drink:
+                    t = Tag.objects.create(name=tag, drink_ID=drinkID)
+                    t.save()
 
-
-
-    # if request.method == 'POST':
-    #     form = NewCommentForm(request.POST)
-
-    #     if form.is_valid():
-    #         form.save()
-    #         return HttpResponseRedirect('/')
-
-    # else:
-    #     form = NewCommentForm()
-
-    #comments = Comment.objects.filter(drinkID=drinkID)
-    comments = Comment.objects.all()
+    comments = Comment.objects.filter(drinkID=drinkID)
     cform = NewCommentForm()
     tagform = NewTagsForm()
+
+    tags = [i.name for i in Tag.objects.filter(drink_ID=drinkID)]
 
     context = {
         'drink': drinkResult.drinks[0], 
@@ -83,7 +71,8 @@ def detail(request, drinkID):
         'comments': comments, 
         'commentform': cform, 
         'recommended_drinks': recommended_drinks, 
-        'tagform': tagform
+        'tagform': tagform,
+        'tags': tags
     }
     return render(request, 'DrinkBeyondThePossible/detail.html', context=context)
 
