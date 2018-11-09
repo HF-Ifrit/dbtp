@@ -10,9 +10,14 @@ from .forms import NewTagsForm, NewDrinkForm, NewCommentForm, NewAccountForm, Ed
 
 # Create your views here.
 def index(request):
+
+    ingredients = request.COOKIES.get('ingredients', -1);
+
+
     context = {
         'activePage': 'Home',
-        'currentUser': ''
+        'currentUser': '',
+        'ingredients': ingredients
     }
     return render(request, 'DrinkBeyondThePossible/home.html', context=context)
 
@@ -88,6 +93,9 @@ def results(request):
                 searchResults.append(set(matchingResult.drinks))
 
         drinkResults = list(set.intersection(*searchResults))
+
+    if not request.user.is_authenticated:
+        request.set_cookie('ingredients', ingredients)
 
     context = {'drinkResults': drinkResults, 'searchIngredients': ingredients}
     return render(request, 'DrinkBeyondThePossible/search_results.html', context=context)
@@ -196,6 +204,13 @@ def createAccount(request):
                 email=form.cleaned_data['email'],
                 password=form.cleaned_data['password']
             )
+
+            if request.COOKIES.get('ingredients', -1) != -1:
+                ingredients = request.COOKIES.get('ingredients', -1)
+                for ingredient in ingredients:
+                    ingredientObject = Ingredient_List.objects.create(user=request.user, ingredient=ingredient)
+                    ingredientObject.save()
+
             return HttpResponseRedirect('/')
     else:
         form = NewAccountForm()

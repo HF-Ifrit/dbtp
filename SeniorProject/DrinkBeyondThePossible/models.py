@@ -53,7 +53,6 @@ class customDrink(models.Model):
     description = models.CharField(max_length=2000)
     image = models.ImageField(upload_to='uploads/', blank=True, null=True)
     user = models.OneToOneField(Profile, on_delete=models.CASCADE)
-    tags = TaggableManager()
 
 class customRecipe(models.Model):
     custom_name = models.CharField(max_length=50, primary_key=True)
