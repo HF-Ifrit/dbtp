@@ -5,8 +5,6 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.conf import settings
 
-from taggit.managers import TaggableManager
-
 # Create your models here.
 
 class Profile(models.Model):
@@ -24,26 +22,21 @@ class Profile(models.Model):
 class Drink(models.Model):
     name = models.CharField(max_length=50)
     cocktaildb_id = models.IntegerField()
-    tags = TaggableManager()
+
+class Tag(models.Model): 
+    name = models.CharField(max_length=20)
+    drink_ID = models.IntegerField()
 
 class Comment(models.Model):
-    # user = models.OneToOneField(Profile, on_delete=models.CASCADE)
     user = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    # user = models.CharField(max_length=100)
-    #drinkID = models.ForeignKey(Drink, on_delete=models.CASCADE)
     drinkID = models.IntegerField()
     message = models.CharField(max_length=2000)
     created_time = models.DateTimeField(auto_now_add=True)
     updated_time = models.DateTimeField(auto_now=True)
 
-class Tag(models.Model):
-    tags = TaggableManager()
-
-
 class drinkRating(models.Model):
     drink_id = models.OneToOneField(Drink, on_delete=models.CASCADE)
     rating = models.IntegerField(default=0)
-
     user = models.OneToOneField(Profile, on_delete=models.CASCADE)
 
 class Ingredient_List(models.Model):

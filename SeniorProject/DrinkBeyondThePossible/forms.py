@@ -28,16 +28,8 @@ class NewDrinkForm(ModelForm):
 class NewCommentForm(forms.ModelForm):
     class Meta:
         model = Comment
-        fields = ['user','drinkID', 'message']
-        #fields = ['user', 'message']
+        fields = ['message']
 
-class NewTagsForm(forms.ModelForm):
-    class Meta:
-        model = Tag
-        fields = ['tags']
+class NewTagsForm(forms.Form):
+    tags = forms.CharField(label='Tags', max_length=200)
 
-# class NewCommentForm(forms.Form):
-#     #user = forms.CharField(label='user', max_length=100)
-#     #drinkID = forms.CharField(label='drinkID', max_length=100)
-#     message = forms.CharField(label='Post Comment', max_length=2000)
-#     #fields = ['user','drinkID', 'message']
