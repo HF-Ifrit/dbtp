@@ -1,3 +1,4 @@
+import asyncio
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
@@ -22,19 +23,20 @@ def index(request):
     return render(request, 'DrinkBeyondThePossible/home.html', context=context)
 
 def detail(request, drinkID):
-    drinkResult = cdb.SearchResult(cdb.idApiCall(drinkID))
+    drinkResult = cdb.get_drink_details(drinkID)
 
     #Get recommended drink info
-    recommended_drinks = set()
-    for ingredient in drinkResult.drinks[0].ingredients:
-        recommendation_result = cdb.searchMatchingDrinks(ingredient)
-        if type(recommendation_result) is cdb.SearchResult:
-            for drink in recommendation_result.drinks:
-                recommended_drinks.add(drink)
+    recommended_drinks = cdb.find_recommended_drinks(drinkResult.ingredients)
+    # for ingredient in drinkResult.drinks[0].ingredients:
+    #     recommendation_result = cdb.searchMatchingDrinks(ingredient)
+    #     if type(recommendation_result) is cdb.SearchResult:
+    #         for drink in recommendation_result.drinks:
+    #             recommended_drinks.add(drink)
 
     user_ingredients = []
     uid = request.user.id
 
+    # Get the ingredient list of the user account of this session
     if request.user.is_authenticated:
         user_ingredients = [entry.ingredient for entry in Ingredient_List.objects.filter(user=uid)]
 
@@ -71,7 +73,7 @@ def detail(request, drinkID):
     tags = [i.name for i in Tag.objects.filter(drink_ID=drinkID)]
 
     context = {
-        'drink': drinkResult.drinks[0], 
+        'drink': drinkResult, 
         'user_ingredients': user_ingredients, 
         'comments': comments, 
         'commentform': cform, 
@@ -87,11 +89,12 @@ def results(request):
     if 'ingredient' in request.GET: # Get ingredient search parameters from request
         searchResults = []
         ingredients = request.GET.getlist('ingredient')
+        #drinkResults = cdb.find_matching_drinks(ingredients)
         for ingredient in ingredients:
             matchingResult = cdb.searchMatchingDrinks(ingredient)
             if type(matchingResult) is cdb.SearchResult:
                 searchResults.append(set(matchingResult.drinks))
-
+        
         drinkResults = list(set.intersection(*searchResults))
 
     if not request.user.is_authenticated:
@@ -115,12 +118,6 @@ def manage(request):
         'activePage': 'Account'
     }
     return render(request, 'DrinkBeyondThePossible/account_management.html', context=context)
-
-# def newCustomDrink(request):
-#     context = {
-#         'activePage': 'Account'
-#     }
-#     return render(request, 'DrinkBeyondThePossible/new_custom_drink.html', context=context)
 
 def ingredientList(request):
 
@@ -236,15 +233,8 @@ def newCustomDrink(request):
 def viewFavoriteDrinks(request):
     if request.method == 'GET':
 
-        if request.path == 'account/ingredients':
-            getOp = "Ingredients"
-            collection = Ingredient_List.objects.filter(user=request.user.profile)
-        elif request.path == 'account/recipes':
-            getOp = "Custom Drinks"
-            collection = customDrink.objects.filter(user=request.user.profile)
-        elif request.path == 'account/favorite_drinks':
-            getOp = "Favorite Drinks"
-            collection = favoriteDrink.objects.filter(user=request.user.profile)
+        getOp = "Favorite Drinks"
+        collection = favoriteDrink.objects.filter(user=request.user.profile)
 
         #fav_drinks = favoriteDrink.objects.filter(user=request.user.profile)
 

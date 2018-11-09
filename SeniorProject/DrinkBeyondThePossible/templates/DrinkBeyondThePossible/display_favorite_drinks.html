@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %}
-	<title>Your {{ getOp}} </title>
+	<title>Your {{ getOp }} </title>
 {% endblock title %}
 
 {% block content %}
@@ -26,10 +26,10 @@
 		{% if getOp == "Ingredients" %}
 			{{ item.ingredients.ingredient }}
 			<br>
-		{% elif getOp = "Custom Drinks" %}
+		{% elif getOp == "Custom Drinks" %}
 			{{ item.drink.name }}
 			<br>
-		{% elif getOp = "Favorite Drinks" %}
+		{% elif getOp == "Favorite Drinks" %}
 			<a href="/detail/{{ drink.drink.cocktaildb_id }}">{{ drink.drink.name }}</a>
 			<br>
 		{% endif %}
