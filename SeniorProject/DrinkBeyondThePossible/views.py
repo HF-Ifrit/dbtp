@@ -84,11 +84,12 @@ def results(request):
     if 'ingredient' in request.GET: # Get ingredient search parameters from request
         searchResults = []
         ingredients = request.GET.getlist('ingredient')
+        #drinkResults = cdb.find_matching_drinks(ingredients)
         for ingredient in ingredients:
             matchingResult = cdb.searchMatchingDrinks(ingredient)
             if type(matchingResult) is cdb.SearchResult:
                 searchResults.append(set(matchingResult.drinks))
-
+        
         drinkResults = list(set.intersection(*searchResults))
 
     context = {'drinkResults': drinkResults, 'searchIngredients': ingredients}
