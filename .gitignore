@@ -19,6 +19,7 @@ Session.vim
 tags
 [._]*.un~
 
+
 # ignore static folder nginx uses, to update static folder add to app specific static folder then run python3 manage.py collectstatic
 /static/
 SeniorProject/static/*

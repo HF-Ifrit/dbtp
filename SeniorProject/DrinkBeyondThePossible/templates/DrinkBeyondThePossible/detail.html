@@ -194,6 +194,11 @@
 		</form>
 
 		<form method="post">
+			<div class="tag_list">
+				{% for t in tags %}
+					<a href="/tag/{{ t }}"> {{ t }} </a>
+				{% endfor %}
+			</div>
 		{% csrf_token %}
 			{{ tagform }}
 			<input type="submit" name = "submit_tag" value="Submit">
@@ -209,6 +214,7 @@
 					{% endif %}
 					{{ comment.message }}
 				</div>
+
 			{% endfor %}
 		{% else %}
 			<p> No comments. </p>
