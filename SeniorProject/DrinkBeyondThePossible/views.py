@@ -1,3 +1,4 @@
+import asyncio
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
@@ -17,19 +18,20 @@ def index(request):
     return render(request, 'DrinkBeyondThePossible/home.html', context=context)
 
 def detail(request, drinkID):
-    drinkResult = cdb.SearchResult(cdb.idApiCall(drinkID))
+    drinkResult = cdb.get_drink_details(drinkID)
 
     #Get recommended drink info
-    recommended_drinks = set()
-    for ingredient in drinkResult.drinks[0].ingredients:
-        recommendation_result = cdb.searchMatchingDrinks(ingredient)
-        if type(recommendation_result) is cdb.SearchResult:
-            for drink in recommendation_result.drinks:
-                recommended_drinks.add(drink)
+    recommended_drinks = cdb.find_recommended_drinks(drinkResult.ingredients)
+    # for ingredient in drinkResult.drinks[0].ingredients:
+    #     recommendation_result = cdb.searchMatchingDrinks(ingredient)
+    #     if type(recommendation_result) is cdb.SearchResult:
+    #         for drink in recommendation_result.drinks:
+    #             recommended_drinks.add(drink)
 
     user_ingredients = []
     uid = request.user.id
 
+    # Get the ingredient list of the user account of this session
     if request.user.is_authenticated:
         user_ingredients = [entry.ingredient for entry in Ingredient_List.objects.filter(user=uid)]
 
@@ -78,7 +80,7 @@ def detail(request, drinkID):
     tagform = NewTagsForm()
 
     context = {
-        'drink': drinkResult.drinks[0], 
+        'drink': drinkResult, 
         'user_ingredients': user_ingredients, 
         'comments': comments, 
         'commentform': cform, 
