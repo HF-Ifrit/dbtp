@@ -7,7 +7,7 @@ from django.views.decorators.http import require_http_methods
 import re
 from . import cocktaildbapi as cdb
 from .models import *
-from .forms import NewTagsForm, NewDrinkForm, NewCommentForm, NewAccountForm, EditPasswordForm, EditEmailForm, EditAccountnameForm
+from .forms import NewTagsForm, NewDrinkForm, NewCommentForm, NewAccountForm, EditPasswordForm, EditEmailForm, EditAccountnameForm, EditCommentForm
 
 # Create your views here.
 def index(request):
@@ -51,9 +51,15 @@ def detail(request, drinkID):
         cform = NewCommentForm(request.POST)
         if cform.is_valid():
             comment = Comment.objects.create(message=cform.cleaned_data['message'], 
-                user=request.profile, drinkID=drinkID)
+                user=request.user.profile, drinkID=drinkID)
             comment.save()
-            return HttpResponseRedirect('/')
+
+        editcform = EditCommentForm(request.POST)
+        if editcform.is_valid():
+            new_message = editcform.cleaned_data['message']
+            comment_to_be_changed = Comment.objects.filter(user=request.user.profile)[2]
+            comment_to_be_changed.message = new_message
+            comment_to_be_changed.save()
 
         tagform = NewTagsForm(request.POST)
 
@@ -69,6 +75,7 @@ def detail(request, drinkID):
 
     comments = Comment.objects.filter(drinkID=drinkID)
     cform = NewCommentForm()
+    editcform = EditCommentForm()
     tagform = NewTagsForm()
     
     tags = [i.name for i in Tag.objects.filter(drink_ID=drinkID)]
@@ -80,7 +87,8 @@ def detail(request, drinkID):
         'commentform': cform, 
         'recommended_drinks': recommended_drinks, 
         'tagform': tagform,
-        'tags': tags
+        'tags': tags,
+        'editcform': editcform
     }
     return render(request, 'DrinkBeyondThePossible/detail.html', context=context)
 
