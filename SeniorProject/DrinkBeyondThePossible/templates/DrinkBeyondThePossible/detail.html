@@ -187,11 +187,15 @@
 		<h3 class="comments">User Ratings & Comments</h3>
 		<p>Total number of comments: {{ comments.count }}</p>
 
+		{% if request.user.is_authenticated %}
 		<form method="post">
 		{% csrf_token %}
 			{{ commentform }} 
 			<input type="submit" name = "submit_comment" value="Submit">
 		</form>
+		{% else %}
+		Log in to post comments.
+		{% endif %}
 
 		<form method="post">
 			<div class="tag_list">
