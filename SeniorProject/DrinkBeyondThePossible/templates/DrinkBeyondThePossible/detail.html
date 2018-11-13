@@ -195,8 +195,9 @@
 
 		<form method="post">
 			<div class="tag_list">
+				Tags:
 				{% for t in tags %}
-					<a href="/tag/{{ t }}"> {{ t }} </a>
+					<a href="/tag/{{ t }}"> {{ t }} </a>,
 				{% endfor %}
 			</div>
 		{% csrf_token %}

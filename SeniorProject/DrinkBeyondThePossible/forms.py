@@ -31,5 +31,5 @@ class NewCommentForm(forms.ModelForm):
         fields = ['message']
 
 class NewTagsForm(forms.Form):
-    tags = forms.CharField(label='Tags', max_length=200)
+    tags = forms.CharField(label='Enter Tag(s) with commas:', max_length=200)
 
