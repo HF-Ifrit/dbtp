@@ -57,7 +57,8 @@ def detail(request, drinkID):
         editcform = EditCommentForm(request.POST)
         if editcform.is_valid():
             new_message = editcform.cleaned_data['message']
-            comment_to_be_changed = Comment.objects.filter(user=request.user.profile)[2]
+            c_id = editcform.cleaned_data['c_id']
+            comment_to_be_changed = Comment.objects.get(id=c_id)
             comment_to_be_changed.message = new_message
             comment_to_be_changed.save()
 

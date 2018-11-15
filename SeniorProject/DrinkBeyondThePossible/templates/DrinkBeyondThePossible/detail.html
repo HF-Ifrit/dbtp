@@ -221,8 +221,9 @@
 					{% if comment.user == request.user.profile %}
 					<form method="post">
 						{% csrf_token %}
-							{{ editcform }}
-							<input type="submit" name = "edit_comment" value="Edit">
+						{{ editcform }}
+						<input type="hidden" name = "c_id" value = "{{ comment.id }}">
+						<input type="submit" name = "edit_comment" value="Edit">
 					</form>
 					{% endif %}
 				</div>
