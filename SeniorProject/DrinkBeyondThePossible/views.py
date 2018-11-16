@@ -104,7 +104,8 @@ def results(request):
             if type(matchingResult) is cdb.SearchResult:
                 searchResults.append(set(matchingResult.drinks))
         
-        drinkResults = list(set.intersection(*searchResults))
+        if searchResults:
+            drinkResults = list(set.intersection(*searchResults))
 
     if not request.user.is_authenticated:
         request.set_cookie('ingredients', ingredients)
