@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.conf import settings
+import datetime
 
 # Create your models here.
 
@@ -33,6 +34,11 @@ class Comment(models.Model):
     message = models.CharField(max_length=2000)
     created_time = models.DateTimeField(auto_now_add=True)
     updated_time = models.DateTimeField(auto_now=True)
+
+    @property
+    def is_updated(self): 
+        #return str(self.created_time) == str(self.updated_time)
+        return self.updated_time > self.created_time + datetime.timedelta(seconds=5)
 
 class drinkRating(models.Model):
     drink_id = models.OneToOneField(Drink, on_delete=models.CASCADE)

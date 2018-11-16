@@ -214,7 +214,7 @@
 			{% for comment in comments %}
 				<div class="user-comment">
 					<p>Posted by {{ comment.user }} on: {{ comment.created_time }}</p>
-					{% if comment.updated_time != comment.created_time %}
+					{% if comment.is_updated %}
 						<p>Updated on: {{comment.updated_time}}</p>
 					{% endif %}
 					{{ comment.message }}
