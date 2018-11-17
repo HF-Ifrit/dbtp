@@ -31,6 +31,7 @@ class NewCommentForm(forms.ModelForm):
         fields = ['message']
 
 class EditCommentForm(forms.Form):
+    c_id = forms.CharField(max_length=60,widget=forms.HiddenInput())
     message = forms.CharField(label='New Message', max_length=2000)
 
 class NewTagsForm(forms.Form):

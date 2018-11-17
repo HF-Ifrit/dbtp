@@ -57,7 +57,8 @@ def detail(request, drinkID):
         editcform = EditCommentForm(request.POST)
         if editcform.is_valid():
             new_message = editcform.cleaned_data['message']
-            comment_to_be_changed = Comment.objects.filter(user=request.user.profile)[2]
+            c_id = editcform.cleaned_data['c_id']
+            comment_to_be_changed = Comment.objects.get(id=c_id)
             comment_to_be_changed.message = new_message
             comment_to_be_changed.save()
 
@@ -107,11 +108,21 @@ def results(request):
         if searchResults:
             drinkResults = list(set.intersection(*searchResults))
 
-    if not request.user.is_authenticated:
-        request.set_cookie('ingredients', ingredients)
+    #response = render_to_response(request, 'DrinkBeyondThePossible/search_results.html', context={'drinkResults': drinkResults, 'searchIngredients': ingredients})
 
+    #if not request.user.is_authenticated:
+        #pass
+        #response = request.set_cookie('ingredients', ingredients)
+        #response = render_to_response(request, 'DrinkBeyondThePossible/search_results.html', context={'drinkResults': drinkResults})
+
+    #    request.set_cookie('ingredients', ingredients)
+
+    print(ingredients)
     context = {'drinkResults': drinkResults, 'searchIngredients': ingredients}
     return render(request, 'DrinkBeyondThePossible/search_results.html', context=context)
+
+    #print(ingredients)
+    #return response
 
 def login(request):
     context = {}

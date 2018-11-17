@@ -214,15 +214,16 @@
 			{% for comment in comments %}
 				<div class="user-comment">
 					<p>Posted by {{ comment.user }} on: {{ comment.created_time }}</p>
-					{% if comment.updated_time != comment.created_time %}
+					{% if comment.is_updated %}
 						<p>Updated on: {{comment.updated_time}}</p>
 					{% endif %}
 					{{ comment.message }}
 					{% if comment.user == request.user.profile %}
 					<form method="post">
 						{% csrf_token %}
-							{{ editcform }}
-							<input type="submit" name = "edit_comment" value="Edit">
+						{{ editcform }}
+						<input type="hidden" name = "c_id" value = "{{ comment.id }}">
+						<input type="submit" name = "edit_comment" value="Edit">
 					</form>
 					{% endif %}
 				</div>
