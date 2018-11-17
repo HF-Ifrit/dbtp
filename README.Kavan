@@ -1,3 +1,9 @@
+Week 8: 11/16
+  Work Done:
+	* Edited nginx config files for web caching 
+	* discovered conflict between cookies and wsgi stack. Disabled guest feature until later
+	Files edited in AWS server outside repo
+
 Week 7: 11/9
   Work Done:
 	* Deployed nginx production server to display our website
