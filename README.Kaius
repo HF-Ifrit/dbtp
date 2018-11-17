@@ -1,3 +1,13 @@
+Work Accomplished: 
+    Updated CSS
+        -Changed drink search results to show up as info cards
+        -Changed font and control & input css of home page
+
+Files edited:
+- DrinkBeyondThePossible/views.py
+- DrinkBeyondThePossible/templates/DrinkBeyondThePossible/search_results.html
+- DrinkBeyondThePossible/static/DrinkBeyondThePossible/style.css
+---------
 Work Accomplished:
     Bug Fixes & Cleanup:
         -Removed extra conditional checks for different pages in viewFavoriteDrinks view
