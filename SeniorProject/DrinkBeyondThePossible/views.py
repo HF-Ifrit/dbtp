@@ -107,11 +107,21 @@ def results(request):
         
         drinkResults = list(set.intersection(*searchResults))
 
-    if not request.user.is_authenticated:
-        request.set_cookie('ingredients', ingredients)
+    #response = render_to_response(request, 'DrinkBeyondThePossible/search_results.html', context={'drinkResults': drinkResults, 'searchIngredients': ingredients})
 
+    #if not request.user.is_authenticated:
+        #pass
+        #response = request.set_cookie('ingredients', ingredients)
+        #response = render_to_response(request, 'DrinkBeyondThePossible/search_results.html', context={'drinkResults': drinkResults})
+
+    #    request.set_cookie('ingredients', ingredients)
+
+    print(ingredients)
     context = {'drinkResults': drinkResults, 'searchIngredients': ingredients}
     return render(request, 'DrinkBeyondThePossible/search_results.html', context=context)
+
+    #print(ingredients)
+    #return response
 
 def login(request):
     context = {}
