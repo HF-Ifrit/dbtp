@@ -1,0 +1,11 @@
+{% load static %}
+<head>
+</head>
+
+<body>
+        {% for drink in drinks %}        
+            <a href="/detail/{{ drink.id }}"> {{drink.name}}</a>
+            <hr>
+        {% endfor %}
+
+</body>

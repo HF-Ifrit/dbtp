@@ -23,6 +23,8 @@ urlpatterns = [
     path('account/manage/edit_email', views.editEmail, name='editEmail'),
     path('account/manage/edit_password', views.editPassword, name='editPassword'),
 
-    path('account/favorite_drinks', views.viewFavoriteDrinks, name='favoriteDrinkList')
+    path('account/favorite_drinks', views.viewFavoriteDrinks, name='favoriteDrinkList'),
+
+    path('tag/<slug:tagname>', views.tagList, name='tag')
 
 ]

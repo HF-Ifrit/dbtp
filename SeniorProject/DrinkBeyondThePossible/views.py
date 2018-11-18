@@ -22,6 +22,28 @@ def index(request):
     }
     return render(request, 'DrinkBeyondThePossible/home.html', context=context)
 
+def tagList(request, tagname):
+    # Get querylist of all drinks that hold the tag name
+    tags_for_drinks = Tag.objects.filter(name=tagname)
+    # Extract drink_id's for each tag for query
+    drinks = [drink.drink_ID for drink in tags_for_drinks]
+    drink_list = []
+
+    for drink_id in drinks:
+        drinkResult = cdb.get_drink_details(drink_id)
+        drink_list.append(drinkResult)
+
+
+
+    context = {
+        'drinks': drink_list
+    }
+
+    return render(request, 'DrinkBeyondThePossible/tag.html', context=context)
+
+
+
+
 def detail(request, drinkID):
     drinkResult = cdb.get_drink_details(drinkID)
 
