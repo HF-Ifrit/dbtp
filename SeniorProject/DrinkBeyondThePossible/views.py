@@ -36,6 +36,7 @@ def tagList(request, tagname):
 
 
     context = {
+        'tagname': tagname.capitalize(),
         'drinks': drink_list
     }
 

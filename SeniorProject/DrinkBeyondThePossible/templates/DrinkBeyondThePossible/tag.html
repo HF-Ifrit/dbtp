@@ -1,11 +1,43 @@
 {% load static %}
 <head>
+    <style>
+        .image {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            width: 35%;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            text-align: left;
+            padding: 8px;
+        }
+    </style>
 </head>
 
 <body>
-        {% for drink in drinks %}        
-            <a href="/detail/{{ drink.id }}"> {{drink.name}}</a>
-            <hr>
+    <h1 class="tagName">{{ tagname }} drinks:</h1>
+    <table style="width:100%">
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>IBA</th>
+            <th>Alcoholic?</th>
+            <th></th>
+        </tr>
+        {% for drink in drinks %}       
+                <tr>
+                    <td><a href="/detail/{{ drink.id }}"> {{drink.name}}</a></td>
+                    <td>{{ drink.category }}</td>
+                    <td>{{ drink.iba }}</td>
+                    <td>{{ drink.alcoholic }}</td>
+                    <td><li><img src="{{ drink.thumbimage }}" class="image" align="right"></li></td>
+                </tr>
         {% endfor %}
+    </table> 
 
 </body>
