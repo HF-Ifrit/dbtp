@@ -168,3 +168,9 @@ li.navitem a:visited
 {
     list-style-type: none;
 }
+
+#recommendation-card img
+{
+    height: 150px;
+    width: 150px;
+}
