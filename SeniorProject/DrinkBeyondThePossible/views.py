@@ -42,9 +42,6 @@ def tagList(request, tagname):
 
     return render(request, 'DrinkBeyondThePossible/tag.html', context=context)
 
-
-
-
 def detail(request, drinkID):
     drinkResult = cdb.get_drink_details(drinkID)
 
@@ -117,19 +114,19 @@ def detail(request, drinkID):
     return render(request, 'DrinkBeyondThePossible/detail.html', context=context)
 
 def results(request):
-    drinkResults = []
+    drink_results = []
     ingredients = []
     if 'ingredient' in request.GET: # Get ingredient search parameters from request
-        searchResults = []
-        ingredients = request.GET.getlist('ingredient')
+        search_results = []
+        ingredients = [entry.strip('') for entry in request.GET.getlist('ingredient') if entry]
         #drinkResults = cdb.find_matching_drinks(ingredients)
         for ingredient in ingredients:
-            matchingResult = cdb.searchMatchingDrinks(ingredient)
-            if type(matchingResult) is cdb.SearchResult:
-                searchResults.append(set(matchingResult.drinks))
-        
-        if searchResults:
-            drinkResults = list(set.intersection(*searchResults))
+            matching_result = cdb.searchMatchingDrinks(ingredient)
+            if isinstance(matching_result, cdb.SearchResult):
+                search_results.append(set(matching_result.drinks))
+       
+        if search_results:
+            drink_results = list(set.intersection(*search_results))
 
     #response = render_to_response(request, 'DrinkBeyondThePossible/search_results.html', context={'drinkResults': drinkResults, 'searchIngredients': ingredients})
 
@@ -141,7 +138,7 @@ def results(request):
     #    request.set_cookie('ingredients', ingredients)
 
     print(ingredients)
-    context = {'drinkResults': drinkResults, 'searchIngredients': ingredients}
+    context = {'drinkResults': drink_results, 'searchIngredients': ingredients}
     return render(request, 'DrinkBeyondThePossible/search_results.html', context=context)
 
     #print(ingredients)
