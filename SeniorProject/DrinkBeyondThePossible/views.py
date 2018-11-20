@@ -71,12 +71,6 @@ def detail(request, drinkID):
                 newEntry = Ingredient_List.objects.create(user=curr_user, ingredient=ingredient)
                 newEntry.save()
 
-        cform = NewCommentForm(request.POST)
-        if cform.is_valid():
-            comment = Comment.objects.create(message=cform.cleaned_data['message'], 
-                user=request.user.profile, drinkID=drinkID)
-            comment.save()
-
         editcform = EditCommentForm(request.POST)
         if editcform.is_valid():
             new_message = editcform.cleaned_data['message']
@@ -84,6 +78,12 @@ def detail(request, drinkID):
             comment_to_be_changed = Comment.objects.get(id=c_id)
             comment_to_be_changed.message = new_message
             comment_to_be_changed.save()
+
+        cform = NewCommentForm(request.POST)
+        if cform.is_valid() and not editcform.is_valid():
+            comment = Comment.objects.create(message=cform.cleaned_data['message'], 
+                user=request.user.profile, drinkID=drinkID)
+            comment.save()
 
         tagform = NewTagsForm(request.POST)
 
