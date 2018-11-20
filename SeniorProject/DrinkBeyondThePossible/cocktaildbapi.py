@@ -21,20 +21,14 @@ class SearchResult:
         
         # TODO: Build SearchResult using parallelism
         # Get all detailed information for each drink found that matches
-        # with pool.Pool(10) as p:
-        #     self.drinks = p.map(self.build_result, data)
-        for drink in data:
-            id = drink['idDrink']
-            detailResult = idApiCall(id)
-            detailObj = DrinkDetail(detailResult) #Detailed info comes back as first item in the drinks JSON
-            self.drinks.append(detailObj)
+        drink_ids = [drink['idDrink'] for drink in data]
+        with pool.Pool(processes=10) as p:
+            self.drinks = p.map(self.build_result, data)
 
-    # def build_result(self, drink_data):
-    #     id = drink_data['idDrink']
-    #     detailResult = idApiCall(id)
-    #     # Detailed info comes back as first item in the drinks JSON
-    #     detailObj = DrinkDetail(detailResult[0])
-    #     return detailObj
+    def build_result(self, drink_id):
+        detailResult = idApiCall(drink_id)
+        detailObj = DrinkDetail(detailResult)
+        return detailObj
 
 
 class DrinkDetail:
@@ -100,8 +94,8 @@ def searchMatchingDrinks(ingredient):
 
 def find_matching_drinks(ingredient_list):
     matching = []
-    with pool.Pool(len(ingredient_list)) as p:
-        matching = p.map(searchMatchingDrinks, ingredient_list)
+    for ingredient in ingredient_list:
+        matching.append(searchMatchingDrinks(ingredient))
 
     return matching
 
