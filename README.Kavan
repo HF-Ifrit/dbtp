@@ -1,3 +1,7 @@
+Week 9: 
+  Work Done:
+	* Fixed bug in ingredient list view to display ingredient name instead of just object 
+
 Week 8: 11/16
   Work Done:
 	* Edited nginx config files for web caching 
