@@ -1,3 +1,27 @@
+Work Accomplished: 
+    Updated CSS
+        -Changed drink search results to show up as info cards
+        -Changed font and control & input css of home page
+
+Files edited:
+- DrinkBeyondThePossible/views.py
+- DrinkBeyondThePossible/templates/DrinkBeyondThePossible/search_results.html
+- DrinkBeyondThePossible/static/DrinkBeyondThePossible/style.css
+---------
+Work Accomplished:
+    Bug Fixes & Cleanup:
+        -Removed extra conditional checks for different pages in viewFavoriteDrinks view
+        -Favorite drinks template references correct information to retrieve user data to display
+        -Changed logic in detail view and cocktaildbapi for retrieving recommended drinks; Detail page now isn't slow
+            when loading recommended drinks onto detail page
+
+Files edited:
+- DrinkBeyondThePossible/templates/DrinkBeyondThePossible/display_favorite_drinks.html
+- DrinkBeyondThePossible/templates/DrinkBeyondThePossible/detail.html
+- DrinkBeyondThePossible/views.py
+- DrinkBeyondThePossible/models.py
+- DrinkBeyondThePossible/cocktaildbapi.py
+---------
 Week 6: 11-2-18
 Work Accomplished: Application shows recommended drinks on the drink detail page based on the ingredients
 of the currently viewed drink. Added drink descriptions to detail page and updated styling

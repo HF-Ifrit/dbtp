@@ -1,35 +1,65 @@
+import asyncio
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.views.decorators.http import require_http_methods
 #from .forms import EditAccountForm
-
+import re
 from . import cocktaildbapi as cdb
 from .models import *
-from .forms import NewTagsForm, NewDrinkForm, NewCommentForm, NewAccountForm, EditPasswordForm, EditEmailForm, EditAccountnameForm
+from .forms import NewTagsForm, NewDrinkForm, NewCommentForm, NewAccountForm, EditPasswordForm, EditEmailForm, EditAccountnameForm, EditCommentForm
 
 # Create your views here.
 def index(request):
+
+    ingredients = request.COOKIES.get('ingredients', -1);
+
+
     context = {
         'activePage': 'Home',
-        'currentUser': ''
+        'currentUser': '',
+        'ingredients': ingredients
     }
     return render(request, 'DrinkBeyondThePossible/home.html', context=context)
 
+def tagList(request, tagname):
+    # Get querylist of all drinks that hold the tag name
+    tags_for_drinks = Tag.objects.filter(name=tagname)
+    # Extract drink_id's for each tag for query
+    drinks = [drink.drink_ID for drink in tags_for_drinks]
+    drink_list = []
+
+    for drink_id in drinks:
+        drinkResult = cdb.get_drink_details(drink_id)
+        drink_list.append(drinkResult)
+
+
+
+    context = {
+        'tagname': tagname.capitalize(),
+        'drinks': drink_list
+    }
+
+    return render(request, 'DrinkBeyondThePossible/tag.html', context=context)
+
+
+
+
 def detail(request, drinkID):
-    drinkResult = cdb.SearchResult(cdb.idApiCall(drinkID))
+    drinkResult = cdb.get_drink_details(drinkID)
 
     #Get recommended drink info
-    recommended_drinks = set()
-    for ingredient in drinkResult.drinks[0].ingredients:
-        recommendation_result = cdb.searchMatchingDrinks(ingredient)
-        if type(recommendation_result) is cdb.SearchResult:
-            for drink in recommendation_result.drinks:
-                recommended_drinks.add(drink)
+    recommended_drinks = cdb.find_recommended_drinks(drinkResult.ingredients)
+    # for ingredient in drinkResult.drinks[0].ingredients:
+    #     recommendation_result = cdb.searchMatchingDrinks(ingredient)
+    #     if type(recommendation_result) is cdb.SearchResult:
+    #         for drink in recommendation_result.drinks:
+    #             recommended_drinks.add(drink)
 
     user_ingredients = []
     uid = request.user.id
 
+    # Get the ingredient list of the user account of this session
     if request.user.is_authenticated:
         user_ingredients = [entry.ingredient for entry in Ingredient_List.objects.filter(user=uid)]
 
@@ -41,49 +71,48 @@ def detail(request, drinkID):
                 newEntry = Ingredient_List.objects.create(user=curr_user, ingredient=ingredient)
                 newEntry.save()
 
+        editcform = EditCommentForm(request.POST)
+        if editcform.is_valid():
+            new_message = editcform.cleaned_data['message']
+            c_id = editcform.cleaned_data['c_id']
+            comment_to_be_changed = Comment.objects.get(id=c_id)
+            comment_to_be_changed.message = new_message
+            comment_to_be_changed.save()
+
         cform = NewCommentForm(request.POST)
-        if cform.is_valid():
-            #cform = cform.save(commit=False)
-            #cform.user = request.user.username
-            #cform.user = request.user.profile
-            ##cform.drinkID = drinkID
-            #drink_id = Drink.objects.filter(cocktaildb_id=drinkID)[0]
-            #cform.drinkID = drink_id
-            cform.drinkID = drinkID
-            cform.save()
-            return HttpResponseRedirect('/')
+        if cform.is_valid() and not editcform.is_valid():
+            comment = Comment.objects.create(message=cform.cleaned_data['message'], 
+                user=request.user.profile, drinkID=drinkID)
+            comment.save()
 
         tagform = NewTagsForm(request.POST)
+
         if tagform.is_valid():
-            obj = tagform.save(commit=False)
-            obj.user = request.user
-            obj.save()
-            tagform.save_m2m()
+            tag_string = tagform.cleaned_data['tags']
+            tag_list = [x.strip() for x in tag_string.split(',')] # contains parsed tags from user
+            tags_of_drink = [i.name for i in Tag.objects.filter(drink_ID=drinkID)] # contains existing tags for drink
+            for tag in tag_list:
+                # ignore any invalid tags
+                if re.match("^[a-zA-Z]*$", tag) and tag not in tags_of_drink:
+                    t = Tag.objects.create(name=tag, drink_ID=drinkID)
+                    t.save()
 
-
-
-    # if request.method == 'POST':
-    #     form = NewCommentForm(request.POST)
-
-    #     if form.is_valid():
-    #         form.save()
-    #         return HttpResponseRedirect('/')
-
-    # else:
-    #     form = NewCommentForm()
-
-    #comments = Comment.objects.filter(drinkID=drinkID)
-    comments = Comment.objects.all()
+    comments = Comment.objects.filter(drinkID=drinkID)
     cform = NewCommentForm()
+    editcform = EditCommentForm()
     tagform = NewTagsForm()
+    
+    tags = [i.name for i in Tag.objects.filter(drink_ID=drinkID)]
 
     context = {
-        'drink': drinkResult.drinks[0], 
+        'drink': drinkResult, 
         'user_ingredients': user_ingredients, 
         'comments': comments, 
         'commentform': cform, 
         'recommended_drinks': recommended_drinks, 
-        'tagform': tagform
+        'tagform': tagform,
+        'tags': tags,
+        'editcform': editcform
     }
     return render(request, 'DrinkBeyondThePossible/detail.html', context=context)
 
@@ -93,15 +122,30 @@ def results(request):
     if 'ingredient' in request.GET: # Get ingredient search parameters from request
         searchResults = []
         ingredients = request.GET.getlist('ingredient')
+        #drinkResults = cdb.find_matching_drinks(ingredients)
         for ingredient in ingredients:
             matchingResult = cdb.searchMatchingDrinks(ingredient)
             if type(matchingResult) is cdb.SearchResult:
                 searchResults.append(set(matchingResult.drinks))
+        
+        if searchResults:
+            drinkResults = list(set.intersection(*searchResults))
 
-        drinkResults = list(set.intersection(*searchResults))
+    #response = render_to_response(request, 'DrinkBeyondThePossible/search_results.html', context={'drinkResults': drinkResults, 'searchIngredients': ingredients})
 
+    #if not request.user.is_authenticated:
+        #pass
+        #response = request.set_cookie('ingredients', ingredients)
+        #response = render_to_response(request, 'DrinkBeyondThePossible/search_results.html', context={'drinkResults': drinkResults})
+
+    #    request.set_cookie('ingredients', ingredients)
+
+    print(ingredients)
     context = {'drinkResults': drinkResults, 'searchIngredients': ingredients}
     return render(request, 'DrinkBeyondThePossible/search_results.html', context=context)
+
+    #print(ingredients)
+    #return response
 
 def login(request):
     context = {}
@@ -118,12 +162,6 @@ def manage(request):
         'activePage': 'Account'
     }
     return render(request, 'DrinkBeyondThePossible/account_management.html', context=context)
-
-# def newCustomDrink(request):
-#     context = {
-#         'activePage': 'Account'
-#     }
-#     return render(request, 'DrinkBeyondThePossible/new_custom_drink.html', context=context)
 
 def ingredientList(request):
 
@@ -207,6 +245,13 @@ def createAccount(request):
                 email=form.cleaned_data['email'],
                 password=form.cleaned_data['password']
             )
+
+            if request.COOKIES.get('ingredients', -1) != -1:
+                ingredients = request.COOKIES.get('ingredients', -1)
+                for ingredient in ingredients:
+                    ingredientObject = Ingredient_List.objects.create(user=request.user, ingredient=ingredient)
+                    ingredientObject.save()
+
             return HttpResponseRedirect('/')
     else:
         form = NewAccountForm()
@@ -232,15 +277,8 @@ def newCustomDrink(request):
 def viewFavoriteDrinks(request):
     if request.method == 'GET':
 
-        if request.path == 'account/ingredients':
-            getOp = "Ingredients"
-            collection = Ingredient_List.objects.filter(user=request.user.profile)
-        elif request.path == 'account/recipes':
-            getOp = "Custom Drinks"
-            collection = customDrink.objects.filter(user=request.user.profile)
-        elif request.path == 'account/favorite_drinks':
-            getOp = "Favorite Drinks"
-            collection = favoriteDrink.objects.filter(user=request.user.profile)
+        getOp = "Favorite Drinks"
+        collection = favoriteDrink.objects.filter(user=request.user.profile)
 
         #fav_drinks = favoriteDrink.objects.filter(user=request.user.profile)
 

@@ -159,10 +159,10 @@
 	    <div class = "Description"> 
 		    <h4>Description:</h4>
 		    <p>
-			{{ drink.category }}<br>
-			{{ drink.iba }}<br>
-			{{ drink.alcoholic }}<br>
-			{{ drink.glass }}
+			Category: {{ drink.category }}<br>
+			IBA: {{ drink.iba }}<br>
+			Alcoholic?: {{ drink.alcoholic }}<br>
+			Glass: {{ drink.glass }}
 			</p>
 		</div>
 
@@ -174,8 +174,8 @@
 					{% for drink in recommended_drinks %}
 					<td>
 						<ul id="recommendation-card">
-							<li><img src="{{ drink.thumbimage }}"></li>
-							<li><a href="{% url 'detail' drink.id %}">{{ drink.name }}</a></li>
+							<li><img src="{{ drink.strDrinkThumb }}"></li>
+							<li><a href="{% url 'detail' drink.idDrink %}">{{ drink.strDrink }}</a></li>
 						</ul>
 					</td>
 					{% endfor %}
@@ -187,13 +187,23 @@
 		<h3 class="comments">User Ratings & Comments</h3>
 		<p>Total number of comments: {{ comments.count }}</p>
 
+		{% if request.user.is_authenticated %}
 		<form method="post">
 		{% csrf_token %}
 			{{ commentform }} 
 			<input type="submit" name = "submit_comment" value="Submit">
 		</form>
+		{% else %}
+		Log in to post comments.
+		{% endif %}
 
 		<form method="post">
+			<div class="tag_list">
+				Tags:
+				{% for t in tags %}
+					<a href="/tag/{{ t }}"> {{ t }} </a>,
+				{% endfor %}
+			</div>
 		{% csrf_token %}
 			{{ tagform }}
 			<input type="submit" name = "submit_tag" value="Submit">
@@ -204,11 +214,20 @@
 			{% for comment in comments %}
 				<div class="user-comment">
 					<p>Posted by {{ comment.user }} on: {{ comment.created_time }}</p>
-					{% if comment.updated_time != comment.created_time %}
+					{% if comment.is_updated %}
 						<p>Updated on: {{comment.updated_time}}</p>
 					{% endif %}
 					{{ comment.message }}
+					{% if comment.user == request.user.profile %}
+					<form method="post">
+						{% csrf_token %}
+						{{ editcform }}
+						<input type="hidden" name = "c_id" value = "{{ comment.id }}">
+						<input type="submit" name = "edit_comment" value="Edit">
+					</form>
+					{% endif %}
 				</div>
+
 			{% endfor %}
 		{% else %}
 			<p> No comments. </p>

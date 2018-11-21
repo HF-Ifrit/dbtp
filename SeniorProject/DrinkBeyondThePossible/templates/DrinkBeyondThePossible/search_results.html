@@ -4,11 +4,10 @@
 {% block content %}
     <h1 class="centeredTitle">Drink Search Results</h1>
     <div id="resultList">
-        <ul>
         {% for drink in drinkResults %}
             <div class="resultItem">
                 <img src="{{ drink.thumbimage }}" width="350px" height="350px">
-                <li><a href="{% url 'detail' drink.id %}">{{ drink.name }}</a></li>
+                <a href="{% url 'detail' drink.id %}">{{ drink.name }}</a>
                 <ul>
                     {% for ingredient in drink.ingredients %}
                         {% if ingredient|lower in searchIngredients %}
@@ -19,8 +18,9 @@
                     {% endfor %}
                 </ul>
             </div> 
-        {% endfor %}
-        </ul>
+        {% empty %}
+            <p>No matching drinks found for ingredients: {{ searchIngredients|join:", " }}</p>
+        {% endfor %}      
     </div>
     {% debug %}
 {% endblock content %}

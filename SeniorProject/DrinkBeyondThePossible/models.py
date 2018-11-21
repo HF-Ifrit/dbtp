@@ -4,8 +4,7 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.conf import settings
-
-from taggit.managers import TaggableManager
+import datetime
 
 # Create your models here.
 
@@ -24,26 +23,26 @@ class Profile(models.Model):
 class Drink(models.Model):
     name = models.CharField(max_length=50)
     cocktaildb_id = models.IntegerField()
-    tags = TaggableManager()
+
+class Tag(models.Model): 
+    name = models.CharField(max_length=20)
+    drink_ID = models.IntegerField()
 
 class Comment(models.Model):
-    # user = models.OneToOneField(Profile, on_delete=models.CASCADE)
     user = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    # user = models.CharField(max_length=100)
-    #drinkID = models.ForeignKey(Drink, on_delete=models.CASCADE)
     drinkID = models.IntegerField()
     message = models.CharField(max_length=2000)
     created_time = models.DateTimeField(auto_now_add=True)
     updated_time = models.DateTimeField(auto_now=True)
 
-class Tag(models.Model):
-    tags = TaggableManager()
-
+    @property
+    def is_updated(self): 
+        #return str(self.created_time) == str(self.updated_time)
+        return self.updated_time > self.created_time + datetime.timedelta(seconds=5)
 
 class drinkRating(models.Model):
     drink_id = models.OneToOneField(Drink, on_delete=models.CASCADE)
     rating = models.IntegerField(default=0)
-
     user = models.OneToOneField(Profile, on_delete=models.CASCADE)
 
 class Ingredient_List(models.Model):
@@ -60,7 +59,6 @@ class customDrink(models.Model):
     description = models.CharField(max_length=2000)
     image = models.ImageField(upload_to='uploads/', blank=True, null=True)
     user = models.OneToOneField(Profile, on_delete=models.CASCADE)
-    tags = TaggableManager()
 
 class customRecipe(models.Model):
     custom_name = models.CharField(max_length=50, primary_key=True)

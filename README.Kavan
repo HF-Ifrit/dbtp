@@ -1,3 +1,20 @@
+Week 9: 
+  Work Done:
+	* Fixed bug in ingredient list view to display ingredient name instead of just object 
+
+Week 8: 11/16
+  Work Done:
+	* Edited nginx config files for web caching 
+	* discovered conflict between cookies and wsgi stack. Disabled guest feature until later
+	Files edited in AWS server outside repo
+
+Week 7: 11/9
+  Work Done:
+	* Deployed nginx production server to display our website
+	* ec2-34-203-191-246.compute-1.amazonaws.com
+	* caught up to last week's feature of guest account cookies
+	* Note: revision 549b00f4, 1f3bcedf, c714616c, e5eb7b84, and f4d8f193 are my commits, I committed on the aws server while Kaius was working on the project in aws. Since I only created one account on the server that meant changing git name would apply to both users. I wasn't able to fix author name mistake but those commits are mine. We have changed work flow to only develop locally and treat aws as production server only. 
+
 Week 5: 10/26
   Work Done:
 	* Changed database schema to better extend User model and connect with other models
