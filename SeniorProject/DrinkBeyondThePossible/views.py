@@ -89,11 +89,11 @@ def detail(request, drinkID):
 
         if tagform.is_valid():
             tag_string = tagform.cleaned_data['tags']
-            tag_list = [x.strip() for x in tag_string.split(',')] # contains parsed tags from user
+            tag_list = [x.strip().lower() for x in tag_string.split(',')] # contains parsed tags from user
             tags_of_drink = [i.name for i in Tag.objects.filter(drink_ID=drinkID)] # contains existing tags for drink
             for tag in tag_list:
                 # ignore any invalid tags
-                if re.match("^[a-zA-Z]*$", tag) and tag not in tags_of_drink:
+                if len(tag) > 0 and re.match("^[a-zA-Z]*$", tag) and tag not in tags_of_drink:
                     t = Tag.objects.create(name=tag, drink_ID=drinkID)
                     t.save()
 
