@@ -1,5 +1,6 @@
 {% extends "DrinkBeyondThePossible/home.html" %}
 {% load static %}
+{% load ratings %}
 <head>
 
 	{% block title %}<title>Drink Info</title>{% endblock title %}
@@ -9,6 +10,10 @@
 				color: gray;
 				padding-left: 1%;
 				font-size: 24px;
+			}
+
+			.rating {
+				display: inline-block;
 			}
 			
 			body {
@@ -128,13 +133,9 @@
     <div class="drinkInfo">
 	    <img src="{{ drink.thumbimage }}" align="right">
 	    <h3 id="rating">Rating:</h3>
-	    <div class="rating">
-	    	<input type="radio" id="5/5" value="5" />
-	    	<input type="radio" id="4/5" value="4" />
-	    	<input type="radio" id="3/5" value="3" />
-	    	<input type="radio" id="2/5" value="2" />
-	    	<input type="radio" id="1/5" value="1" />
-	    </div>
+		<link rel="stylesheet" href="{% static 'star-ratings/css/star-ratings.css' %}">
+		<script type="text/javascript" src="{% static 'star-ratings/js/dist/star-ratings.min.js' %}"></script>
+		{% ratings drinkM %}
 
 		<h3>Ingredients:</h3>
 		{% for ingredient in drink.ingredients %}

@@ -103,9 +103,14 @@ def detail(request, drinkID):
     tagform = NewTagsForm()
     
     tags = [i.name for i in Tag.objects.filter(drink_ID=drinkID)]
+    
+    #obj = drinkRating(drink_id=Drink.objects.get(cocktaildb_id = drinkID), user=request.user.profile)
+    obj = drinkRating()
+    obj.save()
 
     context = {
         'drink': drinkResult, 
+        'drinkM': obj,
         'user_ingredients': user_ingredients, 
         'comments': comments, 
         'commentform': cform, 
