@@ -116,7 +116,8 @@ def detail(request, drinkID):
 def results(request):
     drink_results = []
     ingredients = []
-    
+    user_ingredients = []
+
     if 'ingredient' in request.GET: # Get ingredient search parameters from request
         search_results = []
         ingredients = [entry.strip('') for entry in request.GET.getlist('ingredient') if entry]
@@ -138,11 +139,12 @@ def results(request):
 
     #    request.set_cookie('ingredients', ingredients)
 
-    context = {'drinkResults': drink_results, 'searchIngredients': ingredients}
-    return render(request, 'DrinkBeyondThePossible/search_results.html', context=context)
+    # Retrieve ingredients list of current user if available
+    if request.user.is_authenticated:
+        user_ingredients = [entry.ingredient for entry in Ingredient_List.objects.filter(user=request.user.id)]
 
-    #print(ingredients)
-    #return response
+    context = {'drinkResults': drink_results, 'searchIngredients': ingredients, 'userIngredients':user_ingredients}
+    return render(request, 'DrinkBeyondThePossible/search_results.html', context=context)
 
 def login(request):
     context = {}

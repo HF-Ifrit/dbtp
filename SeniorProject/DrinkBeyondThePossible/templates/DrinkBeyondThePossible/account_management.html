@@ -8,10 +8,10 @@
 {% block content %}
     <h1 class="centeredTitle">Account Management</h1>
     <div class="centeredContainer">
-        <a href="{% url 'ingredientList' %}" class="buttonLink">View/Update Ingredient List</a>
-        <a href="{% url 'recipes' %}" class="buttonLink">View/Update Custom Drinks</a>
-        <a href="commentsurl" class="buttonLink">View Comment Posts</a>
-		<a href="{% url 'editAccount' %}" class="buttonLink">Change Username/Email</a>
-		<a href="{% url 'favoriteDrinkList' %}" class="buttonLink">View Favorite Drinks</a>
+        <a href="{% url 'ingredientList' %}" class="centeredButtons pure-button pure-button-primary">View/Update Ingredient List</a>
+        <a href="{% url 'recipes' %}" class="centeredButtons pure-button pure-button-primary">View/Update Custom Drinks</a>
+        <a href="commentsurl" class="centeredButtons pure-button pure-button-primary">View Comment Posts</a>
+		<a href="{% url 'editAccount' %}" class="centeredButtons pure-button pure-button-primary">Change Username/Email</a>
+		<a href="{% url 'favoriteDrinkList' %}" class="centeredButtons pure-button pure-button-primary">View Favorite Drinks</a>
     </div>
 {% endblock content %}
