@@ -1,6 +1,9 @@
-from django.urls import path
+from django.urls import path, include
+from django.conf.urls import url
 
 from . import views
+
+#app_name="ratings"
 
 urlpatterns = [
     path('', views.index, name='index'),
@@ -24,6 +27,8 @@ urlpatterns = [
     path('account/manage/edit_password', views.editPassword, name='editPassword'),
 
     path('account/favorite_drinks', views.viewFavoriteDrinks, name='favoriteDrinkList'),
+
+    #url(r'^ratings/', include('star_ratings.urls', namespace='ratings')),
 
     path('tag/<slug:tagname>', views.tagList, name='tag')
 

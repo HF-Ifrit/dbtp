@@ -68,12 +68,6 @@ def detail(request, drinkID):
                 newEntry = Ingredient_List.objects.create(user=curr_user, ingredient=ingredient)
                 newEntry.save()
 
-        cform = NewCommentForm(request.POST)
-        if cform.is_valid():
-            comment = Comment.objects.create(message=cform.cleaned_data['message'], 
-                user=request.user.profile, drinkID=drinkID)
-            comment.save()
-
         editcform = EditCommentForm(request.POST)
         if editcform.is_valid():
             new_message = editcform.cleaned_data['message']
@@ -82,15 +76,21 @@ def detail(request, drinkID):
             comment_to_be_changed.message = new_message
             comment_to_be_changed.save()
 
+        cform = NewCommentForm(request.POST)
+        if cform.is_valid() and not editcform.is_valid():
+            comment = Comment.objects.create(message=cform.cleaned_data['message'], 
+                user=request.user.profile, drinkID=drinkID)
+            comment.save()
+
         tagform = NewTagsForm(request.POST)
 
         if tagform.is_valid():
             tag_string = tagform.cleaned_data['tags']
-            tag_list = [x.strip() for x in tag_string.split(',')] # contains parsed tags from user
+            tag_list = [x.strip().lower() for x in tag_string.split(',')] # contains parsed tags from user
             tags_of_drink = [i.name for i in Tag.objects.filter(drink_ID=drinkID)] # contains existing tags for drink
             for tag in tag_list:
                 # ignore any invalid tags
-                if re.match("^[a-zA-Z]*$", tag) and tag not in tags_of_drink:
+                if len(tag) > 0 and re.match("^[a-zA-Z]*$", tag) and tag not in tags_of_drink:
                     t = Tag.objects.create(name=tag, drink_ID=drinkID)
                     t.save()
 
@@ -100,9 +100,14 @@ def detail(request, drinkID):
     tagform = NewTagsForm()
     
     tags = [i.name for i in Tag.objects.filter(drink_ID=drinkID)]
+    
+    #obj = drinkRating(drink_id=Drink.objects.get(cocktaildb_id = drinkID), user=request.user.profile)
+    obj = drinkRating()
+    obj.save()
 
     context = {
         'drink': drinkResult, 
+        'drinkM': obj,
         'user_ingredients': user_ingredients, 
         'comments': comments, 
         'commentform': cform, 
