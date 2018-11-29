@@ -184,6 +184,7 @@ li.navitem a:visited
     display: flex;
     flex-wrap: nowrap;
     overflow-x: auto;
+    width: 100%;
 }
 
 #recommendation-card
@@ -195,4 +196,77 @@ li.navitem a:visited
 {
     height: 150px;
     width: 150px;
+}
+
+#rating {
+    padding-top: 5px;
+}
+
+.Recommendation {
+    padding-left: 0.5%;
+}
+
+.Description {
+    padding-left: 1%;
+    font-size: 24px;
+}
+
+.Description p {
+    font-size: 16px;
+}
+
+.Instructions {
+    max-width: 350px;
+    counter-reset: instructions-counter;
+    list-style: none;
+    padding-left: 50px;
+}
+.Instructions li {
+    margin: 0 0 0.5rem 0;
+    counter-increment: instructions-counter;
+    position: relative;
+    padding-top: 5px;
+    font-size: 20px;
+
+}
+.Instructions li::before {
+    content: counter(instructions-counter);
+    font-size: 24px;
+    position: absolute;
+    --size: 26px;
+    left: calc(-1 * var(--size) - 15px);
+    line-height: var(--size);
+    width: var(--size);
+    height: var(--size);
+    color: #D3D3D3;
+    top: 0;
+    text-align: center;
+    box-shadow: 3px 2px 0 #999;
+    background: black;
+    border-radius: 8%;
+}
+
+.container {
+    display: block;
+    position: relative;
+    padding-left: 1%;
+    margin-bottom: 2px;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.addtocart {
+    margin: 1%;
+}
+
+.rating {
+    border: none;
+}
+
+#drinkimg {
+    border:4px solid #021a40;
+}
+
+.rating {
+    display: inline-block;
 }
