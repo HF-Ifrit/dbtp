@@ -105,9 +105,10 @@ def find_recommended_drinks(ingredient_list):
 
     for ingredient in ingredient_list:
         drinks = ingredientApiCall(ingredient)
-        for drink in drinks:
-            if drink['idDrink'] not in similar:
-                similar[drink['idDrink']] = drink
+        if drinks is not None:
+            for drink in drinks:
+                if drink['idDrink'] not in similar:
+                    similar[drink['idDrink']] = drink
 
     return list(similar.values())
 
