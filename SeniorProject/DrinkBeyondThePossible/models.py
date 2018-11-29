@@ -24,7 +24,7 @@ class Profile(models.Model):
         instance.profile.save()
 
 class Drink(models.Model):
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50, default='')
     cocktaildb_id = models.IntegerField()
 
 class Tag(models.Model): 
