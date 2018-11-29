@@ -18,7 +18,16 @@
             //Plus button
             $("#addEntry").click(function(event)
             {
-                $("#entryInputs").append("<input class='searchEntry' type='text'name='ingredient'>");
+                $("#entryInputs").append("<input class='searchEntry' type='text' name='ingredient' placeholder='Enter item...'>");
+            });
+
+            //Tab Key press procs the AddEntry button
+            $("#entryInputs").on("keydown", ".searchEntry", function(event)
+            {
+                if(event.keyCode == 9)
+                {
+                    $("#addEntry").trigger("click");
+                }
             });
         });
     </script>
