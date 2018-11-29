@@ -28,7 +28,7 @@ class Drink(models.Model):
     cocktaildb_id = models.IntegerField()
 
 class Tag(models.Model): 
-    name = models.CharField(max_length=20)
+    name = models.CharField(max_length=20, default='')
     drink_ID = models.IntegerField()
 
 class Comment(models.Model):
