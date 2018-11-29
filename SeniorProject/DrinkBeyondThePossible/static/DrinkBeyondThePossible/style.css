@@ -144,13 +144,11 @@ li.navitem a:visited
 .ingredientAvailable
 {
     color: green;
-    text-decoration-line: line-through;
 }
 
 .ingredientInList
 {
     color: blue;
-    text-decoration-line: line-through;
 }
 
 .ingredientUnavailable
