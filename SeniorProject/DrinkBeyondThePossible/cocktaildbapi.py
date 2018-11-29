@@ -19,7 +19,6 @@ class SearchResult:
     def __init__(self, data):
         self.drinks = []
         
-        # TODO: Build SearchResult using parallelism
         # Get all detailed information for each drink found that matches
         drink_ids = [drink['idDrink'] for drink in data]
         with pool.Pool(processes=10) as p:
