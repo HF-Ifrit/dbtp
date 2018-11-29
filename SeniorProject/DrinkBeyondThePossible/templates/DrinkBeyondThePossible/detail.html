@@ -115,7 +115,7 @@
 		<p>Total number of comments: {{ comments.count }}</p>
 
 		{% if request.user.is_authenticated %}
-		<form method="post">
+		<form id="commentform" method="post">
 		{% csrf_token %}
 			{{ commentform }} 
 			<input type="submit" name = "submit_comment" value="Submit">
@@ -124,7 +124,7 @@
 		Log in to post comments.
 		{% endif %}
 
-		<form method="post">
+		<form id="tagform" method="post">
 			<div class="tag_list">
 				Tags:
 				{% for t in tags %}
@@ -146,7 +146,7 @@
 					{% endif %}
 					{{ comment.message }}
 					{% if comment.user == request.user.profile %}
-					<form method="post">
+					<form id="editform" method="post">
 						{% csrf_token %}
 						{{ editcform }}
 						<input type="hidden" name = "c_id" value = "{{ comment.id }}">

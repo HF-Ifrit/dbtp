@@ -64,13 +64,13 @@ def detail(request, drinkID):
                 newEntry.save()
 
         cform = NewCommentForm(request.POST)
-        if cform.is_valid():
+        if cform.is_valid() and "submit_comment" in request.POST:
             comment = Comment.objects.create(message=cform.cleaned_data['message'], 
                 user=request.user.profile, drinkID=drinkID)
             comment.save()
 
         editcform = EditCommentForm(request.POST)
-        if editcform.is_valid():
+        if editcform.is_valid() and "edit_comment" in request.POST:
             new_message = editcform.cleaned_data['message']
             c_id = editcform.cleaned_data['c_id']
             comment_to_be_changed = Comment.objects.get(id=c_id)
@@ -79,7 +79,7 @@ def detail(request, drinkID):
 
         tagform = NewTagsForm(request.POST)
 
-        if tagform.is_valid():
+        if tagform.is_valid() and "submit_tag" in request.POST:
             tag_string = tagform.cleaned_data['tags']
             tag_list = [x.strip() for x in tag_string.split(',')] # contains parsed tags from user
             tags_of_drink = [i.name for i in Tag.objects.filter(drink_ID=drinkID)] # contains existing tags for drink
