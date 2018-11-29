@@ -13,13 +13,19 @@ a.buttonLink
 {
     padding: 10px;
     margin: auto;
-    width: 10%;
+    width: auto;
 }
 
+.centeredEntry
+{
+    padding: 10px;
+    margin: auto;
+    width: 20%;
+}
 .centeredButtons
 {
     display: block;
-    margin: auto;
+    margin: 10px 40%;
 }
 
 .centeredTitle
@@ -131,6 +137,12 @@ li.navitem a:visited
     text-decoration-line: line-through;
 }
 
+.ingredientInList
+{
+    color: blue;
+    text-decoration-line: line-through;
+}
+
 .ingredientUnavailable
 {
     color: red;
@@ -167,4 +179,13 @@ li.navitem a:visited
 #recommendation-card
 {
     list-style-type: none;
+
+
+}
+
+#recommendation-card img
+{
+    height: 150px;
+    width: 150px;
+
 }

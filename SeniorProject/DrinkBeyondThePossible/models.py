@@ -7,7 +7,7 @@ from django.conf import settings
 import datetime
 
 from django.contrib.contenttypes.fields import GenericRelation
-from star_ratings import get_star_ratings_rating_model_name
+#from star_ratings import get_star_ratings_rating_model_name
 
 # Create your models here.
 
@@ -43,14 +43,14 @@ class Comment(models.Model):
         #return str(self.created_time) == str(self.updated_time)
         return self.updated_time > self.created_time + datetime.timedelta(seconds=5)
 
-class drinkRating(models.Model):
-    #drink_id = models.OneToOneField(Drink, on_delete=models.CASCADE)
-    #rating = models.IntegerField(default=0)
-    rating = GenericRelation(get_star_ratings_rating_model_name(), related_query_name='ratedrink')
-    #user = models.OneToOneField(Profile, on_delete=models.CASCADE)
+# class drinkRating(models.Model):
+#     #drink_id = models.OneToOneField(Drink, on_delete=models.CASCADE)
+#     #rating = models.IntegerField(default=0)
+#     rating = GenericRelation(get_star_ratings_rating_model_name(), related_query_name='ratedrink')
+#     #user = models.OneToOneField(Profile, on_delete=models.CASCADE)
 
-    def str(self):
-        return self.name
+#     def str(self):
+#         return self.name
 
 class Ingredient_List(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

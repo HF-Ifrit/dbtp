@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     {% block title %}<title>Drink Beyond the Possible</title>{% endblock title %}
+    <link rel="shortcut icon" type="image/png" href="{% static 'DrinkBeyondThePossible/favicon.ico' %}"/>
     <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{% static 'DrinkBeyondThePossible/style.css' %}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -17,7 +18,16 @@
             //Plus button
             $("#addEntry").click(function(event)
             {
-                $("#entryInputs").append("<input class='searchEntry' type='text'name='ingredient'>");
+                $("#entryInputs").append("<input class='searchEntry' type='text' name='ingredient' placeholder='Enter item...'>");
+            });
+
+            //Tab Key press procs the AddEntry button
+            $("#entryInputs").on("keydown", ".searchEntry", function(event)
+            {
+                if(event.keyCode == 9)
+                {
+                    $("#addEntry").trigger("click");
+                }
             });
         });
     </script>
@@ -32,20 +42,22 @@
         <form id="searchForm" class="pure-form" action="{% url 'results' %}">
                 {% if not user.is_authenticated and ingredients != -1 %}
                     {% for ingredient in ingredients %}
-                        <div id="entryInputs" class="centeredContainer">
+                        <div id="entryInputs" class="centeredEntry">
                             <input class="searchEntry" type="text" name="ingredient" value=ingredient placeholder="Enter item...">
                         </div>
                     {% endfor %}
 			    {% else %}
-                    <div id="entryInputs" class="centeredContainer">
+                    <div id="entryInputs" class="centeredEntry">
                         <input class="searchEntry" type="text" name="ingredient" placeholder="Enter item...">
                     </div>
                 {% endif %}		
-            
-                {% comment %} <button id="addEntry" type="button" class="centeredButtons">+</button> {% endcomment %}
-                <button id = "addEntry" class="pure-button centeredButtons">+</button>
-                <br>
-                <button id="searchDrinks" class="pure-button pure-button-primary centeredButtons" type="submit">Search for matching drinks</button>
+
+                <div class="centeredButtons">
+                    <button id = "addEntry" class="pure-button" type="button">+</button>
+                    <br>
+                    <button id="searchDrinks" class="pure-button pure-button-primary" type="submit">Search for matching drinks</button>
+                </div>
+                
         </form>
     {% endblock content %}
 </body>

@@ -23,7 +23,7 @@ class SearchResult:
         # Get all detailed information for each drink found that matches
         drink_ids = [drink['idDrink'] for drink in data]
         with pool.Pool(processes=10) as p:
-            self.drinks = p.map(self.build_result, data)
+            self.drinks = p.map(self.build_result, drink_ids)
 
     def build_result(self, drink_id):
         detailResult = idApiCall(drink_id)

@@ -1,6 +1,6 @@
 {% extends "DrinkBeyondThePossible/home.html" %}
 {% load static %}
-{% load ratings %}
+
 <head>
 
 	{% block title %}<title>Drink Info</title>{% endblock title %}
@@ -133,9 +133,7 @@
     <div class="drinkInfo">
 	    <img src="{{ drink.thumbimage }}" align="right">
 	    <h3 id="rating">Rating:</h3>
-		<link rel="stylesheet" href="{% static 'star-ratings/css/star-ratings.css' %}">
-		<script type="text/javascript" src="{% static 'star-ratings/js/dist/star-ratings.min.js' %}"></script>
-		{% ratings drinkM %}
+
 
 		<h3>Ingredients:</h3>
 		{% for ingredient in drink.ingredients %}
