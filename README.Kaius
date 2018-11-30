@@ -1,3 +1,28 @@
+Week 9: 11-30-18
+Work Accomplished:
+    Frontend/Visual changes
+        -Changed button display on account management page
+        -Edited info card display on search results
+        -Added favicon for website
+        -Implemented use of TAB key for additional entries on home page
+    Bug Fixes
+        -Fixed None Type unscriptable issue for production server
+        -Fixed OperationalError when looking at details page on production server
+        -Comments now show username instead of Profile object
+        -Fixed search error when searching with blank inputs for ingredients
+
+Files edited:
+- DrinkBeyondThePossible/views.py
+- DrinkBeyondThePossible/models.py
+- DrinkBeyondThePossible/templates/DrinkBeyondThePossible/detail.html
+- DrinkBeyondThePossible/templates/DrinkBeyondThePossible/search_results.html
+- DrinkBeyondThePossible/templates/DrinkBeyondThePossible/account_management.html
+- DrinkBeyondThePossible/templates/DrinkBeyondThePossible/home.html
+- DrinkBeyondThePossible/static/DrinkBeyondThePossible/style.css
+- DrinkBeyondThePossible/static/DrinkBeyondThePossible/favicon.ico
+- DrinkBeyondThePossible/cocktaildbapi.py
+---------
+Week 8: 11-16-18
 Work Accomplished: 
     Updated CSS
         -Changed drink search results to show up as info cards
@@ -8,6 +33,7 @@ Files edited:
 - DrinkBeyondThePossible/templates/DrinkBeyondThePossible/search_results.html
 - DrinkBeyondThePossible/static/DrinkBeyondThePossible/style.css
 ---------
+Week 7: 11-9-18
 Work Accomplished:
     Bug Fixes & Cleanup:
         -Removed extra conditional checks for different pages in viewFavoriteDrinks view
