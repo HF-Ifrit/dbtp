@@ -1,6 +1,10 @@
-Week 9: 
+Week 9: 11/30
   Work Done:
-	* Fixed bug in ingredient list view to display ingredient name instead of just object 
+    * Fixed bug in ingredient list view to display ingredient name instead of just object 
+    * Created load test using locust to simulate multiple concurrent users on our production server. 
+    * Ran load test at 15 concurrent users. Will work on bumping number to discover load capacity. 
+  Files edited: 
+    * Testing/LoadTesting/*
 
 Week 8: 11/16
   Work Done:
