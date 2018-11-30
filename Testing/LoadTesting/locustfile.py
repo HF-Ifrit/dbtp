@@ -3,16 +3,15 @@ import resource, random
 
 resource.setrlimit(resource.RLIMIT_NOFILE, (999999, 999999))
 
-ingredients = []
-
+# limit on how many ingredients to test on results page. Randomly picked between range
+count_min = 0
+count_max = 10
 
 class UserBehavior(TaskSet):
 
 	def on_start(self):
 		self.login()
-		self.getIngredients()
 
-	# may not be needed, main parts to stress test are home and search results
 	def login(self):
 		response = self.client.get("/login/")
 		csrftoken = response.cookies.get('csrftoken', '')
@@ -22,6 +21,9 @@ class UserBehavior(TaskSet):
 		f = open('ingredients.txt', 'r')
 		content = f.read().replace('\n', '')
 		ingredients = [x.strip() for x in content.split(',')]
+		f.close()
+
+		return ingredients
 
 	
 	@task(100)
@@ -31,19 +33,22 @@ class UserBehavior(TaskSet):
 
 	@task(85)
 	def runSearchPage(self):
-		count_min = 0
-		count_max = 10
 
+		ingredients = self.getIngredients()
 		ingredient_count = random.randint(count_min, count_max)
 
 		sampleList = []
 
-		for x in range(0, ingredient_count):
-			pick = random.randint(0, len(ingredients) + 1) - 1
-			sampleList.append(ingredients[pick])
 
-		# TODO, use sample list to make post call on get drinks view
-		
+		for x in range(0, ingredient_count):
+			sampleList.append(random.choice(ingredients))
+
+		url = "/results?"
+
+		for ingredient in sampleList:
+			url += "ingredient=" + ingredient + "&"
+
+		self.client.get(url)
 
 	@task(75)
 	def loadIngredientList(self):
