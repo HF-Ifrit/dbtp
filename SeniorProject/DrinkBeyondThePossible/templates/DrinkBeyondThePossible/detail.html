@@ -113,6 +113,7 @@
 			$('input:radio').change(
 			function(){
 				var userRating = this.value;
+				$("#starform" ).submit();
 			});
 		});
 	</script>
@@ -127,6 +128,7 @@
 		<h3>Rating:</h3>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 		<form id="starform" method="post">
+			{% csrf_token %}
 			<fieldset class="rating">
 				<input type="radio" name="radiobutton" id="5" value=5 /><label class = "full" for="5" title="Excellent"></label>
 				<input type="radio" name="radiobutton" id="4.5" value=4.5 /><label class = "half" for="4.5" title="Very Good"></label>

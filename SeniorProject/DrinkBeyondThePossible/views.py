@@ -89,6 +89,11 @@ def detail(request, drinkID):
                     t = Tag.objects.create(name=tag, drink_ID=drinkID)
                     t.save()
 
+        if request.method == "POST" and "radiobutton" in request.POST:
+            score = request.POST['radiobutton']
+            rating = drinkRating(drink_id=drinkID, rating=score, user=User.objects.all()[1].profile)
+            rating.save()
+
     comments = Comment.objects.filter(drinkID=drinkID)
     cform = NewCommentForm()
     editcform = EditCommentForm()
