@@ -21,7 +21,59 @@
 				font-size: 90%;
 				margin: 1.5rem;
 			}
+
+			#starform {
+				width:300px;
+			}
+
+			.checked {
+				color: orange;
+			}
+
+
+			#starform, label { margin: 0; padding: 0; }
+			body{ margin: 20px; }
+			h1 { font-size: 1.5em; margin: 10px; }
+
+			/****** Style Star Rating Widget *****/
+
+			.rating { 
+			border: none;
+			float: left;
+			}
+
+			.rating > input { display: none; } 
+			.rating > label:before { 
+			margin: 5px;
+			font-size: 1.25em;
+			font-family: FontAwesome;
+			display: inline-block;
+			content: "\f005";
+			}
+
+			.rating > .half:before { 
+			content: "\f089";
+			position: absolute;
+			}
+
+			.rating > label { 
+			color: #ddd; 
+			float: right; 
+			}
+
+			/***** CSS Magic to Highlight Stars on Hover *****/
+
+			.rating > input:checked ~ label, /* show gold star when clicked */
+			.rating:not(:checked) > label:hover, /* hover current star */
+			.rating:not(:checked) > label:hover ~ label { color: #FFD700;  } /* hover previous stars in list */
+
+			.rating > input:checked + label:hover, /* hover current star when changing rating */
+			.rating > input:checked ~ label:hover,
+			.rating > label:hover ~ input:checked ~ label, /* lighten current selection */
+			.rating > input:checked ~ label:hover ~ label { color: #FFED85;  } 
 		</style>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 </head>
 
@@ -50,6 +102,18 @@
 					});
 				}
 			});
+			// Check Radio-box
+			$("#starform input:radio").attr("checked", false);
+
+			$('#starform input').click(function () {
+				$("#starform span").removeClass('checked');
+				$(this).parent().addClass('checked');
+			});
+
+			$('input:radio').change(
+			function(){
+				var userRating = this.value;
+			});
 		});
 	</script>
 {% endblock jquery %}
@@ -60,7 +124,22 @@
 	    
     <div class="drinkInfo">
 	    <img src="{{ drink.thumbimage }}" align="right" width="50%" height="50%" id="drinkimg">
-	    <h3 id="rating">Rating:</h3>
+		<h3>Rating:</h3>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+		<form id="starform" method="post">
+			<fieldset class="rating">
+				<input type="radio" name="radiobutton" id="5" value=5 /><label class = "full" for="5" title="Excellent"></label>
+				<input type="radio" name="radiobutton" id="4.5" value=4.5 /><label class = "half" for="4.5" title="Very Good"></label>
+				<input type="radio" name="radiobutton" id="4" value=4 /><label class = "full" for="4" title="Great"></label>
+				<input type="radio" name="radiobutton" id="3.5" value=3.5 /><label class = "half" for="3.5" title="Good"></label>
+				<input type="radio" name="radiobutton" id="3" value=3 /><label class = "full" for="3" title="Average"></label>
+				<input type="radio" name="radiobutton" id="2.5" value=2.5 /><label class = "half" for="2.5" title="Meh"></label>
+				<input type="radio" name="radiobutton" id="2" value=2 /><label class = "full" for="2" title="Poor"></label>
+				<input type="radio" name="radiobutton" id="1.5" value=1.5 /><label class = "half" for="1.5" title="Slightly Better than Trash"></label>
+				<input type="radio" name="radiobutton" id="1" value=1 /><label class = "full" for="1" title="Trash"></label>
+				<input type="radio" name="radiobutton" id="0.5" value=0.5 /><label class = "half" for="0.5" title="Ghastly"></label>
+			</fieldset>
+		</form>
 
 
 		<h3>Ingredients:</h3>
