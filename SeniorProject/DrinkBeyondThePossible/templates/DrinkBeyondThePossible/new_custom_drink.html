@@ -1,7 +1,6 @@
 {% extends "DrinkBeyondThePossible/home.html" %}
 {% load static %}
 
-<head>
 {% block title %}
     <title>New Custom Drink</title>
 {% endblock title %}
@@ -12,8 +11,14 @@
             {
                 $("#addEntry").click(function(event)
                 {
-                    /*$("#entryInputs").append("<input class='searchEntry' type='text'name='ingredient'>");*/
+                    $("#ingredients").append("<div id='ingredientEntry'><input type='text' id='entryInputs' placeholder='Enter ingredient...'><button type='button' class='removeEntry pure-button'>X</button></div>");
                 });
+
+				$(document).on("click", ".removeEntry", function(event)
+				{
+					console.log("Clicked remove");
+					$(this).closest('div').remove();
+				});
             });
         </script>
 
@@ -29,7 +34,6 @@
         		list-style-type: square;
         	}
         	body {
-				background-color: rgb(0, 0, 0);
 				color: rgb(44, 44, 44);
 
 				min-width: 450px;
@@ -59,30 +63,45 @@
 
 
         </style>
-</head>
 {% endblock jquery %}
 
 {% block content %}
 <body>
     <h1 class="centeredTitle">Make Your Own Recipe!</h1>
+    <div width="auto" height="auto" align="center">
+	    <form action="{% url 'recipeEntry' %}" method="POST" class="pure-form-stacked">
+			{% csrf_token %}
+			{% comment %} {{ form }} {% endcomment %}
+			<label for="drinkName">Drink Name:</label>
+			<input type="text" name="drinkName" id="drinkName">
+			
+			<label for="ingredients">Ingredients:</label>
+			<div name="ingredients" id="ingredients">
+				<div id="ingredientEntry">
+					<input type="text" id="entryInputs" placeholder="Enter ingredient...">
+					<button type="button" class="removeEntry pure-button">X</button>
+				</div>
+			</div>
+			<button id="addEntry" class="pure-button" type="button">+</button>
 
+			<label for="instructions">Instructions:</label>
+			<textarea name="instructions" id="instructions"></textarea>
 
-    <div>
-	    <form action="{% url 'recipeEntry' %}" method="POST" class="form">
-	    {% csrf_token %}
-	       	{{ form }}
-	       	<input type="submit" value="submit">
+			<label for="description">Description:</label>
+			<textarea name="description" id="description"></textarea>
 
+			<label for="image">Image:</label>
+			<input type="file" accept="image/*" name="image" id="image">
+
+			<input type="submit" value="Submit">
 	    </form>
 
 	    <!--Saved Recipe region-->
-	    <div class="savedRecipes" align="middle">
+	    <div class="savedRecipes" align="right">
 	        <h3>Saved Recipes</h3>
 	        <ul> 
-	        	<li>Toothpaste and Orange Juice</li>
 	        </ul>
 	    </div>
 	</div>
-	<img src="{% static "DrinkBeyondThePossible/coctail-icon.jpg" %}" align="left" class="uploadedIMG">
 </body>
 {% endblock content %}

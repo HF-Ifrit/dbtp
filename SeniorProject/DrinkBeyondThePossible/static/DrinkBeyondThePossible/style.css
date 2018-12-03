@@ -270,3 +270,9 @@ li.navitem a:visited
 .rating {
     display: inline-block;
 }
+
+/* Styling for new custom drinks page */
+#ingredientEntry input
+{
+    display: inline;
+}
