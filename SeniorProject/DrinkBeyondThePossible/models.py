@@ -61,16 +61,20 @@ class Ingredient_List(models.Model):
         ordering = ['user']
 
 class customDrink(models.Model):
-    drink = models.OneToOneField(Drink, on_delete=models.CASCADE)
-    ingredients = models.ForeignKey(Ingredient_List, unique=False, on_delete=models.CASCADE)
+    id = models.AutoField(primary_key=True)
+    drink_name = models.CharField(max_length=50, default="")
     description = models.CharField(max_length=2000)
+    instructions = models.CharField(max_length = 2000)
     image = models.ImageField(upload_to='uploads/', blank=True, null=True)
-    user = models.OneToOneField(Profile, on_delete=models.CASCADE)
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ('drink_name', 'user')
 
 class customRecipe(models.Model):
-    custom_name = models.CharField(max_length=50, primary_key=True)
-    user = models.OneToOneField(Profile, on_delete=models.CASCADE)
-    ingredients = models.ForeignKey(Ingredient_List, on_delete=models.CASCADE)
+    custom_name = models.CharField(max_length=50)
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    ingredient = models.CharField(max_length=50)
 
 class favoriteDrink(models.Model):
     drink = models.ForeignKey(Drink, on_delete=models.CASCADE)

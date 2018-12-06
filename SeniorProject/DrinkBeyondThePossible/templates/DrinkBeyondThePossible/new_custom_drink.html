@@ -11,7 +11,7 @@
             {
                 $("#addEntry").click(function(event)
                 {
-                    $("#ingredients").append("<div id='ingredientEntry'><input type='text' id='entryInputs' placeholder='Enter ingredient...'><button type='button' class='removeEntry pure-button'>X</button></div>");
+                    $("#ingredients").append("<div id='ingredientEntry'><input type='text' id='entryInputs' name='ingredient' placeholder='Enter ingredient...'><button type='button' class='removeEntry pure-button'>X</button></div>");
                 });
 
 				$(document).on("click", ".removeEntry", function(event)
@@ -69,7 +69,7 @@
 <body>
     <h1 class="centeredTitle">Make Your Own Recipe!</h1>
     <div width="auto" height="auto" align="center">
-	    <form action="{% url 'recipeEntry' %}" method="POST" class="pure-form-stacked">
+	    <form action="{% url 'recipeEntry' %}" method="POST" class="pure-form pure-form-stacked">
 			{% csrf_token %}
 			{% comment %} {{ form }} {% endcomment %}
 			<label for="drinkName">Drink Name:</label>
@@ -78,7 +78,7 @@
 			<label for="ingredients">Ingredients:</label>
 			<div name="ingredients" id="ingredients">
 				<div id="ingredientEntry">
-					<input type="text" id="entryInputs" placeholder="Enter ingredient...">
+					<input type="text" id="entryInputs" name="ingredient" placeholder="Enter ingredient...">
 					<button type="button" class="removeEntry pure-button">X</button>
 				</div>
 			</div>
@@ -100,6 +100,9 @@
 	    <div class="savedRecipes" align="right">
 	        <h3>Saved Recipes</h3>
 	        <ul> 
+				{% for drink in customDrinks %}
+					<li>{{ drink }}</li>
+				{% endfor %}
 	        </ul>
 	    </div>
 	</div>
