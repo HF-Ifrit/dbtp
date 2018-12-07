@@ -11,9 +11,9 @@
                 <ul>
                     {% for ingredient in drink.ingredients %}
                         {% if ingredient|lower in searchIngredients %}
-                            <li class="ingredientAvailable">{{ ingredient }}</li>
+                            <li class="ingredientAvailable">{{ ingredient }}&#10003</li>
                         {% elif ingredient|lower in userIngredients %}
-                            <li class="ingredientInList">{{ ingredient }}(In Ing. List)</li>
+                            <li class="ingredientInList">{{ ingredient }}(In Ing. List)&#10003</li>
                         {% else %}
                             <li class="ingredientUnavailable">{{ ingredient }}</li>
                         {% endif %}
