@@ -5,20 +5,12 @@
     <title>Custom Drink List</title>
 {% endblock title %}
 
-{% block jquery %}
-        <script>
-            $(document).ready(function()
-            {
-                
-            });
-        </script>
-{% endblock jquery %}
-
 {% block content %}
     <h1 class="centeredTitle">Custom Drinks</h1>
     <div class="centeredContainer">
         <ul id="recipeList">
             <!--Create list items using image of drink and url to detail view-->
+            
         </ul>
         <a href="{% url 'recipeEntry' %}" id="newRecipe" type="button">Add New Recipe</a>
     </div>

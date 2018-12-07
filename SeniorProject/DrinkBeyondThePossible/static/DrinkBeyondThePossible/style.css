@@ -179,6 +179,11 @@ li.navitem a:visited
     font-family: 'Open Sans', Helvetica, Arial, sans-serif;
 }
 
+#addToFavorites
+{
+    margin: 10px;
+}
+
 #recommendation-table
 {
     display: flex;
@@ -253,6 +258,7 @@ li.navitem a:visited
     margin-bottom: 2px;
     cursor: pointer;
     font-size: 20px;
+    width: fit-content;
 }
 
 .addtocart {

@@ -59,6 +59,14 @@ def detail(request, drinkID):
             for ingredient in newIngredients:
                 newEntry = Ingredient_List.objects.create(user=curr_user, ingredient=ingredient)
                 newEntry.save()
+        
+        if 'isFavorite' in request.POST:
+            if request.POST['isFavorite']:
+                newFavEntry = favoriteDrink(user=request.user.profile, drink_id=drinkID, drink_name=drinkResult.name)
+                newFavEntry.save()
+            else:
+                previousFavEntry = favoriteDrink.objects.get(user=request.user.profile, drink_id=drinkID, drink_name=drinkResult.name)
+                previousFavEntry.delete()
 
         cform = NewCommentForm(request.POST)
         if cform.is_valid() and "submit_comment" in request.POST:
@@ -102,16 +110,17 @@ def detail(request, drinkID):
     # obj = drinkRating()
     # obj.save()
 
+    isFavorite = favoriteDrink.objects.filter(user=request.user.profile, drink_id=drinkID).exists()
     context = {
         'drink': drinkResult, 
-        # 'drinkM': obj,
         'user_ingredients': user_ingredients, 
         'comments': comments, 
         'commentform': cform, 
         'recommended_drinks': recommended_drinks, 
         'tagform': tagform,
         'tags': tags,
-        'editcform': editcform
+        'editcform': editcform,
+        'isFavorite': isFavorite
     }
     return render(request, 'DrinkBeyondThePossible/detail.html', context=context)
 
@@ -289,15 +298,11 @@ def newCustomDrink(request):
 def viewFavoriteDrinks(request):
 
     getOp = "Favorite Drinks"
-    collection = favoriteDrink.objects.filter(user=request.user.profile)
+    favorites = favoriteDrink.objects.filter(user=request.user.profile)
 
-    #fav_drinks = favoriteDrink.objects.filter(user=request.user.profile)
-
-    #print(fav_drinks)
-
-    if not collection:
-        context = {'collection': None, 'getOp': getOp}
+    if favorites.exists():
+        context = {'collection': favorites, 'getOp': getOp}
     else:
-        context = {'collection': collection, 'getOp': getOp}
+        context = {'collection': [], 'getOp': getOp}
 
     return render(request, 'DrinkBeyondThePossible/display_favorite_drinks.html', context)
