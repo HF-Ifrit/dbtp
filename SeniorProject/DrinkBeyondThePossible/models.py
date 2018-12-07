@@ -13,11 +13,11 @@ from django.contrib.contenttypes.fields import GenericRelation
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-
+    
     @receiver(post_save, sender=User)
     def create_user_profile(sender, instance, created, **kwargs):
         if created:
-            Profile.objects.create(user=instance)
+            Profile(user=instance).save()
 
     @receiver(post_save, sender=User)
     def save_user_profile(sender, instance, **kwargs):
@@ -78,4 +78,4 @@ class customRecipe(models.Model):
 
 class favoriteDrink(models.Model):
     drink = models.ForeignKey(Drink, on_delete=models.CASCADE)
-    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    user = models.OneToOneField(Profile, on_delete=models.CASCADE)

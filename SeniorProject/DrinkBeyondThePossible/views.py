@@ -237,19 +237,21 @@ def createAccount(request):
         form = NewAccountForm(request.POST)
 
         if form.is_valid():
-
-        # create account
+            # create account
+            username = form.cleaned_data['account_name']
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password']
             User.objects.create_user(
-                username=form.cleaned_data['account_name'],
-                email=form.cleaned_data['email'],
-                password=form.cleaned_data['password']
+                username=username,
+                email=email,
+                password=password
             )
 
-            if request.COOKIES.get('ingredients', -1) != -1:
-                ingredients = request.COOKIES.get('ingredients', -1)
-                for ingredient in ingredients:
-                    ingredientObject = Ingredient_List.objects.create(user=request.user, ingredient=ingredient)
-                    ingredientObject.save()
+            # if request.COOKIES.get('ingredients', -1) != -1:
+            #     ingredients = request.COOKIES.get('ingredients', -1)
+            #     for ingredient in ingredients:
+            #         ingredientObject = Ingredient_List.objects.create(user=request.user, ingredient=ingredient)
+            #         ingredientObject.save()
 
             return HttpResponseRedirect('/')
     else:
