@@ -51,6 +51,9 @@ def detail(request, drinkID):
     # Get the ingredient list of the user account of this session
     if request.user.is_authenticated:
         user_ingredients = [entry.ingredient for entry in Ingredient_List.objects.filter(user=uid)]
+        isFavorite = favoriteDrink.objects.filter(user=request.user.profile, drink_id=drinkID).exists()
+    else:
+        isFavorite = False
 
     if request.method == 'POST':
         if 'newIngredients[]' in request.POST:
@@ -110,7 +113,7 @@ def detail(request, drinkID):
     # obj = drinkRating()
     # obj.save()
 
-    isFavorite = favoriteDrink.objects.filter(user=request.user.profile, drink_id=drinkID).exists()
+    
     context = {
         'drink': drinkResult, 
         'user_ingredients': user_ingredients, 

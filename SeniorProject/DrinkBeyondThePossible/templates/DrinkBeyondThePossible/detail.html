@@ -156,12 +156,16 @@
 			</fieldset>
 		</form>
 
-		<!--Add to User's Favorite Drinks-->
-		{% if isFavorite %}
-			<button disabled type="button" id="addToFavorites" class="pure-button pure-button-primary">Add to Favorites</button>
+		{% if user.is_authenticated %}
+			<!--Add to User's Favorite Drinks-->
+			{% if isFavorite %}
+				<button disabled type="button" id="addToFavorites" class="pure-button pure-button-primary">Add to Favorites</button>
+			{% else %}
+				<button type="button" id="addToFavorites" class="pure-button pure-button-primary">Add to Favorites</button>
+			{% endif %}
 		{% else %}
-			<button type="button" id="addToFavorites" class="pure-button pure-button-primary">Add to Favorites</button>
 		{% endif %}
+		
 
 		<h3>Ingredients:</h3>
 		{% for ingredient in drink.ingredients %}
@@ -175,8 +179,12 @@
 	  	</label>
 		{% endfor %}
 
-		<!--Add To Ingredient List-->
-		<button type="button" id="addIngredients" class="addtocart pure-button pure-button-primary">Add to Cart</button>
+		{% if user.is_authenticated %}
+			<!--Add To Ingredient List-->
+			<button type="button" id="addIngredients" class="addtocart pure-button pure-button-primary">Add to Cart</button>
+		{% else %}
+		{% endif %}
+		
 
 	  	<!--Note: Instructions come as a string and not individual steps-->
 		<h3>Instructions:</h3>
