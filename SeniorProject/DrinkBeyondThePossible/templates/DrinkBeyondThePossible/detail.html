@@ -102,6 +102,19 @@
 					});
 				}
 			});
+
+			//Add to favorites button
+			$("#addToFavorites").click(function()
+			{
+				$.post("{% url 'detail' drink.id %}",
+				{'isFavorite': true,
+				'csrfmiddlewaretoken': '{{ csrf_token }}'})
+				.done(function()
+				{
+					location.reload();
+				});
+			});
+
 			// Check Radio-box
 			$("#starform input:radio").attr("checked", false);
 
@@ -127,7 +140,7 @@
 	    <img src="{{ drink.thumbimage }}" align="right" width="50%" height="50%" id="drinkimg">
 		<h3>Rating:</h3>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-		<form id="starform" method="post">
+		<form style="height: 50px;" id="starform" method="post">
 			{% csrf_token %}
 			<fieldset class="rating">
 				<input type="radio" name="radiobutton" id="5" value=5 /><label class = "full" for="5" title="Excellent"></label>
@@ -143,6 +156,12 @@
 			</fieldset>
 		</form>
 
+		<!--Add to User's Favorite Drinks-->
+		{% if isFavorite %}
+			<button disabled type="button" id="addToFavorites" class="pure-button pure-button-primary">Add to Favorites</button>
+		{% else %}
+			<button type="button" id="addToFavorites" class="pure-button pure-button-primary">Add to Favorites</button>
+		{% endif %}
 
 		<h3>Ingredients:</h3>
 		{% for ingredient in drink.ingredients %}
@@ -157,7 +176,7 @@
 		{% endfor %}
 
 		<!--Add To Ingredient List-->
-		<button type="button" id="addIngredients" class="addtocart">Add to Cart</button>
+		<button type="button" id="addIngredients" class="addtocart pure-button pure-button-primary">Add to Cart</button>
 
 	  	<!--Note: Instructions come as a string and not individual steps-->
 		<h3>Instructions:</h3>

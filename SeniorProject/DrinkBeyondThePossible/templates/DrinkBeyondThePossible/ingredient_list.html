@@ -11,7 +11,7 @@
             {
                 $("#addEntry").click(function(event)
                 {
-                    $("#ingredients").append("<input type='text' name='ingredient'>");
+                    $("#ingredients").append("<input style='display:block' type='text' name='ingredient'>");
                     /*$("#entryInputs").append("<input class='searchEntry' type='text'name='ingredient'>");*/
                 });
 
@@ -25,21 +25,20 @@
 
 {% block content %}
     <h1 class="centeredTitle">Edit Ingredient List</h1>
-    <form class="centeredContainer" action="{% url 'ingredientList' %}" method="POST">
+    <div class="centeredContainer" align="center">
+        <form class="pure-form pure-form-stacked" action="{% url 'ingredientList' %}" method="POST">
         {% csrf_token %}
-        <div>
             <label for="ingredients">New ingredients:</label>
             
             <div id="ingredients">
-                <input type="text" name="ingredient">
+                <input style="display:block" type="text" name="ingredient">
             </div>
             <button id="addEntry" type="button">+</button>
 
-            <div class="centeredContainer">
-                <button type="submit">Save</button>
-            </div>
-        </div>
-    </form>
+            <button class="pure-button pure-button-primary" type="submit">Save</button>
+        </form>
+    </div>
+    
 
     <!--Ingredient list region-->
     <style>h3{text-decoration: underline;}</style>

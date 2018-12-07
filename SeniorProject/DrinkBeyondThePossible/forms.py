@@ -20,7 +20,12 @@ class NewAccountForm(forms.Form):
     email = forms.CharField(label="Email", max_length=100)
     password = forms.CharField(label="Password", max_length=100)
 
-class NewDrinkForm(ModelForm):
+class NewDrinkForm(forms.Form):
+    drinkName = forms.CharField(max_length=50)
+    description = forms.CharField(max_length=200, required=False)
+    instructions = forms.CharField(max_length=200, required=False)
+    image = forms.FileField(required=False)
+
     class Meta:
         model = customDrink
         fields = ['drink', 'ingredients', 'description', 'image', 'user']

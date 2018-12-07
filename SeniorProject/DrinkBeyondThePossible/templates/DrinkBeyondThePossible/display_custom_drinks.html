@@ -2,16 +2,42 @@
 {% load static %}
 
 {% block title %}
-    <title>Custom Drinks</title>
+    <title>Custom Drink - {{ recipe.drink_name }}</title>
 {% endblock title %}
 
 {% block content %}
-	<h1>Custom Drinks Drinks</h1>
+	<h1>{{ recipe.drinkName }}</h1>
 		    
-	<br><br>
+	<div class="drinkInfo">
 
-	{% for drink in cust_drinks %}
-	<!-- <a href="/">{{ drink.drink_name }}</a> -->
-		<a href="/">{{ drink.name }}</a>
-	{% endfor %}
+		{% if recipe.image %}
+			<img src="{{ recipe.image }}" align="right" width="25%" height="25%" id="drinkimg">
+		{% else %}
+			<img src="{% static 'DrinkBeyondThePossible/coctail-icon.jpg' %}" width="25%" height="25%">
+		{% endif %}
+	    
+
+
+		<h3>Ingredients:</h3>
+		{% for ingredient in recipe.ingredients %}
+		<label class="container">
+			{% if ingredient|lower not in user_ingredients %}
+				<input type="checkbox" value="{{ ingredient|lower }}"checked="checked">
+			{% endif %}
+			
+			<span class="checkmark"></span>
+			{{ ingredient }}
+	  	</label>
+		{% endfor %}
+
+	  	<!--Note: Instructions come as a string and not individual steps-->
+		<h3>Instructions:</h3>
+		{{ recipe.instructions }}
+
+
+	    <div class = "Description"> 
+		    <h4>Description:</h4>
+		    <p>{{ recipe.description }}</p>
+		</div>
+	</div>
 {% endblock content %} 

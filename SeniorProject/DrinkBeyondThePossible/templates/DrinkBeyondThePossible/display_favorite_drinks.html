@@ -10,29 +10,17 @@
 
 	<br><br>
 
-	{% if collection == None %}
+	{% if collection %}
+		<ul>
+		{% for drink in collection %}
+			<li><a href="{% url 'detail' drink.drink_id %}">{{ drink.drink_name }}</a></li>
+		{% endfor %}
+		</ul>
+	{% else %}
 		<h2>No {{ getOp }} saved! Save your {{ getOp }} list here!</h2>
-		{{ collection }}
 	{% endif %}
 
 
-	<!--
-	{% for drink in fav_drinks %}
-		<a href="/detail/{{ drink.drink.cocktaildb_id }}">{{ drink.drink.name }}</a>
-	{% endfor %}
-	-->
-	<!-- TODO import css for specific list in if statement -->
-	{% for item in collection %}
-		{% if getOp == "Ingredients" %}
-			{{ item.ingredients.ingredient }}
-			<br>
-		{% elif getOp == "Custom Drinks" %}
-			{{ item.drink.name }}
-			<br>
-		{% elif getOp == "Favorite Drinks" %}
-			<a href="/detail/{{ drink.drink.cocktaildb_id }}">{{ drink.drink.name }}</a>
-			<br>
-		{% endif %}
-	{% endfor %}
+
 
 {% endblock content %}

@@ -5,25 +5,21 @@
     <title>Custom Drink List</title>
 {% endblock title %}
 
-{% block jquery %}
-        <script>
-            $(document).ready(function()
-            {
-                $("#addEntry").click(function(event)
-                {
-                    $("#ingredients").append("<input type='text' name='ingredient'>");
-                    /*$("#entryInputs").append("<input class='searchEntry' type='text'name='ingredient'>");*/
-                });
-            });
-        </script>
-{% endblock jquery %}
-
 {% block content %}
     <h1 class="centeredTitle">Custom Drinks</h1>
-    <div class="centeredContainer">
-        <ul id="recipeList">
+    <div class="centeredList">
+        {% if recipes %}
+            <ul id="recipeList">
             <!--Create list items using image of drink and url to detail view-->
-        </ul>
+            {% for recipe in recipes %}
+                <li><a href="{% url 'recipe' recipe.drink_name %}">{{ recipe.drink_name }}</a></li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <h2>No custom drinks saved! Save your recipes here!</h2>
+        {% endif %}
+        
+        
         <a href="{% url 'recipeEntry' %}" id="newRecipe" type="button">Add New Recipe</a>
     </div>
 {% endblock content %}

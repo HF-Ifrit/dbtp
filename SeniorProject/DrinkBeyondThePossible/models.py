@@ -13,11 +13,11 @@ from django.contrib.contenttypes.fields import GenericRelation
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-
+    
     @receiver(post_save, sender=User)
     def create_user_profile(sender, instance, created, **kwargs):
         if created:
-            Profile.objects.create(user=instance)
+            Profile(user=instance).save()
 
     @receiver(post_save, sender=User)
     def save_user_profile(sender, instance, **kwargs):
@@ -61,17 +61,28 @@ class Ingredient_List(models.Model):
         ordering = ['user']
 
 class customDrink(models.Model):
-    drink = models.OneToOneField(Drink, on_delete=models.CASCADE)
-    ingredients = models.ForeignKey(Ingredient_List, unique=False, on_delete=models.CASCADE)
+    id = models.AutoField(primary_key=True)
+    drink_name = models.CharField(max_length=50, default="")
     description = models.CharField(max_length=2000)
+    instructions = models.CharField(max_length = 2000)
     image = models.ImageField(upload_to='uploads/', blank=True, null=True)
     user = models.ForeignKey(Profile, on_delete=models.CASCADE)
 
+    class Meta:
+        unique_together = ('drink_name', 'user')
+
 class customRecipe(models.Model):
-    custom_name = models.CharField(max_length=50, primary_key=True)
+    custom_name = models.CharField(max_length=50)
     user = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    ingredients = models.ForeignKey(Ingredient_List, on_delete=models.CASCADE)
+    ingredient = models.CharField(max_length=50)
+
+    class Meta:
+        unique_together = ('custom_name', 'user', 'ingredient')
 
 class favoriteDrink(models.Model):
-    drink = models.ForeignKey(Drink, on_delete=models.CASCADE)
-    user = models.OneToOneField(Profile, on_delete=models.CASCADE)
+    drink_name = models.CharField(max_length=50)
+    drink_id = models.IntegerField()
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ('drink_id', 'user')
