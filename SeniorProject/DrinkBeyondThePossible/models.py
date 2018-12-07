@@ -65,13 +65,13 @@ class customDrink(models.Model):
     ingredients = models.ForeignKey(Ingredient_List, unique=False, on_delete=models.CASCADE)
     description = models.CharField(max_length=2000)
     image = models.ImageField(upload_to='uploads/', blank=True, null=True)
-    user = models.OneToOneField(Profile, on_delete=models.CASCADE)
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
 
 class customRecipe(models.Model):
     custom_name = models.CharField(max_length=50, primary_key=True)
-    user = models.OneToOneField(Profile, on_delete=models.CASCADE)
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
     ingredients = models.ForeignKey(Ingredient_List, on_delete=models.CASCADE)
 
 class favoriteDrink(models.Model):
     drink = models.ForeignKey(Drink, on_delete=models.CASCADE)
-    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    user = models.OneToOneField(Profile, on_delete=models.CASCADE)
