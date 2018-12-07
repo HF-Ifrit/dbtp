@@ -13,11 +13,11 @@ from django.contrib.contenttypes.fields import GenericRelation
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-
+    
     @receiver(post_save, sender=User)
     def create_user_profile(sender, instance, created, **kwargs):
         if created:
-            Profile.objects.create(user=instance)
+            Profile(user=instance).save()
 
     @receiver(post_save, sender=User)
     def save_user_profile(sender, instance, **kwargs):
@@ -43,14 +43,14 @@ class Comment(models.Model):
         #return str(self.created_time) == str(self.updated_time)
         return self.updated_time > self.created_time + datetime.timedelta(seconds=5)
 
-# class drinkRating(models.Model):
-#     #drink_id = models.OneToOneField(Drink, on_delete=models.CASCADE)
-#     #rating = models.IntegerField(default=0)
-#     rating = GenericRelation(get_star_ratings_rating_model_name(), related_query_name='ratedrink')
-#     #user = models.OneToOneField(Profile, on_delete=models.CASCADE)
+class drinkRating(models.Model):
+    drink_id = models.IntegerField()
+    rating = models.DecimalField(max_digits=2, decimal_places=1)
+    #rating = GenericRelation(get_star_ratings_rating_model_name(), related_query_name='ratedrink')
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
 
-#     def str(self):
-#         return self.name
+    # def str(self):
+    #     return self.name
 
 class Ingredient_List(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -61,17 +61,28 @@ class Ingredient_List(models.Model):
         ordering = ['user']
 
 class customDrink(models.Model):
-    drink = models.OneToOneField(Drink, on_delete=models.CASCADE)
-    ingredients = models.ForeignKey(Ingredient_List, unique=False, on_delete=models.CASCADE)
+    id = models.AutoField(primary_key=True)
+    drink_name = models.CharField(max_length=50, default="")
     description = models.CharField(max_length=2000)
+    instructions = models.CharField(max_length = 2000)
     image = models.ImageField(upload_to='uploads/', blank=True, null=True)
-    user = models.OneToOneField(Profile, on_delete=models.CASCADE)
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ('drink_name', 'user')
 
 class customRecipe(models.Model):
-    custom_name = models.CharField(max_length=50, primary_key=True)
-    user = models.OneToOneField(Profile, on_delete=models.CASCADE)
-    ingredients = models.ForeignKey(Ingredient_List, on_delete=models.CASCADE)
+    custom_name = models.CharField(max_length=50)
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    ingredient = models.CharField(max_length=50)
+
+    class Meta:
+        unique_together = ('custom_name', 'user', 'ingredient')
 
 class favoriteDrink(models.Model):
-    drink = models.ForeignKey(Drink, on_delete=models.CASCADE)
+    drink_name = models.CharField(max_length=50)
+    drink_id = models.IntegerField()
     user = models.ForeignKey(Profile, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ('drink_id', 'user')

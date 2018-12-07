@@ -1,10 +1,9 @@
-import asyncio
+import re
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
+from django.contrib.auth.views import login_required
 from django.views.decorators.http import require_http_methods
-#from .forms import EditAccountForm
-import re
 from . import cocktaildbapi as cdb
 from .models import *
 from .forms import NewTagsForm, NewDrinkForm, NewCommentForm, NewAccountForm, EditPasswordForm, EditEmailForm, EditAccountnameForm, EditCommentForm
@@ -13,8 +12,6 @@ from .forms import NewTagsForm, NewDrinkForm, NewCommentForm, NewAccountForm, Ed
 def index(request):
 
     ingredients = request.COOKIES.get('ingredients', -1);
-
-
     context = {
         'activePage': 'Home',
         'currentUser': '',
@@ -62,6 +59,14 @@ def detail(request, drinkID):
             for ingredient in newIngredients:
                 newEntry = Ingredient_List.objects.create(user=curr_user, ingredient=ingredient)
                 newEntry.save()
+        
+        if 'isFavorite' in request.POST:
+            if request.POST['isFavorite']:
+                newFavEntry = favoriteDrink(user=request.user.profile, drink_id=drinkID, drink_name=drinkResult.name)
+                newFavEntry.save()
+            else:
+                previousFavEntry = favoriteDrink.objects.get(user=request.user.profile, drink_id=drinkID, drink_name=drinkResult.name)
+                previousFavEntry.delete()
 
         cform = NewCommentForm(request.POST)
         if cform.is_valid() and "submit_comment" in request.POST:
@@ -89,6 +94,11 @@ def detail(request, drinkID):
                     t = Tag.objects.create(name=tag, drink_ID=drinkID)
                     t.save()
 
+        if request.method == "POST" and "radiobutton" in request.POST:
+            score = request.POST['radiobutton']
+            rating = drinkRating(drink_id=drinkID, rating=score, user=request.user.profile)
+            rating.save()
+
     comments = Comment.objects.filter(drinkID=drinkID)
     cform = NewCommentForm()
     editcform = EditCommentForm()
@@ -100,16 +110,17 @@ def detail(request, drinkID):
     # obj = drinkRating()
     # obj.save()
 
+    isFavorite = favoriteDrink.objects.filter(user=request.user.profile, drink_id=drinkID).exists()
     context = {
         'drink': drinkResult, 
-        # 'drinkM': obj,
         'user_ingredients': user_ingredients, 
         'comments': comments, 
         'commentform': cform, 
         'recommended_drinks': recommended_drinks, 
         'tagform': tagform,
         'tags': tags,
-        'editcform': editcform
+        'editcform': editcform,
+        'isFavorite': isFavorite
     }
     return render(request, 'DrinkBeyondThePossible/detail.html', context=context)
 
@@ -121,7 +132,7 @@ def results(request):
     if 'ingredient' in request.GET: # Get ingredient search parameters from request
         search_results = []
         ingredients = [entry.strip('') for entry in request.GET.getlist('ingredient') if entry]
-        #drinkResults = cdb.find_matching_drinks(ingredients)
+        
         for ingredient in ingredients:
             matching_result = cdb.searchMatchingDrinks(ingredient)
             if isinstance(matching_result, cdb.SearchResult):
@@ -129,15 +140,6 @@ def results(request):
        
         if search_results:
             drink_results = list(set.intersection(*search_results))
-
-    #response = render_to_response(request, 'DrinkBeyondThePossible/search_results.html', context={'drinkResults': drinkResults, 'searchIngredients': ingredients})
-
-    #if not request.user.is_authenticated:
-        #pass
-        #response = request.set_cookie('ingredients', ingredients)
-        #response = render_to_response(request, 'DrinkBeyondThePossible/search_results.html', context={'drinkResults': drinkResults})
-
-    #    request.set_cookie('ingredients', ingredients)
 
     # Retrieve ingredients list of current user if available
     if request.user.is_authenticated:
@@ -156,34 +158,51 @@ def logout(request):
     }
     return render(request, 'DrinkBeyondThePossible/logout.html', context=context)
 
+@login_required
 def manage(request):
     context = {
         'activePage': 'Account'
     }
     return render(request, 'DrinkBeyondThePossible/account_management.html', context=context)
 
+@login_required
 def ingredientList(request):
-
     if request.method == 'POST':
-        pass
-    elif request.method == 'GET':
-        ingredients = Ingredient_List.objects.filter(user=request.user)
+        if request.user.is_authenticated:
+            ingredients = [entry.strip('') for entry in request.POST.getlist('ingredient') if entry]
 
+            for ing in ingredients:
+                if not Ingredient_List.objects.filter(ingredient=ing, user=request.user).exists():
+                    new_ingredient = Ingredient_List(ingredient=ing, user=request.user)
+                    new_ingredient.save()
+   
+    ingredients = Ingredient_List.objects.filter(user=request.user)
+
+    context = {
+        'activePage': 'Account',
+        'ingredients': ingredients
+    }
+
+    return render(request, 'DrinkBeyondThePossible/ingredient_list.html', context=context)
+
+@login_required
+def recipeList(request):
+
+    recipes = customDrink.objects.filter(user=request.user.profile)
+
+    if recipes.exists():
         context = {
             'activePage': 'Account',
-            'ingredients': ingredients
+            'recipes': recipes
         }
-
-        return render(request, 'DrinkBeyondThePossible/ingredient_list.html', context=context)
-
-
-def recipeList(request):
-    context = {
-        'activePage': 'Account'
-    }
+    else:
+        context = {
+            'activePage': 'Account',
+            'recipes': []
+        }
     return render(request, 'DrinkBeyondThePossible/custom_drinks.html', context=context)
 
-
+@login_required
 def editAccount(request):
     #form = EditAccountForm()
     usernameForm = EditAccountnameForm()
@@ -192,7 +211,7 @@ def editAccount(request):
 
     return render(request, 'DrinkBeyondThePossible/edit_account.html', {'usernameForm': usernameForm, 'emailForm': emailForm, 'passwordForm': passwordForm})
 
-
+@login_required
 def editUsername(request):
 
     if request.method == 'POST':
@@ -205,7 +224,7 @@ def editUsername(request):
 
     return HttpResponseRedirect('/')
 
-
+@login_required
 def editEmail(request):
 
     if request.method == 'POST':
@@ -218,7 +237,7 @@ def editEmail(request):
 
     return HttpResponseRedirect('/')
 
-
+@login_required
 def editPassword(request):
     if request.method == 'POST':
         form = EditEmailForm(request.POST)
@@ -237,19 +256,21 @@ def createAccount(request):
         form = NewAccountForm(request.POST)
 
         if form.is_valid():
-
-        # create account
+            # create account
+            username = form.cleaned_data['account_name']
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password']
             User.objects.create_user(
-                username=form.cleaned_data['account_name'],
-                email=form.cleaned_data['email'],
-                password=form.cleaned_data['password']
+                username=username,
+                email=email,
+                password=password
             )
 
-            if request.COOKIES.get('ingredients', -1) != -1:
-                ingredients = request.COOKIES.get('ingredients', -1)
-                for ingredient in ingredients:
-                    ingredientObject = Ingredient_List.objects.create(user=request.user, ingredient=ingredient)
-                    ingredientObject.save()
+            # if request.COOKIES.get('ingredients', -1) != -1:
+            #     ingredients = request.COOKIES.get('ingredients', -1)
+            #     for ingredient in ingredients:
+            #         ingredientObject = Ingredient_List.objects.create(user=request.user, ingredient=ingredient)
+            #         ingredientObject.save()
 
             return HttpResponseRedirect('/')
     else:
@@ -257,38 +278,56 @@ def createAccount(request):
 
     return render(request, 'DrinkBeyondThePossible/create_account.html', {'form': form})
 
-
+@login_required
 def newCustomDrink(request):
     if request.method == 'POST':
+        ingredients = request.POST.getlist('ingredient')
+
         form = NewDrinkForm(request.POST)
-
         if form.is_valid():
-            form.save()
-            return HttpResponseRedirect('/')
+            drink_name = form.cleaned_data['drinkName']
+            description = form.cleaned_data['description']
+            instructions = form.cleaned_data['instructions']
+            image = form.cleaned_data['image']
 
+            newDrink = customDrink(drink_name=drink_name, description=description, instructions=instructions, image=image, user=request.user.profile)
+            newDrink.save()
+            for ing in ingredients:
+                recipeEntry = customRecipe(custom_name=drink_name, user=request.user.profile, ingredient=ing)
+                recipeEntry.save()   
     else:
         form = NewDrinkForm()
+        
+    custom_drinks = []
 
-    return render(request, 'DrinkBeyondThePossible/new_custom_drink.html', {'form': form})
+    if request.user.is_authenticated:
+        custom_drinks = [drink.drink_name for drink in customDrink.objects.filter(user=request.user.profile)]     
+    return render(request, 'DrinkBeyondThePossible/new_custom_drink.html', {'form': form, 'customDrinks': custom_drinks})
 
+@login_required
+def displayCustomDrinks(request, recipe_name):
+    try:
+        recipe = customDrink.objects.get(drink_name=recipe_name, user=request.user.profile)
+    except Exception as e:
+        return HttpResponseRedirect('')
 
+    ingredients = [r.ingredient for r in customRecipe.objects.filter(user=request.user.profile, custom_name=recipe.drink_name)]
 
+    recipeInfo = {'drinkName': recipe.drink_name, 'description': recipe.description, 'instructions': recipe.instructions, 'image': recipe.image, 'ingredients': ingredients}
+    
+    user_ingredients = [i.ingredient for i in Ingredient_List.objects.filter(user=request.user)]
+    context={'activePage': 'Account', 'recipe': recipeInfo, 'user_ingredients': user_ingredients}
+    return render(request, 'DrinkBeyondThePossible/display_custom_drinks.html', context=context)
+
+@login_required
 def viewFavoriteDrinks(request):
-    if request.method == 'GET':
 
-        getOp = "Favorite Drinks"
-        collection = favoriteDrink.objects.filter(user=request.user.profile)
+    getOp = "Favorite Drinks"
+    favorites = favoriteDrink.objects.filter(user=request.user.profile)
 
-        #fav_drinks = favoriteDrink.objects.filter(user=request.user.profile)
-
-        #print(fav_drinks)
-
-        if not collection:
-            context = {'collection': None, 'getOp': getOp}
-        else:
-            context = {'collection': collection, 'getOp': getOp}
-
-        return render(request, 'DrinkBeyondThePossible/display_favorite_drinks.html', context)
-
+    if favorites.exists():
+        context = {'collection': favorites, 'getOp': getOp}
     else:
-        return None
+        context = {'collection': [], 'getOp': getOp}
+
+    return render(request, 'DrinkBeyondThePossible/display_favorite_drinks.html', context)
