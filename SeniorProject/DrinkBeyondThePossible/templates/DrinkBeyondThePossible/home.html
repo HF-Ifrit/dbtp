@@ -38,6 +38,7 @@
 
     {% block content %}
         <h1 class="centeredTitle">Drink Beyond the Possible</h1>
+		<img class="centeredButtons" src="{% static 'DrinkBeyondThePossible/logo-2.jpg' %}" alt="logo.jpg">
         <h4 class="centeredTitle">Enter available ingredients:</h4>
         <form id="searchForm" class="pure-form" action="{% url 'results' %}">
                 {% if not user.is_authenticated and ingredients != -1 %}
