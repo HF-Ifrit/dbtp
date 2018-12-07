@@ -10,7 +10,7 @@
     <div class="centeredContainer">
         <a href="{% url 'ingredientList' %}" class="centeredButtons pure-button pure-button-primary">View/Update Ingredient List</a>
         <a href="{% url 'recipes' %}" class="centeredButtons pure-button pure-button-primary">View/Update Custom Drinks</a>
-        <a href="commentsurl" class="centeredButtons pure-button pure-button-primary">View Comment Posts</a>
+        {% comment %} <a href="commentsurl" class="centeredButtons pure-button pure-button-primary">View Comment Posts</a> {% endcomment %}
 		<a href="{% url 'editAccount' %}" class="centeredButtons pure-button pure-button-primary">Change Username/Email</a>
 		<a href="{% url 'favoriteDrinkList' %}" class="centeredButtons pure-button pure-button-primary">View Favorite Drinks</a>
     </div>

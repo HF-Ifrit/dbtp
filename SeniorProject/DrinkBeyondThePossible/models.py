@@ -76,6 +76,9 @@ class customRecipe(models.Model):
     user = models.ForeignKey(Profile, on_delete=models.CASCADE)
     ingredient = models.CharField(max_length=50)
 
+    class Meta:
+        unique_together = ('custom_name', 'user', 'ingredient')
+
 class favoriteDrink(models.Model):
     drink_name = models.CharField(max_length=50)
     drink_id = models.IntegerField()

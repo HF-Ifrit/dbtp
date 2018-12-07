@@ -16,6 +16,13 @@ a.buttonLink
     width: auto;
 }
 
+.centeredList
+{
+    padding:10px;
+    margin: auto;
+    width: auto;
+    display: table;
+}
 .centeredEntry
 {
     padding: 10px;

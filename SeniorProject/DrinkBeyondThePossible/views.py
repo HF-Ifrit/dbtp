@@ -187,9 +187,19 @@ def ingredientList(request):
 
 @login_required
 def recipeList(request):
-    context = {
-        'activePage': 'Account'
-    }
+
+    recipes = customDrink.objects.filter(user=request.user.profile)
+
+    if recipes.exists():
+        context = {
+            'activePage': 'Account',
+            'recipes': recipes
+        }
+    else:
+        context = {
+            'activePage': 'Account',
+            'recipes': []
+        }
     return render(request, 'DrinkBeyondThePossible/custom_drinks.html', context=context)
 
 @login_required
@@ -293,6 +303,21 @@ def newCustomDrink(request):
     if request.user.is_authenticated:
         custom_drinks = [drink.drink_name for drink in customDrink.objects.filter(user=request.user.profile)]     
     return render(request, 'DrinkBeyondThePossible/new_custom_drink.html', {'form': form, 'customDrinks': custom_drinks})
+
+@login_required
+def displayCustomDrinks(request, recipe_name):
+    try:
+        recipe = customDrink.objects.get(drink_name=recipe_name, user=request.user.profile)
+    except Exception as e:
+        return HttpResponseRedirect('')
+
+    ingredients = [r.ingredient for r in customRecipe.objects.filter(user=request.user.profile, custom_name=recipe.drink_name)]
+
+    recipeInfo = {'drinkName': recipe.drink_name, 'description': recipe.description, 'instructions': recipe.instructions, 'image': recipe.image, 'ingredients': ingredients}
+    
+    user_ingredients = [i.ingredient for i in Ingredient_List.objects.filter(user=request.user)]
+    context={'activePage': 'Account', 'recipe': recipeInfo, 'user_ingredients': user_ingredients}
+    return render(request, 'DrinkBeyondThePossible/display_custom_drinks.html', context=context)
 
 @login_required
 def viewFavoriteDrinks(request):
