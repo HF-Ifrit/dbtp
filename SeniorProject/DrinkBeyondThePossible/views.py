@@ -288,9 +288,9 @@ def newCustomDrink(request):
             drink_name = form.cleaned_data['drinkName']
             description = form.cleaned_data['description']
             instructions = form.cleaned_data['instructions']
-            image = form.cleaned_data['image']
+            #image = form.cleaned_data['image']
 
-            newDrink = customDrink(drink_name=drink_name, description=description, instructions=instructions, image=image, user=request.user.profile)
+            newDrink = customDrink(drink_name=drink_name, description=description, instructions=instructions, user=request.user.profile)
             newDrink.save()
             for ing in ingredients:
                 recipeEntry = customRecipe(custom_name=drink_name, user=request.user.profile, ingredient=ing)
