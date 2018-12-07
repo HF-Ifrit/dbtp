@@ -139,7 +139,7 @@ def results(request):
                 search_results.append(set(matching_result.drinks))
        
         if search_results:
-            drink_results = list(set.intersection(*search_results))
+            drink_results = list(set.union(set.intersection(*search_results), *search_results))
 
     # Retrieve ingredients list of current user if available
     if request.user.is_authenticated:
