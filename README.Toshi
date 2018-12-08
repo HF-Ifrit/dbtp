@@ -1,3 +1,16 @@
+Week 7 & 8:
+  Work Done:
+  * Additional bug fixes regarding comments and star ratings
+  * Implemented drink rating system that saves user ratings to model
+
+  Files Edited:
+   * SeniorProject\DrinkBeyondThePossible\templates\DrinkBeyondThePossible\new_custom_drink.html
+  * SeniorProject\DrinkBeyondThePossible\models.py
+  * SeniorProject\DrinkBeyondThePossible\views.py
+  * SeniorProject\DrinkBeyondThePossible\forms.py 
+  * SeniorProject\DrinkBeyondThePossible\SeniorProject\settings.py 
+  * SeniorProject\DrinkBeyondThePossible\SeniorProject\urls.py 
+
 Week 6:
   Work Done: 
   * Added a form on details test page for adding tags to model

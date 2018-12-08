@@ -1,3 +1,12 @@
+Week 10: 12/7
+  Work Done:
+	* added project logo to home page
+	* removed extraneous header tag from login template
+	* fixed models in regards to many to one relations vs one to one relations
+	* Connected DNS "drinkbeyondthepossible.beer" to our aws server. Website can now be accessed by that url instead of aws default dns. 
+  Files edited:
+	* SeniorProject/DrinkBeyondThePossible/static/DrinkBeyondThePossible/logo-1.jpg
+	* SeniorProject/DrinkBeyondThePossible/static/DrinkBeyondThePossible/logo-2.jpg
 Week 9: 11/30
   Work Done:
     * Fixed bug in ingredient list view to display ingredient name instead of just object 
