@@ -151,15 +151,15 @@ def results(request):
     context = {'drinkResults': drink_results, 'searchIngredients': ingredients, 'userIngredients':user_ingredients}
     return render(request, 'DrinkBeyondThePossible/search_results.html', context=context)
 
-def login(request):
-    context = {}
-    return render(request, 'DrinkBeyondThePossible/login.html', context=context)
+# def login(request):
+#     context = {}
+#     return render(request, 'DrinkBeyondThePossible/login.html', context=context)
 
-def logout(request):
-    context = {
+# def logout(request):
+#     context = {
 
-    }
-    return render(request, 'DrinkBeyondThePossible/logout.html', context=context)
+#     }
+#     return render(request, 'DrinkBeyondThePossible/logout.html', context=context)
 
 @login_required
 def manage(request):

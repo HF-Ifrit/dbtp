@@ -33,11 +33,13 @@ ALLOWED_HOSTS = ['*']
 INSTALLED_APPS = [
     'DrinkBeyondThePossible.apps.DrinkbeyondthepossibleConfig',
     'django.contrib.admin',
+    'django.contrib.admindocs',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'docs',
     #'star_ratings',
 ]
 
@@ -130,3 +132,5 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/sitemedia/'
+DOCS_ROOT = os.path.join(BASE_DIR, '/docs/_build/html')
+

@@ -1,3 +1,29 @@
+Week 9: 12-7-18
+Work Accomplished:
+    Frontend/Visual changes
+        -Added custom recipe display
+        -Added custom recipe detail
+        -Added logo to home screen
+    Bug Fixes
+        -Fixed account creation error due to foreign key mismatch
+        -Fixed OperationalError when submitting favorite drink
+        -Prevented non-registered accounts from having access to account features
+
+Files edited:
+- DrinkBeyondThePossible/views.py
+- DrinkBeyondThePossible/models.py
+- DrinkBeyondThePossible/templates/DrinkBeyondThePossible/detail.html
+- DrinkBeyondThePossible/templates/DrinkBeyondThePossible/search_results.html
+- DrinkBeyondThePossible/templates/DrinkBeyondThePossible/account_management.html
+- DrinkBeyondThePossible/templates/DrinkBeyondThePossible/home.html
+- DrinkBeyondThePossible/templates/DrinkBeyondThePossible/custom_drink.html
+- DrinkBeyondThePossible/templates/DrinkBeyondThePossible/display_custom_drinks.html
+- DrinkBeyondThePossible/templates/DrinkBeyondThePossible/new_custom_drink.html
+- DrinkBeyondThePossible/templates/DrinkBeyondThePossible/ingredient_list.html
+- DrinkBeyondThePossible/static/DrinkBeyondThePossible/style.css
+- DrinkBeyondThePossible/static/DrinkBeyondThePossible/favicon.ico
+- DrinkBeyondThePossible/cocktaildbapi.py
+---------
 Week 9: 11-30-18
 Work Accomplished:
     Frontend/Visual changes
