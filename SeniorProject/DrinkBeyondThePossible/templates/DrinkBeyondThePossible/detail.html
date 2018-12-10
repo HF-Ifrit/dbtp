@@ -145,6 +145,7 @@
 			<h3>Average Rating: {{ average_rating }}</h3>
 		{% endif %}
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+		{% if user.is_authenticated %}
 		<form style="height: 50px;" id="starform" method="post">
 			{% csrf_token %}
 			<fieldset class="rating">
@@ -160,6 +161,7 @@
 				<input type="radio" name="radiobutton" id="0.5" value=0.5 /><label class = "half" for="0.5" title="Ghastly"></label>
 			</fieldset>
 		</form>
+		{% endif %}
 
 		{% if user.is_authenticated %}
 			<!--Add to User's Favorite Drinks-->
