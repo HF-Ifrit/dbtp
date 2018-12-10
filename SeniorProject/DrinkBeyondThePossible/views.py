@@ -99,15 +99,15 @@ def detail(request, drinkID):
 
         if request.method == "POST" and "radiobutton" in request.POST:
             score = request.POST['radiobutton']
-            if request.user.is_authenticated:
-                rating = drinkRating.objects.get(user=request.user.profile)
+            if drinkRating.objects.filter(drink_id=drinkID, user=request.user.profile).count() != 0:
+                rating = drinkRating.objects.get(drink_id=drinkID, user=request.user.profile)
                 rating.rating = score
             else:
                 rating = drinkRating(drink_id=drinkID, rating=score, user=request.user.profile)
             rating.save()
         
     all_ratings = drinkRating.objects.filter(drink_id=drinkID)
-    num_ratings = len(all_ratings)
+    num_ratings = all_ratings.count()
     if num_ratings > 0:
         avg_rating = 0
         for rating in all_ratings:
@@ -116,9 +116,9 @@ def detail(request, drinkID):
     else:
         avg_rating = -1
 
-    if request.user.is_authenticated:
-        user_rating = drinkRating.objects.get(user=request.user.profile)
-    else:
+    try:
+        user_rating = drinkRating.objects.get(user=request.user.profile, drink_id=drinkID)
+    except:
         user_rating = -1
 
     checked = []

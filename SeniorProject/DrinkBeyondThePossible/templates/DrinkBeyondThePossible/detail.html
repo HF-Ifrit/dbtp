@@ -138,11 +138,13 @@
 	    
     <div class="drinkInfo">
 		<img src="{{ drink.thumbimage }}" align="right" width="50%" height="50%" id="drinkimg">
-		{% if user_rating != -1 %}
-			<h3>Your Rating: {{ user_rating.rating }} </h3>
+		{% if average_rating != -1 %}
+		    {% if user_rating != -1 %}
+				<h3>Your Rating: {{ user_rating.rating }} </h3>
+			{% endif %}
 			<h3>Average Rating: {{ average_rating }}</h3>
 		{% else %}
-			<h3>Average Rating: {{ average_rating }}</h3>
+			<h3>Average Rating: Not rated yet</h3>
 		{% endif %}
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 		{% if user.is_authenticated %}
