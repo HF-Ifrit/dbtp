@@ -26,16 +26,32 @@ def tagList(request, tagname):
     # Extract drink_id's for each tag for query
     drinks = [drink.drink_ID for drink in tags_for_drinks]
     drink_list = []
+    ratings = []
 
     for drink_id in drinks:
+        all_ratings = drinkRating.objects.filter(drink_id=drink_id)
+        num_ratings = all_ratings.count()
+        if num_ratings > 0:
+            avg_rating = 0
+            for rating in all_ratings:
+                avg_rating += rating.rating
+            avg_rating = round(avg_rating / num_ratings, 2)
+        else:
+            avg_rating = -1
         drinkResult = cdb.get_drink_details(drink_id)
         drink_list.append(drinkResult)
+        ratings.append(avg_rating)
+
+    
+    z_ratings = zip(drink_list, ratings)
+    z_ratings = sorted(z_ratings, key=lambda x: x[1], reverse=True)
 
 
 
     context = {
         'tagname': tagname.capitalize(),
-        'drinks': drink_list
+        'drinks': drink_list,
+        'drink_ratings': z_ratings
     }
 
     return render(request, 'DrinkBeyondThePossible/tag.html', context=context)
