@@ -1,4 +1,5 @@
 import re
+import itertools
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
@@ -134,7 +135,7 @@ def results(request):
 
     if 'ingredient' in request.GET: # Get ingredient search parameters from request
         search_results = []
-        ingredients = [entry.strip('') for entry in request.GET.getlist('ingredient') if entry]
+        ingredients = [entry.strip('').lower() for entry in request.GET.getlist('ingredient') if entry]
         
         for ingredient in ingredients:
             matching_result = cdb.searchMatchingDrinks(ingredient)
@@ -142,7 +143,13 @@ def results(request):
                 search_results.append(set(matching_result.drinks))
        
         if search_results:
-            drink_results = list(set.union(set.intersection(*search_results), *search_results))
+            #drink_results = list(set.union(set.intersection(*search_results), *search_results))
+            initial_set = list(search_results)
+            comb_chain = itertools.chain.from_iterable(itertools.combinations(initial_set, r) for r in range(1, len(initial_set)+1))
+            ingredient_intersections = [set.intersection(*x) for x in comb_chain if set.intersection(*x) != set()]
+            #TODO: Change drink_results list comprehension to account for uniqueness
+            drink_results = list({drink for sublist in ingredient_intersections for drink in sublist})
+            
 
     # Retrieve ingredients list of current user if available
     if request.user.is_authenticated:
