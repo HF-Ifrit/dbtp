@@ -101,8 +101,37 @@ def detail(request, drinkID):
 
         if request.method == "POST" and "radiobutton" in request.POST:
             score = request.POST['radiobutton']
-            rating = drinkRating(drink_id=drinkID, rating=score, user=request.user.profile)
+            if drinkRating.objects.filter(drink_id=drinkID, user=request.user.profile).count() != 0:
+                rating = drinkRating.objects.get(drink_id=drinkID, user=request.user.profile)
+                rating.rating = score
+            else:
+                rating = drinkRating(drink_id=drinkID, rating=score, user=request.user.profile)
             rating.save()
+        
+    all_ratings = drinkRating.objects.filter(drink_id=drinkID)
+    num_ratings = all_ratings.count()
+    if num_ratings > 0:
+        avg_rating = 0
+        for rating in all_ratings:
+            avg_rating += rating.rating
+        avg_rating = round(avg_rating / num_ratings, 2)
+    else:
+        avg_rating = -1
+
+    try:
+        user_rating = drinkRating.objects.get(user=request.user.profile, drink_id=drinkID)
+    except:
+        user_rating = -1
+
+    checked = []
+    k = 0
+    for i in range(10):
+        if avg_rating > k:
+            checked.append('checked')
+        else:
+            checked.append('')
+        k += 0.5
+    
 
     comments = Comment.objects.filter(drinkID=drinkID)
     cform = NewCommentForm()
@@ -125,7 +154,10 @@ def detail(request, drinkID):
         'tagform': tagform,
         'tags': tags,
         'editcform': editcform,
-        'isFavorite': isFavorite
+        'isFavorite': isFavorite,
+        'average_rating': avg_rating,
+        'checkers': checked,
+        'user_rating': user_rating
     }
     return render(request, 'DrinkBeyondThePossible/detail.html', context=context)
 

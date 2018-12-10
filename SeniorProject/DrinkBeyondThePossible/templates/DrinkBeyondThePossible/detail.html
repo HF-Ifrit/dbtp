@@ -27,15 +27,13 @@
 			}
 
 			.checked {
-				color: orange;
+				color: rgb(255,140,0);
 			}
 
 
 			#starform, label { margin: 0; padding: 0; }
 			body{ margin: 20px; }
 			h1 { font-size: 1.5em; margin: 10px; }
-
-			/****** Style Star Rating Widget *****/
 
 			.rating { 
 			border: none;
@@ -61,15 +59,13 @@
 			float: right; 
 			}
 
-			/***** CSS Magic to Highlight Stars on Hover *****/
+			.rating > input:checked ~ label, 
+			.rating:not(:checked) > label:hover, 
+			.rating:not(:checked) > label:hover ~ label { color: #FFD700;  } 
 
-			.rating > input:checked ~ label, /* show gold star when clicked */
-			.rating:not(:checked) > label:hover, /* hover current star */
-			.rating:not(:checked) > label:hover ~ label { color: #FFD700;  } /* hover previous stars in list */
-
-			.rating > input:checked + label:hover, /* hover current star when changing rating */
+			.rating > input:checked + label:hover, 
 			.rating > input:checked ~ label:hover,
-			.rating > label:hover ~ input:checked ~ label, /* lighten current selection */
+			.rating > label:hover ~ input:checked ~ label, 
 			.rating > input:checked ~ label:hover ~ label { color: #FFED85;  } 
 		</style>
 
@@ -137,9 +133,17 @@
 	<h1 class="drinkName">{{ drink.name }}</h1>
 	    
     <div class="drinkInfo">
-	    <img src="{{ drink.thumbimage }}" align="right" width="50%" height="50%" id="drinkimg">
-		<h3>Rating:</h3>
+		<img src="{{ drink.thumbimage }}" align="right" width="50%" height="50%" id="drinkimg">
+		{% if average_rating != -1 %}
+		    {% if user_rating != -1 %}
+				<h3>Your Rating: {{ user_rating.rating }} </h3>
+			{% endif %}
+			<h3>Average Rating: {{ average_rating }}</h3>
+		{% else %}
+			<h3>Average Rating: Not rated yet</h3>
+		{% endif %}
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+		{% if user.is_authenticated %}
 		<form style="height: 50px;" id="starform" method="post">
 			{% csrf_token %}
 			<fieldset class="rating">
@@ -155,6 +159,7 @@
 				<input type="radio" name="radiobutton" id="0.5" value=0.5 /><label class = "half" for="0.5" title="Ghastly"></label>
 			</fieldset>
 		</form>
+		{% endif %}
 
 		{% if user.is_authenticated %}
 			<!--Add to User's Favorite Drinks-->
