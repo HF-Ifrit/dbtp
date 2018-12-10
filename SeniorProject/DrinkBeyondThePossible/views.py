@@ -57,14 +57,14 @@ def detail(request, drinkID):
         isFavorite = False
 
     if request.method == 'POST':
-        if 'newIngredients[]' in request.POST:
+        if 'newIngredients[]' in request.POST: # User adding new item to their ingredient list
             curr_user = User.objects.get(username=request.user.username)
             newIngredients = request.POST.getlist('newIngredients[]')
             for ingredient in newIngredients:
                 newEntry = Ingredient_List.objects.create(user=curr_user, ingredient=ingredient)
                 newEntry.save()
         
-        if 'isFavorite' in request.POST:
+        if 'isFavorite' in request.POST: # User adding/removing current drink to their favorite drink list
             if request.POST['isFavorite']:
                 newFavEntry = favoriteDrink(user=request.user.profile, drink_id=drinkID, drink_name=drinkResult.name)
                 newFavEntry.save()
@@ -72,6 +72,7 @@ def detail(request, drinkID):
                 previousFavEntry = favoriteDrink.objects.get(user=request.user.profile, drink_id=drinkID, drink_name=drinkResult.name)
                 previousFavEntry.delete()
 
+        # Comment and tag form generation
         cform = NewCommentForm(request.POST)
         if cform.is_valid() and "submit_comment" in request.POST:
             comment = Comment.objects.create(message=cform.cleaned_data['message'], 
@@ -138,16 +139,16 @@ def results(request):
         ingredients = [entry.strip('').lower() for entry in request.GET.getlist('ingredient') if entry]
         
         for ingredient in ingredients:
+            #Find every possible drink that can be made from the ingredient
             matching_result = cdb.searchMatchingDrinks(ingredient)
             if isinstance(matching_result, cdb.SearchResult):
                 search_results.append(set(matching_result.drinks))
        
         if search_results:
-            #drink_results = list(set.union(set.intersection(*search_results), *search_results))
+            # Find every drink available from the combination of ingredients
             initial_set = list(search_results)
             comb_chain = itertools.chain.from_iterable(itertools.combinations(initial_set, r) for r in range(1, len(initial_set)+1))
             ingredient_intersections = [set.intersection(*x) for x in comb_chain if set.intersection(*x) != set()]
-            #TODO: Change drink_results list comprehension to account for uniqueness
             drink_results = list({drink for sublist in ingredient_intersections for drink in sublist})
             
 
@@ -157,16 +158,6 @@ def results(request):
 
     context = {'drinkResults': drink_results, 'searchIngredients': ingredients, 'userIngredients':user_ingredients}
     return render(request, 'DrinkBeyondThePossible/search_results.html', context=context)
-
-# def login(request):
-#     context = {}
-#     return render(request, 'DrinkBeyondThePossible/login.html', context=context)
-
-# def logout(request):
-#     context = {
-
-#     }
-#     return render(request, 'DrinkBeyondThePossible/logout.html', context=context)
 
 @login_required
 def manage(request):
@@ -257,7 +248,6 @@ def editPassword(request):
             user.set_password(form.cleaned_data['password'])
             user.save()
 
-
     return HttpResponseRedirect('/')
 
 
@@ -276,12 +266,6 @@ def createAccount(request):
                 password=password
             )
 
-            # if request.COOKIES.get('ingredients', -1) != -1:
-            #     ingredients = request.COOKIES.get('ingredients', -1)
-            #     for ingredient in ingredients:
-            #         ingredientObject = Ingredient_List.objects.create(user=request.user, ingredient=ingredient)
-            #         ingredientObject.save()
-
             return HttpResponseRedirect('/')
     else:
         form = NewAccountForm()
@@ -294,7 +278,7 @@ def newCustomDrink(request):
         ingredients = request.POST.getlist('ingredient')
 
         form = NewDrinkForm(request.POST)
-        if form.is_valid():
+        if form.is_valid(): # Add new drink and entries for its recipe to database
             drink_name = form.cleaned_data['drinkName']
             description = form.cleaned_data['description']
             instructions = form.cleaned_data['instructions']
@@ -310,7 +294,7 @@ def newCustomDrink(request):
         
     custom_drinks = []
 
-    if request.user.is_authenticated:
+    if request.user.is_authenticated: # Get custom drinks from logged in user
         custom_drinks = [drink.drink_name for drink in customDrink.objects.filter(user=request.user.profile)]     
     return render(request, 'DrinkBeyondThePossible/new_custom_drink.html', {'form': form, 'customDrinks': custom_drinks})
 
@@ -321,6 +305,7 @@ def displayCustomDrinks(request, recipe_name):
     except Exception as e:
         return HttpResponseRedirect('')
 
+    # Get the corresponding ingredients for this current recipe to pass into context
     ingredients = [r.ingredient for r in customRecipe.objects.filter(user=request.user.profile, custom_name=recipe.drink_name)]
 
     recipeInfo = {'drinkName': recipe.drink_name, 'description': recipe.description, 'instructions': recipe.instructions, 'image': recipe.image, 'ingredients': ingredients}
