@@ -30,6 +30,11 @@
 				margin: 1.5rem;
 			}
 
+			.user-comment {
+				border-bottom: 1px solid gray;
+				margin-bottom:5px;
+			}
+
 			#starform {
 				width:300px;
 			}
@@ -74,6 +79,10 @@
 			.rating > input:checked ~ label:hover,
 			.rating > label:hover ~ input:checked ~ label, 
 			.rating > input:checked ~ label:hover ~ label { color: #FFED85;  } 
+
+			.times {
+
+			}
 		</style>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -260,9 +269,9 @@
 		{% if comments.count > 0 %}
 			{% for comment in comments %}
 				<div class="user-comment">
-					<p>Posted by {{ comment.user.user }} on: {{ comment.created_time }}</p>
+					<p><i><font size="2">Posted by {{ comment.user.user }} on: {{ comment.created_time }}</font></i></p>
 					{% if comment.is_updated %}
-						<p>Updated on: {{comment.updated_time}}</p>
+						<p><i><font size="2">Updated on: {{comment.updated_time}}</font></i></p>
 					{% endif %}
 					{{ comment.message }}
 					{% if comment.user == request.user.profile %}
