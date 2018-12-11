@@ -154,12 +154,16 @@ li.navitem a:visited
     color: gray;
     font-family: 'Open Sans', Helvetica, Arial, sans-serif;
     font-size: 22pt;
+    font-family:'Courier New', Courier, monospace;
+    font-weight:bold;
 }
 
 .drinkInfo
 {
     border-radius: 10px 10px 10px 10px;
     background-color: white;
+    font-family:'Courier New', Courier, monospace;
+    font-weight:bold;
 }
 
 .comments

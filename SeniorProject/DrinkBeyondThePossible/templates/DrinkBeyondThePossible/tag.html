@@ -13,28 +13,70 @@
         }
 
         td, th {
-            text-align: left;
-            padding: 8px;
+            padding: 12px;
+        }
+
+        td {
+            border: 1px solid #c5c2c2;
+            font-family:'Courier New', Courier, monospace;
+        }
+
+        h1 {
+				color: gray;
+				padding-left: 1%;
+                font-size: 36px;
+                font-family:'Courier New', Courier, monospace;
+                font-weight:bold;
+        }
+            
+        tr:nth-child(even) {
+            background-color: #f3f1f1c4;
+        }
+			
+        body {
+            background-color: rgb(8, 12, 48);
+            color: rgb(44, 44, 44);
+
+            min-width: 450px;
+            line-height: 1.25;
+            font-size: 90%;
+            margin: 1.5rem;
+        }
+
+        .drinkTable {
+            border-radius: 10px 10px 10px 10px;
+            background-color: white;
         }
     </style>
 </head>
 
 <body>
     <h1 class="tagName">{{ tagname }} drinks:</h1>
-    <table style="width:100%">
+    <table style="width:100%" class=drinkTable>
         <tr>
             <th>Name</th>
             <th>Type</th>
             <th>IBA</th>
             <th>Alcoholic?</th>
+            <th>Score</th>
             <th></th>
         </tr>
-        {% for drink in drinks %}       
+        {% for drink, score in drink_ratings %}       
                 <tr>
                     <td><a href="/detail/{{ drink.id }}"> {{drink.name}}</a></td>
                     <td>{{ drink.category }}</td>
                     <td>{{ drink.iba }}</td>
-                    <td>{{ drink.alcoholic }}</td>
+                    {% if drink.alcoholic == "Alcoholic" %}
+                        <td>Yes</td>
+                    {% else %}
+                        <td>No</td>
+                    {% endif %}
+                    
+                    {% if score == -1 %}
+                        <td>N/A</td>
+                    {% else %}
+                        <td>{{ score }}</td>
+                    {% endif %}
                     <td><li><img src="{{ drink.thumbimage }}" class="image" align="right"></li></td>
                 </tr>
         {% endfor %}
