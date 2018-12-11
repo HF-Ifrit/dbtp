@@ -5,6 +5,7 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.contrib.auth.views import login_required
 from django.views.decorators.http import require_http_methods
+from collections import defaultdict
 from . import cocktaildbapi as cdb
 from .models import *
 from .forms import NewTagsForm, NewDrinkForm, NewCommentForm, NewAccountForm, EditPasswordForm, EditEmailForm, EditAccountnameForm, EditCommentForm
@@ -58,6 +59,8 @@ def tagList(request, tagname):
 
 def detail(request, drinkID):
     drinkResult = cdb.get_drink_details(drinkID)
+    ingredient_dict = dict(zip(drinkResult.ingredients, drinkResult.measurements))
+    ingredient_dict = defaultdict(lambda: '', ingredient_dict)
 
     #Get recommended drink info
     recommended_drinks = cdb.find_recommended_drinks(drinkResult.ingredients)
@@ -162,7 +165,8 @@ def detail(request, drinkID):
 
     
     context = {
-        'drink': drinkResult, 
+        'drink': drinkResult,
+        'ingredient_dict': ingredient_dict.items(),
         'user_ingredients': user_ingredients, 
         'comments': comments, 
         'commentform': cform, 

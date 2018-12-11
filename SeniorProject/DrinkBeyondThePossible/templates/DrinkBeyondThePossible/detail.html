@@ -189,14 +189,14 @@
 		
 
 		<h3>Ingredients:</h3>
-		{% for ingredient in drink.ingredients %}
+		{% for ingredient, measurement in ingredient_dict %}
 		<label class="container">
 			{% if ingredient|lower not in user_ingredients %}
 			<input type="checkbox" value="{{ ingredient|lower }}"checked="checked">
 			{% endif %}
 			
 			<span class="checkmark"></span>
-			{{ ingredient }}
+			{{ measurement }} {{ ingredient }}
 	  	</label>
 		{% endfor %}
 
