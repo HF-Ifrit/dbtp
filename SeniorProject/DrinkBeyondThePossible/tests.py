@@ -19,6 +19,7 @@ class SearchResultsViewTest(TestCase):
         response = self.client.get(reverse('results'), data={'ingredient': ['lemon']})
         self.assertTrue(response.context['drinkResults'] != [])
 
-class DetailViewTest(TestCase):
-    def test_drink_with_no_ingredients_in_list(self):
+# class DetailViewTest(TestCase):
+#     def test_drink_with_no_ingredients_in_list(self):
+
         
