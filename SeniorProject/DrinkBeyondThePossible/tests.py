@@ -1,5 +1,6 @@
 from django.test import TestCase
 from django.urls import reverse
+from . import cocktaildbapi
 
 # Create your tests here.
 class SearchResultsViewTest(TestCase):
@@ -22,4 +23,55 @@ class SearchResultsViewTest(TestCase):
 # class DetailViewTest(TestCase):
 #     def test_drink_with_no_ingredients_in_list(self):
 
+
+class CocktailDBAPITest(TestCase):
+    def test_drink_detail_creation(self):
+        drinkDict = {
+            'idDrink': '111',
+            'strDrink': 'TestDrink',
+            'strVideo': None,
+            'strCateogry': 'Fruity',
+            'strIBA': 'N/A',
+            'strAlcoholic': 'Alcoholic',
+            'strGlass': 'Highball',
+            'strInstructions': 'Mix ingredients',
+            'strDrinkThumb': None,
+            'strIngredient1': 'Ing1',
+            'strIngredient2': 'Ing2',
+            'strMeasure1': 'Little',
+            'strMeasure2': 'A lot'
+        }
         
+        detail = cocktaildbapi.DrinkDetail(drinkDict)
+
+        self.asserEquals(detail.__repr__(), "DrinkDetail(111,TestDrink)")
+        self.assertEquals(detail.ingredients, ['Ing1','Ing2'])
+        self.assertEquals(detail.measurements, ['Little', 'A lot'])
+    
+    def test_drink_detail_creation(self):
+        drinkDict = {
+            'idDrink': '111',
+            'strDrink': 'TestDrink',
+            'strVideo': None,
+            'strCategory': 'Fruity',
+            'strIBA': 'N/A',
+            'strAlcoholic': 'Alcoholic',
+            'strGlass': 'Highball',
+            'strInstructions': 'Mix ingredients',
+            'strDrinkThumb': None,
+            'strIngredient1': 'Ing1',
+            'strIngredient2': 'Ing2',
+            'strMeasure1': 'Little',
+            'strMeasure2': 'A lot'
+        }
+
+        same1 = cocktaildbapi.DrinkDetail(drinkDict)
+        same2 = cocktaildbapi.DrinkDetail(drinkDict)
+
+        self.assertTrue(same1.__eq__(same2))
+
+        differentDict = drinkDict
+        differentDict['idDrink'] = '222'
+        different = cocktaildbapi.DrinkDetail(differentDict)
+
+        self.assertFalse(same1.__eq__(different))
