@@ -201,7 +201,12 @@ def manage(request):
 @login_required
 def ingredientList(request):
     if request.method == 'POST':
-        if request.user.is_authenticated:
+        if 'delIngredient' in request.POST:
+            for ingredient in request.POST.getlist('delIngredient'):
+                removedIngredient = Ingredient_List.objects.get(ingredient=ingredient, user=request.user)
+                removedIngredient.delete()
+        
+        if 'ingredient' in request.POST:
             ingredients = [entry.strip('') for entry in request.POST.getlist('ingredient') if entry]
 
             for ing in ingredients:

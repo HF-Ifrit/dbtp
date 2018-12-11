@@ -12,7 +12,6 @@
                 $("#addEntry").click(function(event)
                 {
                     $("#ingredients").append("<input style='display:block' type='text' name='ingredient'>");
-                    /*$("#entryInputs").append("<input class='searchEntry' type='text'name='ingredient'>");*/
                 });
 
                 $("#deleteIngredients").click(function(event)
@@ -43,16 +42,22 @@
     <!--Ingredient list region-->
     <style>h3{text-decoration: underline;}</style>
         <div>
-            <h3>My Ingredients</h3>
             <ul>
+                <h3>My Ingredients</h3>
 				{% if not ingredients %}
 					No Ingredients saved!
 				{% else %} 	
-					{% for ingredient in ingredients %}
-						<li>{{ ingredient.ingredient }}</li>
-					{% endfor %}
+                    <form class="pure-form pure-form-stacked" action="{% url 'ingredientList' %}" method="POST">
+                        {% csrf_token %}
+                        {% for ingredient in ingredients %}
+                            <div>
+                                <input type="checkbox" name="delIngredient" id="ing_{{ ingredient.ingredient }}" value="{{ ingredient.ingredient }}">
+                                <label style="display: inline" for="ing_{{ ingredient.ingredient }}">{{ ingredient.ingredient }}</label>
+                            </div>
+                        {% endfor %}
+                        <button id="deleteIngredients" class="pure-button pure-button-primary" type="submit">Delete</button>
+                    </form>
 				{% endif %}
             </ul>
-            <button id="deleteIngredients" type="button">Delete</button>
         </div>
 {% endblock content %}

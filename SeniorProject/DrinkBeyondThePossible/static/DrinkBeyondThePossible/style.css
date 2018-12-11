@@ -111,6 +111,11 @@ li.navitem a:visited
     width: 40%;
 }
 
+#resultList p
+{
+    text-align: center;
+}
+
 .resultItem
 {
     border-bottom: 10px;

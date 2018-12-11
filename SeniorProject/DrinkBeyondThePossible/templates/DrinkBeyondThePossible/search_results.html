@@ -4,6 +4,7 @@
 {% block content %}
     <h1 class="centeredTitle">Drink Search Results</h1>
     <div id="resultList">
+        <p>Search results for ingredients: {{ searchIngredients|join:", " }}</p>
         {% for drink in drinkResults %}
             <div class="resultItem">
                 <img src="{{ drink.thumbimage }}" width="350px" height="350px">
@@ -21,7 +22,7 @@
                 </ul>
             </div> 
         {% empty %}
-            <p>No matching drinks found for ingredients: {{ searchIngredients|join:", " }}</p>
+            <p style="text-align: center">No matching drinks found for ingredients: {{ searchIngredients|join:", " }}</p>
         {% endfor %}      
     </div>
 {% endblock content %}
