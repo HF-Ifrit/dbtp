@@ -1,20 +1,13 @@
 SeniorProject.DrinkBeyondThePossible package
 ============================================
 
-Subpackages
------------
-
-.. toctree::
-
-    SeniorProject.DrinkBeyondThePossible.migrations
-
 Submodules
 ----------
 
 SeniorProject.DrinkBeyondThePossible.admin module
 -------------------------------------------------
 
-.. automodule:: SeniorProject.DrinkBeyondThePossible.admin
+.. automodule:: DrinkBeyondThePossible.admin
     :members:
     :undoc-members:
     :show-inheritance:
@@ -22,7 +15,7 @@ SeniorProject.DrinkBeyondThePossible.admin module
 SeniorProject.DrinkBeyondThePossible.apps module
 ------------------------------------------------
 
-.. automodule:: SeniorProject.DrinkBeyondThePossible.apps
+.. automodule:: DrinkBeyondThePossible.apps
     :members:
     :undoc-members:
     :show-inheritance:
@@ -30,7 +23,7 @@ SeniorProject.DrinkBeyondThePossible.apps module
 SeniorProject.DrinkBeyondThePossible.cocktaildbapi module
 ---------------------------------------------------------
 
-.. automodule:: SeniorProject.DrinkBeyondThePossible.cocktaildbapi
+.. automodule:: DrinkBeyondThePossible.cocktaildbapi
     :members:
     :undoc-members:
     :show-inheritance:
@@ -38,7 +31,7 @@ SeniorProject.DrinkBeyondThePossible.cocktaildbapi module
 SeniorProject.DrinkBeyondThePossible.forms module
 -------------------------------------------------
 
-.. automodule:: SeniorProject.DrinkBeyondThePossible.forms
+.. automodule:: DrinkBeyondThePossible.forms
     :members:
     :undoc-members:
     :show-inheritance:
@@ -46,7 +39,7 @@ SeniorProject.DrinkBeyondThePossible.forms module
 SeniorProject.DrinkBeyondThePossible.models module
 --------------------------------------------------
 
-.. automodule:: SeniorProject.DrinkBeyondThePossible.models
+.. automodule:: DrinkBeyondThePossible.models
     :members:
     :undoc-members:
     :show-inheritance:
@@ -54,7 +47,7 @@ SeniorProject.DrinkBeyondThePossible.models module
 SeniorProject.DrinkBeyondThePossible.tests module
 -------------------------------------------------
 
-.. automodule:: SeniorProject.DrinkBeyondThePossible.tests
+.. automodule:: DrinkBeyondThePossible.tests
     :members:
     :undoc-members:
     :show-inheritance:
@@ -62,7 +55,7 @@ SeniorProject.DrinkBeyondThePossible.tests module
 SeniorProject.DrinkBeyondThePossible.urls module
 ------------------------------------------------
 
-.. automodule:: SeniorProject.DrinkBeyondThePossible.urls
+.. automodule:: DrinkBeyondThePossible.urls
     :members:
     :undoc-members:
     :show-inheritance:
@@ -70,7 +63,7 @@ SeniorProject.DrinkBeyondThePossible.urls module
 SeniorProject.DrinkBeyondThePossible.validators module
 ------------------------------------------------------
 
-.. automodule:: SeniorProject.DrinkBeyondThePossible.validators
+.. automodule:: DrinkBeyondThePossible.validators
     :members:
     :undoc-members:
     :show-inheritance:
@@ -78,7 +71,7 @@ SeniorProject.DrinkBeyondThePossible.validators module
 SeniorProject.DrinkBeyondThePossible.views module
 -------------------------------------------------
 
-.. automodule:: SeniorProject.DrinkBeyondThePossible.views
+.. automodule:: DrinkBeyondThePossible.views
     :members:
     :undoc-members:
     :show-inheritance:
@@ -87,7 +80,7 @@ SeniorProject.DrinkBeyondThePossible.views module
 Module contents
 ---------------
 
-.. automodule:: SeniorProject.DrinkBeyondThePossible
+.. automodule:: DrinkBeyondThePossible
     :members:
     :undoc-members:
     :show-inheritance:

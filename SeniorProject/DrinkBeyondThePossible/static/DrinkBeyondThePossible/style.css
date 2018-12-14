@@ -78,13 +78,14 @@ a.buttonLink
 li.navitem a:link, 
 li.navitem a:visited
 {
+    color: white;
     text-decoration: none;
 }
 
-li.navitem a:visited
+/* li.navitem a:visited
 {
-    color: white;
-}
+    
+} */
 
 /* Homepage styling */
 .searchEntry

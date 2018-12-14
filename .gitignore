@@ -1,7 +1,7 @@
 __/pycache/
 .idea/
 *.pyc
-
+README*
 #MSCode stuff
 .DS_Store
 

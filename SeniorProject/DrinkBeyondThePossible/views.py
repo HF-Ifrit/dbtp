@@ -12,7 +12,7 @@ from .forms import NewTagsForm, NewDrinkForm, NewCommentForm, NewAccountForm, Ed
 
 # Create your views here.
 def index(request):
-
+    """Initial home search page of site"""
     ingredients = request.COOKIES.get('ingredients', -1);
     context = {
         'activePage': 'Home',
@@ -22,6 +22,7 @@ def index(request):
     return render(request, 'DrinkBeyondThePossible/home.html', context=context)
 
 def tagList(request, tagname):
+    """Drink list showing drinks that have been given a particular tag"""
     # Get querylist of all drinks that hold the tag name
     tags_for_drinks = Tag.objects.filter(name=tagname)
     # Extract drink_id's for each tag for query
@@ -58,6 +59,7 @@ def tagList(request, tagname):
     return render(request, 'DrinkBeyondThePossible/tag.html', context=context)
 
 def detail(request, drinkID):
+    """Detail page of a specific drink listing its rating, recipe, instructions, description, recommended drink, and comments"""
     drinkResult = cdb.get_drink_details(drinkID)
     ingredient_dict = dict(zip(drinkResult.ingredients, drinkResult.measurements))
     ingredient_dict = defaultdict(lambda: '', ingredient_dict)
@@ -182,6 +184,7 @@ def detail(request, drinkID):
     return render(request, 'DrinkBeyondThePossible/detail.html', context=context)
 
 def results(request):
+    """Search results page shown when user inputs search ingredients"""
     drink_results = []
     ingredients = []
     user_ingredients = []
@@ -213,6 +216,7 @@ def results(request):
 
 @login_required
 def manage(request):
+    """Account management page with buttons leading to aspects of a user's account that they can view/change"""
     context = {
         'activePage': 'Account'
     }
@@ -245,7 +249,7 @@ def ingredientList(request):
 
 @login_required
 def recipeList(request):
-
+    """User's personal ingredient list page where they can add/remove new ingredients to their list"""
     recipes = customDrink.objects.filter(user=request.user.profile)
 
     if recipes.exists():
@@ -262,7 +266,7 @@ def recipeList(request):
 
 @login_required
 def editAccount(request):
-    #form = EditAccountForm()
+    """Form page where user can change account name, email, or password"""
     usernameForm = EditAccountnameForm()
     emailForm = EditEmailForm()
     passwordForm = EditPasswordForm()
@@ -271,7 +275,7 @@ def editAccount(request):
 
 @login_required
 def editUsername(request):
-
+    """Handle post requests for changing a user's username"""
     if request.method == 'POST':
         form = EditAccountnameForm(request.POST)
 
@@ -284,7 +288,7 @@ def editUsername(request):
 
 @login_required
 def editEmail(request):
-
+    """Handle post requests for changing a user's email"""
     if request.method == 'POST':
         form = EditEmailForm(request.POST)
 
@@ -297,6 +301,7 @@ def editEmail(request):
 
 @login_required
 def editPassword(request):
+    """Handle post requests for changing a user's password"""
     if request.method == 'POST':
         form = EditEmailForm(request.POST)
 
@@ -309,6 +314,7 @@ def editPassword(request):
 
 
 def createAccount(request):
+    """Form page for creating a new account"""
     if request.method == 'POST':
         form = NewAccountForm(request.POST)
 
@@ -331,6 +337,7 @@ def createAccount(request):
 
 @login_required
 def newCustomDrink(request):
+    """Show user's custom drink recipes and option to add a new custom drink to the recipe list"""
     if request.method == 'POST':
         ingredients = request.POST.getlist('ingredient')
 
@@ -357,6 +364,7 @@ def newCustomDrink(request):
 
 @login_required
 def displayCustomDrinks(request, recipe_name):
+    """Shows details for a user's custom drink recipe"""
     try:
         recipe = customDrink.objects.get(drink_name=recipe_name, user=request.user.profile)
     except Exception as e:
@@ -373,7 +381,7 @@ def displayCustomDrinks(request, recipe_name):
 
 @login_required
 def viewFavoriteDrinks(request):
-
+    """Show a user's favorite drinks that they've saved from the site"""
     getOp = "Favorite Drinks"
     favorites = favoriteDrink.objects.filter(user=request.user.profile)
 

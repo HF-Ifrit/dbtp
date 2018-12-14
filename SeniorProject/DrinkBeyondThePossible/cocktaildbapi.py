@@ -92,6 +92,7 @@ def searchMatchingDrinks(ingredient):
 
 
 def find_matching_drinks(ingredient_list):
+    """Find drinks that match input ingredients"""
     matching = []
     for ingredient in ingredient_list:
         matching.append(searchMatchingDrinks(ingredient))
@@ -100,6 +101,7 @@ def find_matching_drinks(ingredient_list):
 
 
 def find_recommended_drinks(ingredient_list):
+    """Determine recommended drinks based on ingredients of another drink"""
     similar = {}
 
     for ingredient in ingredient_list:
@@ -111,8 +113,8 @@ def find_recommended_drinks(ingredient_list):
 
     return list(similar.values())
 
-
 def get_drink_details(drink_id):
+    """Return details of a drink from the api"""
     json_details = idApiCall(drink_id)
     details = DrinkDetail(json_details)
 

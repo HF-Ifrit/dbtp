@@ -15,11 +15,9 @@
 import os
 import sys
 import django
-sys.path.insert(0, os.path.abspath('..'))
-os.environ['DJANGO_SETTINGS_MODULE'] = 'SeniorProject.settings'
+sys.path.append(os.path.abspath('..'))
+os.environ.setdefault('DJANGO_SETTINGS_MODULE','SeniorProject.settings')
 django.setup()
-
-
 
 # -- Project information -----------------------------------------------------
 
@@ -44,10 +42,6 @@ release = '1.0'
 # ones.
 extensions = [
     'sphinx.ext.autodoc',
-    'sphinx.ext.doctest',
-    'sphinx.ext.todo',
-    'sphinx.ext.coverage',
-    'sphinx.ext.imgmath',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -183,8 +177,3 @@ epub_exclude_files = ['search.html']
 
 
 # -- Extension configuration -------------------------------------------------
-
-# -- Options for todo extension ----------------------------------------------
-
-# If true, `todo` and `todoList` produce output, else they produce nothing.
-todo_include_todos = True
